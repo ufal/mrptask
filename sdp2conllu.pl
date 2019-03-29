@@ -39,7 +39,7 @@ sub process_sentence
 {
     my @sentence = @_;
     my $sidline = shift(@sentence);
-    if($sidline != s/^\#(\d+)$/\# sent_id = $1/)
+    if($sidline !~ s/^\#(\d+)$/\# sent_id = $1/)
     {
         die("Unexpected sentence id line:\n$sidline\n");
     }
