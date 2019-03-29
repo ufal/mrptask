@@ -31,9 +31,11 @@ if(scalar(@sentence) > 0)
 # Print the statistics.
 print("$stats{n_graphs} graphs\n");
 print("$stats{n_nodes} nodes\n");
-print("$stats{n_edges} edges (not counting '0:root')\n");
+print("$stats{n_edges} edges (not counting dependencies on 0)\n");
 print("$stats{n_single} singletons\n");
 print("$stats{n_in2plus} nodes with in-degree greater than 1\n");
+print("$stats{n_top1} top nodes only depending on 0\n");
+print("$stats{n_top2} top nodes with in-degree greater than 1\n");
 print("$stats{n_indep} independent non-top nodes (zero in, nonzero out)\n");
 
 
@@ -127,9 +129,17 @@ sub find_singletons
             # the incoming edge '0:root' and its in-degree would be 1.
             $stats{n_indep}++;
         }
+        elsif($indegree==1 && $nodes[$i][10][0]{id} == 0)
+        {
+            $stats{n_top1}++;
+        }
         elsif($indegree > 1)
         {
             $stats{n_in2plus}++;
+            if(grep {$_->{id}==0} (@{$nodes[$i][10]}))
+            {
+                $stats{n_top2}++;
+            }
         }
     }
 }
