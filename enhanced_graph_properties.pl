@@ -19,7 +19,8 @@ my %stats =
     'n_top1'   => 0,
     'n_top2'   => 0,
     'n_indep'  => 0,
-    'n_cyclic_graphs' => 0
+    'n_cyclic_graphs' => 0,
+    'n_unconnected_graphs' => 0
 );
 my @sentence;
 while(<>)
@@ -50,6 +51,7 @@ print("$stats{n_top1} top nodes only depending on 0\n");
 print("$stats{n_top2} top nodes with in-degree greater than 1\n");
 print("$stats{n_indep} independent non-top nodes (zero in, nonzero out)\n");
 print("$stats{n_cyclic_graphs} graphs that contain at least one cycle\n");
+print("$stats{n_unconnected_graphs} graphs with multiple non-singleton components\n");
 
 
 
@@ -113,6 +115,7 @@ sub process_sentence
     # functions that will examine it and collect statistics about it.
     find_singletons(@nodes);
     find_cycles(@nodes);
+    find_components(@nodes);
 }
 
 
@@ -206,6 +209,66 @@ sub find_cycles
             # We will not miss a cycle that goes through that $curnode.
             # Note: We could not do this if we used a queue instead of a stack!
             $processed_node_ids{$curnode->[0]}++;
+        }
+    }
+}
+
+
+
+#------------------------------------------------------------------------------
+# Finds non-singleton components, i.e., whether the graph is connected.
+#------------------------------------------------------------------------------
+sub find_components
+{
+    my @nodes = @_;
+    my %component_node_ids;
+    my $component_size = 0;
+    foreach my $node (@nodes)
+    {
+        my $indegree = scalar(@{$node->[10]});
+        my $outdegree = scalar(@{$node->[11]});
+        # Ignore singletons.
+        unless($indegree+$outdegree==0)
+        {
+            # Did we find a non-singleton component previously?
+            if($component_size==0)
+            {
+                # Collect all nodes in the current component.
+                my @nodes_to_process = ($node);
+                my %processed_node_ids;
+                while(my $curnode = pop(@nodes_to_process))
+                {
+                    next if(exists($processed_node_ids{$curnode->[0]}));
+                    foreach my $parentrecord (@{$curnode->[10]})
+                    {
+                        unless($parentrecord->{id}==0 || exists($processed_node_ids{$parentrecord->{id}}))
+                        {
+                            push(@nodes_to_process, $nodes[$parentrecord->{i}]);
+                        }
+                    }
+                    foreach my $childrecord (@{$curnode->[11]})
+                    {
+                        unless(exists($processed_node_ids{$childrecord->{id}}))
+                        {
+                            push(@nodes_to_process, $nodes[$childrecord->{i}]);
+                        }
+                    }
+                    $processed_node_ids{$curnode->[0]}++;
+                }
+                %component_node_ids = %processed_node_ids;
+                $component_size = scalar(keys(%component_node_ids));
+            }
+            # If there is already a component, any subsequent non-singleton node
+            # is either part of it or of some other component. The only thing
+            # we are interested in is to see whether there is a second component.
+            else
+            {
+                if(!exists($component_node_ids{$node->[0]}))
+                {
+                    $stats{n_unconnected_graphs}++;
+                    return;
+                }
+            }
         }
     }
 }
