@@ -2,6 +2,7 @@
 # Converts a file from the SDP 2014/2015 tasks to a CoNLL-U-like format.
 # Copyright © 2019 Dan Zeman <zeman@ufal.mff.cuni.cz>
 # License: GNU GPL
+# Usage: sdp2conllu.pl < all.sdp > all.conllu
 
 use utf8;
 use open ':utf8';
