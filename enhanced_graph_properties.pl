@@ -33,6 +33,7 @@ print("$stats{n_graphs} graphs\n");
 print("$stats{n_nodes} nodes\n");
 print("$stats{n_single} singletons\n");
 print("$stats{n_in2plus} nodes with in-degree greater than 1\n");
+print("$stats{n_indep} independent non-top nodes (zero in, nonzero out)\n");
 
 
 
@@ -113,6 +114,12 @@ sub find_singletons
         if($indegree==0 && $outdegree==0)
         {
             $stats{n_single}++;
+        }
+        elsif($indegree==0 && $outdegree >= 1)
+        {
+            # This node is not marked as "top node" because then it would have
+            # the incoming edge '0:root' and its in-degree would be 1.
+            $stats{n_indep}++;
         }
         elsif($indegree > 1)
         {
