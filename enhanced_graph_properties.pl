@@ -9,6 +9,18 @@ binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 
+my %stats =
+(
+    'n_graphs' => 0,
+    'n_nodes'  => 0,
+    'n_edges'  => 0,
+    'n_single' => 0,
+    'n_in2plus' => 0,
+    'n_top1'   => 0,
+    'n_top2'   => 0,
+    'n_indep'  => 0,
+    'n_cyclic_graphs' => 0
+);
 my @sentence;
 while(<>)
 {
@@ -37,6 +49,7 @@ print("$stats{n_in2plus} nodes with in-degree greater than 1\n");
 print("$stats{n_top1} top nodes only depending on 0\n");
 print("$stats{n_top2} top nodes with in-degree greater than 1\n");
 print("$stats{n_indep} independent non-top nodes (zero in, nonzero out)\n");
+print("$stats{n_cyclic_graphs} graphs that contain at least one cycle\n");
 
 
 
@@ -99,6 +112,7 @@ sub process_sentence
     # We now have a complete representation of the graph and can run various
     # functions that will examine it and collect statistics about it.
     find_singletons(@nodes);
+    find_cycles(@nodes);
 }
 
 
@@ -140,6 +154,58 @@ sub find_singletons
             {
                 $stats{n_top2}++;
             }
+        }
+    }
+}
+
+
+
+#------------------------------------------------------------------------------
+# Finds directed cycles. Does not try to count all cycles; stops after finding
+# the first cycle in the graph.
+#------------------------------------------------------------------------------
+sub find_cycles
+{
+    my @nodes = @_;
+    # @queue is the list of unprocessed partial paths. In the beginning, there
+    # is one path for every node of the graph, and the path initially contains
+    # only that node.
+    my @stack = map {[$_]} (@nodes);
+    my %processed_node_ids;
+    while(my $curpath = pop(@stack))
+    {
+        # @curpath is the array of nodes that are in the current path.
+        # Adding a node that is already in the path would mean that the path contains a cycle.
+        my @curpath = @{$curpath};
+        # $curnode is the last node of the current path. We will process all its children.
+        my $curnode = $curpath[-1];
+        # Do not process the node if it has been processed previously.
+        unless(exists($processed_node_ids{$curnode->[0]}))
+        {
+            my @curidpath = map {$_->[0]} (@curpath);
+            #print STDERR ("Processing path ", join(',', @curidpath), "\n");
+            # Find all children of the last node in the current path. For each of them
+            # create an extension of the current path and add it to the queue of paths.
+            my @children = @{$curnode->[11]};
+            foreach my $childrecord (@children)
+            {
+                #print STDERR ("Child id=$childrecord->{id} i=$childrecord->{i} deprel=$childrecord->{deprel}\n");
+                my $childnode = $nodes[$childrecord->{i}];
+                my $childid = $childnode->[0];
+                if(grep {$_==$childid} (@curidpath))
+                {
+                    $stats{n_cyclic_graphs}++;
+                    return;
+                }
+                my @extpath = @curpath;
+                push(@extpath, $childnode);
+                push(@stack, \@extpath);
+            }
+            # $curnode has been processed.
+            # We do not have to process it again if we arrive at it via another path.
+            # We will not miss a cycle that goes through that $curnode.
+            # Note: We could not do this if we used a queue instead of a stack!
+            $processed_node_ids{$curnode->[0]}++;
         }
     }
 }
