@@ -31,6 +31,7 @@ if(scalar(@sentence) > 0)
 # Print the statistics.
 print("$stats{n_graphs} graphs\n");
 print("$stats{n_nodes} nodes\n");
+print("$stats{n_edges} edges (not counting '0:root')\n");
 print("$stats{n_single} singletons\n");
 print("$stats{n_in2plus} nodes with in-degree greater than 1\n");
 print("$stats{n_indep} independent non-top nodes (zero in, nonzero out)\n");
@@ -75,14 +76,17 @@ sub process_sentence
                     'deprel' => $d
                 );
                 push(@{$nodes[$i][10]}, \%pr);
-                # Store me as a child in the parent's column [11].
-                my %cr =
-                (
-                    'id' => $nodes[$i][0],
-                    'i'  => $i,
-                    'deprel' => $d
-                );
-                push(@{$nodes[$id2i{$h}][11]}, \%cr);
+                # Store me as a child in the parent's column [11] (unless the parent is 0:root).
+                unless($h==0)
+                {
+                    my %cr =
+                    (
+                        'id' => $nodes[$i][0],
+                        'i'  => $i,
+                        'deprel' => $d
+                    );
+                    push(@{$nodes[$id2i{$h}][11]}, \%cr);
+                }
             }
             else
             {
@@ -111,6 +115,8 @@ sub find_singletons
         $stats{n_nodes}++;
         my $indegree = scalar(@{$nodes[$i][10]});
         my $outdegree = scalar(@{$nodes[$i][11]});
+        # Count edges except the '0:root' edge.
+        $stats{n_edges} += $outdegree;
         if($indegree==0 && $outdegree==0)
         {
             $stats{n_single}++;
