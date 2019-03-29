@@ -4,7 +4,7 @@
 # TO DO
 
 * Ask organizers for the companion data we want to use:
-  * Universal Dependencies English treebanks (EWT, GUM, ParTUT, PUD, LinES) release 2.3
+  * Universal Dependencies English treebanks (EWT, GUM, ParTUT, PUD, LinES) [release 2.3](http://hdl.handle.net/11234/1-2895)
   * Penn Treebank 3 constituent annotation
   * PropBank, NomBank
   * Prague Czech-English Dependency Treebank 2.0 (at least the English part, including tectogrammatical trees)
