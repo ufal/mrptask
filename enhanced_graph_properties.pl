@@ -114,8 +114,20 @@ sub process_sentence
     # We now have a complete representation of the graph and can run various
     # functions that will examine it and collect statistics about it.
     find_singletons(@nodes);
+    #print_sentence(@sentence) if(find_cycles(@nodes));
     find_cycles(@nodes);
     find_components(@nodes);
+}
+
+
+
+#------------------------------------------------------------------------------
+# Prints a sentence in the CoNLL-U format to the standard output.
+#------------------------------------------------------------------------------
+sub print_sentence
+{
+    my @sentence = @_;
+    print(join("\n", @sentence), "\n\n");
 }
 
 
@@ -198,7 +210,7 @@ sub find_cycles
                 if(grep {$_==$childid} (@curidpath))
                 {
                     $stats{n_cyclic_graphs}++;
-                    return;
+                    return 1;
                 }
                 my @extpath = @curpath;
                 push(@extpath, $childnode);
@@ -266,7 +278,7 @@ sub find_components
                 if(!exists($component_node_ids{$node->[0]}))
                 {
                     $stats{n_unconnected_graphs}++;
-                    return;
+                    return 1;
                 }
             }
         }
