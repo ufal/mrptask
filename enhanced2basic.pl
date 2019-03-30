@@ -128,12 +128,20 @@ sub process_sentence
         $nodes[$i][7] = $deprels[$nodes[$i][0]];
     }
     # Print the modified sentence.
-    ###!!! For now assume that only the first element of @sentence is needed as an extra comment.
-    print("$sentence[0]\n");
-    foreach my $node (@nodes)
+    foreach my $line (@sentence)
     {
-        my @fields = @{$node}[0..9];
-        print(join("\t", @fields), "\n");
+        # If the line corresponds to a node, take the node data instead.
+        if($line =~ m/^(\d+(\.\d+))\t/)
+        {
+            my $id = $1;
+            my $node = $nodes[$id2i{$id}];
+            my @fields = @{$node}[0..9];
+            print(join("\t", @fields), "\n");
+        }
+        else # non-node line
+        {
+            print("$line\n");
+        }
     }
     print("\n");
 }

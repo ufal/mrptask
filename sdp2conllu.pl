@@ -57,6 +57,7 @@ sub process_sentence
             push(@predicates, $fields[0]);
         }
     }
+    print("\# text = ".join(' ', map {$_->[1]} (grep {$_->[0] =~ m/^\d+$/} (@matrix)))."\n");
     # Convert the matrix to CoNLL-U and print it.
     foreach my $node (@matrix)
     {
