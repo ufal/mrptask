@@ -131,7 +131,7 @@ sub process_sentence
     foreach my $line (@sentence)
     {
         # If the line corresponds to a node, take the node data instead.
-        if($line =~ m/^(\d+(\.\d+))\t/)
+        if($line =~ m/^(\d+(\.\d+)?)\t/)
         {
             my $id = $1;
             my $node = $nodes[$id2i{$id}];
