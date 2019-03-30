@@ -13,6 +13,8 @@ my %stats =
 (
     'n_graphs' => 0,
     'n_nodes'  => 0,
+    'n_empty_nodes' => 0,
+    'n_overt_nodes' => 0,
     'n_edges'  => 0,
     'n_single' => 0,
     'n_in2plus' => 0,
@@ -44,6 +46,8 @@ if(scalar(@sentence) > 0)
 # Print the statistics.
 print("$stats{n_graphs} graphs\n");
 print("$stats{n_nodes} nodes\n");
+print("  $stats{n_overt_nodes} overt surface nodes\n");
+print("  $stats{n_empty_nodes} empty nodes\n");
 print("$stats{n_edges} edges (not counting dependencies on 0)\n");
 print("$stats{n_single} singletons\n");
 print("$stats{n_in2plus} nodes with in-degree greater than 1\n");
@@ -116,6 +120,7 @@ sub process_sentence
     find_singletons(@nodes);
     #print_sentence(@sentence) if(find_cycles(@nodes));
     find_cycles(@nodes);
+    #print_sentence(@sentence) if(find_components(@nodes));
     find_components(@nodes);
 }
 
@@ -144,6 +149,14 @@ sub find_singletons
     {
         # Remember the total number of nodes.
         $stats{n_nodes}++;
+        if($nodes[$i][0] =~ m/\./)
+        {
+            $stats{n_empty_nodes}++;
+        }
+        else
+        {
+            $stats{n_overt_nodes}++;
+        }
         my $indegree = scalar(@{$nodes[$i][10]});
         my $outdegree = scalar(@{$nodes[$i][11]});
         # Count edges except the '0:root' edge.
