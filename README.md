@@ -20,4 +20,5 @@ Friday April 5 afternoon
 
 # Potentially useful stuff
 
+* [Stanford CoreNLP](https://nlp.stanford.edu/software/stanford-dependencies.html) includes a converter from the Penn Treebank constituents to UD v1
 * [Context-sensitive mapping of PTB POS tags to Universal POS tags](https://github.com/stanfordnlp/CoreNLP/blob/master/data/edu/stanford/nlp/upos/ENUniversalPOS.tsurgeon)
