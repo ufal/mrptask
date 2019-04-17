@@ -57,7 +57,7 @@ def process_nodes(nodes):
     print(node_labels_for_latex + ' \\\\')
     return id_to_index
 
-def process_edges(edges, id_to_list_id):
+def process_edges(edges, id_to_index):
     for edge in edges:
         edge_for_latex = ('\depedge{' + id_to_index[edge['source']] + 
                           '}{' + id_to_index[edge['target']] + 
