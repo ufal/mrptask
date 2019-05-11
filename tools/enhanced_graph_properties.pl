@@ -22,7 +22,13 @@ my %stats =
     'n_top2'   => 0,
     'n_indep'  => 0,
     'n_cyclic_graphs' => 0,
-    'n_unconnected_graphs' => 0
+    'n_unconnected_graphs'  => 0,
+    'gapping'               => 0,
+    'conj_effective_parent' => 0,
+    'conj_shared_dependent' => 0,
+    'xsubj'                 => 0,
+    'relcl'                 => 0,
+    'case_deprel'           => 0
 );
 my @sentence;
 while(<>)
@@ -56,6 +62,13 @@ print("$stats{n_top2} top nodes with in-degree greater than 1\n");
 print("$stats{n_indep} independent non-top nodes (zero in, nonzero out)\n");
 print("$stats{n_cyclic_graphs} graphs that contain at least one cycle\n");
 print("$stats{n_unconnected_graphs} graphs with multiple non-singleton components\n");
+print("Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):\n");
+print("* Gapping:             $stats{gapping}\n");
+print("* Coord shared parent: $stats{conj_effective_parent}\n");
+print("* Coord shared depend: $stats{conj_shared_dependent}\n");
+print("* Controlled subject:  $stats{xsubj}\n");
+print("* Relative clause:     $stats{relcl}\n");
+print("* Deprel with case:    $stats{case_deprel}\n");
 
 
 
@@ -122,6 +135,8 @@ sub process_sentence
     find_cycles(@nodes);
     #print_sentence(@sentence) if(find_components(@nodes));
     find_components(@nodes);
+    # Only for enhanced UD graphs:
+    find_enhancements(@nodes);
 }
 
 
@@ -138,7 +153,8 @@ sub print_sentence
 
 
 #------------------------------------------------------------------------------
-# Finds singletons, i.e., nodes that have no incoming or outgoing edges.
+# Finds singletons, i.e., nodes that have no incoming or outgoing edges. Also
+# finds various other special types of nodes.
 #------------------------------------------------------------------------------
 sub find_singletons
 {
@@ -293,6 +309,157 @@ sub find_components
                     $stats{n_unconnected_graphs}++;
                     return 1;
                 }
+            }
+        }
+    }
+}
+
+
+
+#==============================================================================
+# Statistics specific to the Enhanced Universal Dependencies v2.
+# 1. Ellipsis (gapping).
+# 2. Coordination (propagation of dependencies to conjuncts).
+# 3. Control verbs.
+# 4. Relative clauses.
+# 5. Case markers added to dependency relation types.
+#==============================================================================
+
+
+
+#------------------------------------------------------------------------------
+# Returns the type (label) of the relation between parent $p and child $c.
+# Returns undef if the two nodes are not connected with an edge. It is assumed
+# that there is at most one relation between any two nodes. Although
+# technically it is possible to represent multiple relations in the enhanced
+# graph, the guidelines do not support it. The nodes $p and $c are identified
+# by their indices in the list of nodes of the graph.
+#------------------------------------------------------------------------------
+sub relation
+{
+    my $p = shift;
+    my $c = shift;
+    my @nodes = @_;
+    my @children = @{$nodes[$p][11]};
+    my @matching_children = grep {$_->{i} == $c} (@children);
+    if(scalar(@matching_children)==0)
+    {
+        return undef;
+    }
+    else
+    {
+        if(scalar(@matching_children)>1)
+        {
+            print STDERR ("WARNING: Enhanced graph should not connect the same two nodes twice.\n");
+        }
+        return $matching_children[0]->{deprel};
+    }
+}
+
+
+
+#------------------------------------------------------------------------------
+# Tries to detect various types of enhancements defined in Enhanced UD v2.
+#------------------------------------------------------------------------------
+sub find_enhancements
+{
+    my @nodes = @_;
+    for(my $i = 0; $i <= $#nodes; $i++)
+    {
+        my $curnode = $nodes[$i];
+        my @parents = @{$curnode->[10]};
+        my @children = @{$curnode->[11]};
+        # Element of @parents or @children is a record (hash reference) with the following fields:
+        # id (the first column), i (index in @nodes), deprel (string)
+        # The presence of an empty node signals that gapping is resolved.
+        if($curnode->[0] =~ m/\./)
+        {
+            $stats{gapping}++;
+            ###!!! We may want to check other attributes of gapping resolution:
+            ###!!! 1. there should be no 'orphan' relations in the enhanced graph.
+            ###!!! 2. the empty node should be attached as conjunct to a verb. Perhaps it should also have a copy of the verb's form lemma, tag and features.
+            ###!!! 3. the empty node should have at least two non-functional children (subj, obj, obl, advmod, ccomp, xcomp, advcl).
+        }
+        # Parent propagation in coordination: 'conj' (always?) accompanied by another relation.
+        # Shared child propagation: node has at least two parents, one of them is 'conj' of the other.
+        ###!!! We may also want to check whether there are any contentful dependents of a first conjunct that are not shared.
+        if(scalar(@parents) >= 2 &&
+           scalar(grep {$_->{deprel} =~ m/^conj(:|$)/} (@parents)) > 0 &&
+           scalar(grep {$_->{deprel} !~ m/^conj(:|$)/} (@parents)) > 0)
+        {
+            $stats{conj_effective_parent}++;
+        }
+        if(scalar(@parents) >= 2)
+        {
+            # Find grandparents such that their relation to the parent is 'conj' and my relation to the parent is not 'conj'.
+            my %gpconj;
+            foreach my $parentrecord (@parents)
+            {
+                if($parentrecord->{deprel} !~ m/^conj(:|$)/)
+                {
+                    my @grandparents = @{$nodes[$parentrecord->{i}][10]};
+                    foreach my $grandparentrecord (@grandparents)
+                    {
+                        if($grandparentrecord->{deprel} =~ m/^conj(:|$)/)
+                        {
+                            $gpconj{$grandparentrecord->{id}}++;
+                        }
+                    }
+                }
+            }
+            # Is one of those grandparents also my non-conj parent?
+            my $found = 0;
+            foreach my $parentrecord (@parents)
+            {
+                if($parentrecord->{deprel} !~ m/^conj(:|$)/ && exists($gpconj{$parentrecord->{id}}))
+                {
+                    $found = 1;
+                    last;
+                }
+            }
+            if($found)
+            {
+                $stats{conj_shared_dependent}++;
+            }
+        }
+        # Subject propagation through xcomp: at least two parents, I am subject
+        # or object of one, and subject of the other. The latter parent is xcomp of the former.
+        my @subjpr = grep {$_->{deprel} =~ m/^nsubj(:|$)/} (@parents);
+        my @xcompgpr;
+        foreach my $pr (@subjpr)
+        {
+            my @xgpr = grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@{$nodes[$pr->{i}][10]});
+            push(@xcompgpr, @xgpr);
+        }
+        my @coreprxgpr = grep {my $r = relation($_->{i}, $i, @nodes); defined($r) && $r =~ m/^(nsubj|obj|iobj)(:|$)/} (@xcompgpr);
+        if(scalar(@coreprxgpr) > 0)
+        {
+            $stats{xsubj}++;
+        }
+        # Relative clauses: the ref relation; a cycle containing acl:relcl
+        my @refpr = grep {$_->{deprel} =~ m/^ref(:|$)/} (@parents);
+        if(scalar(@refpr) > 0)
+        {
+            $stats{relcl}++;
+        }
+        # Adpositions and case features in enhanced relations.
+        ###!!! Non-ASCII characters, underscores, or multiple colons in relation labels signal this enhancement.
+        ###!!! However, none of them is a necessary condition. We can have a simple 'obl:between'.
+        ###!!! We would probably have to look at the basic dependency and compare it with the enhanced relation.
+        my @unusual = grep {$_->{deprel} =~ m/(:.*:|[^a-z:])/} (@parents);
+        if(scalar(@unusual) > 0)
+        {
+            $stats{case_deprel}++;
+        }
+        else
+        {
+            my $basic_parent = $curnode->[6];
+            my $basic_deprel = $curnode->[7];
+            my @matchingpr = grep {$_->{id} == $basic_parent} (@parents);
+            my @extendedpr = grep {$_->{deprel} =~ m/^$basic_deprel:.+/} (@matchingpr);
+            if(scalar(@extendedpr) > 0)
+            {
+                $stats{case_deprel}++;
             }
         }
     }
