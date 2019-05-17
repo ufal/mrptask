@@ -7,10 +7,83 @@ use Carp;
 use Moose;
 use MooseX::SemiAffordanceAccessor; # attribute x is written using set_x($value) and read using x()
 use List::MoreUtils qw(any);
+use Node;
 
 
 
-has 'nodes' => (is  => 'ro', isa => 'HashRef', default => sub {{}});
+has 'nodes' => (is  => 'ro', isa => 'HashRef', default => sub {my $self = shift; {0 => new Node('id' => 0, 'graph' => $self)}});
+
+
+
+#------------------------------------------------------------------------------
+# Checks whether there is a node with the given id.
+#------------------------------------------------------------------------------
+sub has_node
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 2);
+    my $self = shift;
+    my $id = shift;
+    confess('Undefined id') if(!defined($id));
+    return exists($self->nodes()->{$id});
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns node with the given id. If there is no such node, returns undef.
+#------------------------------------------------------------------------------
+sub get_node
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 2);
+    my $self = shift;
+    my $id = shift;
+    confess('Undefined id') if(!defined($id));
+    return $self->has_node($id) ? $self->nodes()->{$id} : undef;
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns node with the given id. If there is no such node, returns undef.
+# This method is just an alias for get_node().
+#------------------------------------------------------------------------------
+sub node
+{
+    my $self = shift;
+    my $id = shift;
+    return $self->get_node($id);
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns the list of all nodes except the artificial root node with id 0. The
+# list is ordered by node ids.
+#------------------------------------------------------------------------------
+sub get_nodes
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 1);
+    my $self = shift;
+    my @list = map {$self->get_node($_)} (sort
+    {
+        # Ids of empty nodes look like decimal numbers but in fact, 3.14 is
+        # considered greater than 3.2.
+        $a =~ m/^(\d+)(?:\.(\d+))?$/;
+        my $amaj = $1;
+        my $amin = defined($2) ? $2 : 0;
+        $b =~ m/^(\d+)(?:\.(\d+))?$/;
+        my $bmaj = $1;
+        my $bmin = defined($2) ? $2 : 0;
+        my $r = $amaj <=> $bmaj;
+        unless($r)
+        {
+            $r = $amin <=> $bmin;
+        }
+        $r
+    }
+    (grep {$_ != 0} (keys(%{$self->nodes()}))));
+    return @list;
+}
 
 
 
@@ -28,32 +101,12 @@ sub add_node
     {
         confess('Cannot add node with undefined ID');
     }
-    if(exists($self->nodes()->{$id}))
+    if($self->has_node($id))
     {
         confess("There is already a node with ID $id in the graph");
     }
     $self->nodes()->{$id} = $node;
-}
-
-
-
-#------------------------------------------------------------------------------
-# Returns a node based on its id. Returns undef if there is no node with such
-# id in the graph.
-#------------------------------------------------------------------------------
-sub node
-{
-    confess('Incorrect number of arguments') if(scalar(@_) != 2);
-    my $self = shift;
-    my $id = shift;
-    if(exists($self->nodes()->{$id}))
-    {
-        return $self->nodes()->{$id};
-    }
-    else
-    {
-        return undef;
-    }
+    $node->set_graph($self);
 }
 
 

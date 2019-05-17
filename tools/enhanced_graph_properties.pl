@@ -8,6 +8,12 @@ use open ':utf8';
 binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
+use List::MoreUtils qw(any);
+###!!! We need to tell Perl where to find my graph modules. But we should
+###!!! modify it so that it works on any computer!
+use lib 'C:/Users/Dan/Documents/Lingvistika/Projekty/mrptask/tools';
+use Graph;
+use Node;
 
 my %stats =
 (
@@ -78,65 +84,33 @@ print("* Deprel with case:    $stats{case_deprel}\n");
 sub process_sentence
 {
     my @sentence = @_;
+    my $graph = new Graph;
     # Get rid of everything except the node lines. But include empty nodes!
-    my @nodes = grep {m/^\d+(\.\d+)?\t/} (@sentence);
-    my %id2i;
-    for(my $i = 0; $i <= $#nodes; $i++)
+    my @nodelines = grep {m/^\d+(\.\d+)?\t/} (@sentence);
+    foreach my $nodeline (@nodelines)
     {
-        my @fields = split(/\t/, $nodes[$i]);
-        $nodes[$i] = \@fields;
-        # Node ids do not necessarily correspond to their index in the array. Get the mapping.
-        $id2i{$fields[0]} = $i;
+        my @fields = split(/\t/, $nodeline);
+        my $node = new Node('id' => $fields[0], 'form' => $fields[1], 'lemma' => $fields[2], 'upos' => $fields[3], 'xpos' => $fields[4],
+                            '_head' => $fields[6], '_deprel' => $fields[7], '_deps' => $fields[8]);
+        $node->set_feats_from_conllu($fields[5]);
+        $node->set_misc_from_conllu($fields[9]);
+        $graph->add_node($node);
     }
-    # Additional, structured fields for each node:
-    # $node->[10] => [list of {parents}]
-    # $node->[11] => [list of {children}]
-    for(my $i = 0; $i <= $#nodes; $i++)
+    # Once all nodes have been added to the graph, we can draw edges between them.
+    foreach my $node ($graph->get_nodes())
     {
-        my $deps = $nodes[$i][8];
-        $deps = '' if($deps eq '_');
-        my @deps = split(/\|/, $deps);
-        foreach my $dep (@deps)
-        {
-            if($dep =~ m/^(\d+(?:\.\d+)?):(.+)$/)
-            {
-                my $h = $1;
-                my $d = $2;
-                # Store the parent in my column [10].
-                my %pr =
-                (
-                    'id' => $h,
-                    'i'  => $id2i{$h},
-                    'deprel' => $d
-                );
-                push(@{$nodes[$i][10]}, \%pr);
-                # Store me as a child in the parent's column [11] (unless the parent is 0:root).
-                unless($h==0)
-                {
-                    my %cr =
-                    (
-                        'id' => $nodes[$i][0],
-                        'i'  => $i,
-                        'deprel' => $d
-                    );
-                    push(@{$nodes[$id2i{$h}][11]}, \%cr);
-                }
-            }
-            else
-            {
-                print STDERR ("WARNING: Cannot understand dep '$dep'\n");
-            }
-        }
+        $node->set_basic_dep_from_conllu();
+        $node->set_deps_from_conllu();
     }
     # We now have a complete representation of the graph and can run various
     # functions that will examine it and collect statistics about it.
-    find_singletons(@nodes);
+    find_singletons($graph);
     #print_sentence(@sentence) if(find_cycles(@nodes));
-    find_cycles(@nodes);
+    find_cycles($graph);
     #print_sentence(@sentence) if(find_components(@nodes));
-    find_components(@nodes);
+    find_components($graph);
     # Only for enhanced UD graphs:
-    find_enhancements(@nodes);
+    find_enhancements($graph);
 }
 
 
@@ -158,14 +132,14 @@ sub print_sentence
 #------------------------------------------------------------------------------
 sub find_singletons
 {
-    my @nodes = @_;
+    my $graph = shift;
     # Remember the total number of graphs.
     $stats{n_graphs}++;
-    for(my $i = 0; $i <= $#nodes; $i++)
+    foreach my $node ($graph->get_nodes())
     {
         # Remember the total number of nodes.
         $stats{n_nodes}++;
-        if($nodes[$i][0] =~ m/\./)
+        if($node->id() =~ m/\./)
         {
             $stats{n_empty_nodes}++;
         }
@@ -173,8 +147,8 @@ sub find_singletons
         {
             $stats{n_overt_nodes}++;
         }
-        my $indegree = scalar(@{$nodes[$i][10]});
-        my $outdegree = scalar(@{$nodes[$i][11]});
+        my $indegree = $node->get_in_degree();
+        my $outdegree = $node->get_out_degree();
         # Count edges except the '0:root' edge.
         $stats{n_edges} += $outdegree;
         if($indegree==0 && $outdegree==0)
@@ -187,14 +161,14 @@ sub find_singletons
             # the incoming edge '0:root' and its in-degree would be 1.
             $stats{n_indep}++;
         }
-        elsif($indegree==1 && $nodes[$i][10][0]{id} == 0)
+        elsif($indegree==1 && $node->iedges()->[0]{id} == 0)
         {
             $stats{n_top1}++;
         }
         elsif($indegree > 1)
         {
             $stats{n_in2plus}++;
-            if(grep {$_->{id}==0} (@{$nodes[$i][10]}))
+            if(any {$_->{id}==0} (@{$node->iedges()}))
             {
                 $stats{n_top2}++;
             }
@@ -210,11 +184,11 @@ sub find_singletons
 #------------------------------------------------------------------------------
 sub find_cycles
 {
-    my @nodes = @_;
+    my $graph = shift;
     # @queue is the list of unprocessed partial paths. In the beginning, there
     # is one path for every node of the graph, and the path initially contains
     # only that node.
-    my @stack = map {[$_]} (@nodes);
+    my @stack = map {[$_]} ($graph->get_nodes());
     my %processed_node_ids;
     while(my $curpath = pop(@stack))
     {
@@ -224,18 +198,17 @@ sub find_cycles
         # $curnode is the last node of the current path. We will process all its children.
         my $curnode = $curpath[-1];
         # Do not process the node if it has been processed previously.
-        unless(exists($processed_node_ids{$curnode->[0]}))
+        unless(exists($processed_node_ids{$curnode->id()}))
         {
-            my @curidpath = map {$_->[0]} (@curpath);
+            my @curidpath = map {$_->id()} (@curpath);
             #print STDERR ("Processing path ", join(',', @curidpath), "\n");
             # Find all children of the last node in the current path. For each of them
             # create an extension of the current path and add it to the queue of paths.
-            my @children = @{$curnode->[11]};
-            foreach my $childrecord (@children)
+            my @oedges = @{$curnode->oedges()};
+            foreach my $oedge (@oedges)
             {
-                #print STDERR ("Child id=$childrecord->{id} i=$childrecord->{i} deprel=$childrecord->{deprel}\n");
-                my $childnode = $nodes[$childrecord->{i}];
-                my $childid = $childnode->[0];
+                my $childnode = $graph->node($oedge->{id});
+                my $childid = $childnode->id();
                 if(grep {$_==$childid} (@curidpath))
                 {
                     $stats{n_cyclic_graphs}++;
@@ -249,7 +222,7 @@ sub find_cycles
             # We do not have to process it again if we arrive at it via another path.
             # We will not miss a cycle that goes through that $curnode.
             # Note: We could not do this if we used a queue instead of a stack!
-            $processed_node_ids{$curnode->[0]}++;
+            $processed_node_ids{$curnode->id()}++;
         }
     }
 }
@@ -261,13 +234,13 @@ sub find_cycles
 #------------------------------------------------------------------------------
 sub find_components
 {
-    my @nodes = @_;
+    my $graph = shift;
     my %component_node_ids;
     my $component_size = 0;
-    foreach my $node (@nodes)
+    foreach my $node ($graph->get_nodes())
     {
-        my $indegree = scalar(@{$node->[10]});
-        my $outdegree = scalar(@{$node->[11]});
+        my $indegree = $node->get_in_degree();
+        my $outdegree = $node->get_out_degree();
         # Ignore singletons.
         unless($indegree+$outdegree==0)
         {
@@ -279,22 +252,22 @@ sub find_components
                 my %processed_node_ids;
                 while(my $curnode = pop(@nodes_to_process))
                 {
-                    next if(exists($processed_node_ids{$curnode->[0]}));
-                    foreach my $parentrecord (@{$curnode->[10]})
+                    next if(exists($processed_node_ids{$curnode->id()}));
+                    foreach my $iedge (@{$curnode->iedges()})
                     {
-                        unless($parentrecord->{id}==0 || exists($processed_node_ids{$parentrecord->{id}}))
+                        unless($iedge->{id}==0 || exists($processed_node_ids{$iedge->{id}}))
                         {
-                            push(@nodes_to_process, $nodes[$parentrecord->{i}]);
+                            push(@nodes_to_process, $graph->node($iedge->{id}));
                         }
                     }
-                    foreach my $childrecord (@{$curnode->[11]})
+                    foreach my $oedge (@{$curnode->oedges()})
                     {
-                        unless(exists($processed_node_ids{$childrecord->{id}}))
+                        unless(exists($processed_node_ids{$oedge->{id}}))
                         {
-                            push(@nodes_to_process, $nodes[$childrecord->{i}]);
+                            push(@nodes_to_process, $graph->node($oedge->{id}));
                         }
                     }
-                    $processed_node_ids{$curnode->[0]}++;
+                    $processed_node_ids{$curnode->id()}++;
                 }
                 %component_node_ids = %processed_node_ids;
                 $component_size = scalar(keys(%component_node_ids));
@@ -304,7 +277,7 @@ sub find_components
             # we are interested in is to see whether there is a second component.
             else
             {
-                if(!exists($component_node_ids{$node->[0]}))
+                if(!exists($component_node_ids{$node->id()}))
                 {
                     $stats{n_unconnected_graphs}++;
                     return 1;
@@ -333,15 +306,15 @@ sub find_components
 # that there is at most one relation between any two nodes. Although
 # technically it is possible to represent multiple relations in the enhanced
 # graph, the guidelines do not support it. The nodes $p and $c are identified
-# by their indices in the list of nodes of the graph.
+# by their ids.
 #------------------------------------------------------------------------------
 sub relation
 {
     my $p = shift;
     my $c = shift;
-    my @nodes = @_;
-    my @children = @{$nodes[$p][11]};
-    my @matching_children = grep {$_->{i} == $c} (@children);
+    my $graph = shift;
+    my @oedges = @{$graph->node($p)->oedges()};
+    my @matching_children = grep {$_->{id} == $c} (@oedges);
     if(scalar(@matching_children)==0)
     {
         return undef;
@@ -363,16 +336,13 @@ sub relation
 #------------------------------------------------------------------------------
 sub find_enhancements
 {
-    my @nodes = @_;
-    for(my $i = 0; $i <= $#nodes; $i++)
+    my $graph = shift;
+    foreach my $curnode ($graph->get_nodes())
     {
-        my $curnode = $nodes[$i];
-        my @parents = @{$curnode->[10]};
-        my @children = @{$curnode->[11]};
-        # Element of @parents or @children is a record (hash reference) with the following fields:
-        # id (the first column), i (index in @nodes), deprel (string)
+        my @iedges = @{$curnode->iedges()};
+        my @oedges = @{$curnode->oedges()};
         # The presence of an empty node signals that gapping is resolved.
-        if($curnode->[0] =~ m/\./)
+        if($curnode->id() =~ m/\./)
         {
             $stats{gapping}++;
             ###!!! We may want to check other attributes of gapping resolution:
@@ -383,35 +353,35 @@ sub find_enhancements
         # Parent propagation in coordination: 'conj' (always?) accompanied by another relation.
         # Shared child propagation: node has at least two parents, one of them is 'conj' of the other.
         ###!!! We may also want to check whether there are any contentful dependents of a first conjunct that are not shared.
-        if(scalar(@parents) >= 2 &&
-           scalar(grep {$_->{deprel} =~ m/^conj(:|$)/} (@parents)) > 0 &&
-           scalar(grep {$_->{deprel} !~ m/^conj(:|$)/} (@parents)) > 0)
+        if(scalar(@iedges) >= 2 &&
+           scalar(grep {$_->{deprel} =~ m/^conj(:|$)/} (@iedges)) > 0 &&
+           scalar(grep {$_->{deprel} !~ m/^conj(:|$)/} (@iedges)) > 0)
         {
             $stats{conj_effective_parent}++;
         }
-        if(scalar(@parents) >= 2)
+        if(scalar(@iedges) >= 2)
         {
             # Find grandparents such that their relation to the parent is 'conj' and my relation to the parent is not 'conj'.
             my %gpconj;
-            foreach my $parentrecord (@parents)
+            foreach my $iedge (@iedges)
             {
-                if($parentrecord->{deprel} !~ m/^conj(:|$)/)
+                if($iedge->{deprel} !~ m/^conj(:|$)/)
                 {
-                    my @grandparents = @{$nodes[$parentrecord->{i}][10]};
-                    foreach my $grandparentrecord (@grandparents)
+                    my @gpedges = @{$graph->node($iedge->{id})->iedges()};
+                    foreach my $gpedge (@gpedges)
                     {
-                        if($grandparentrecord->{deprel} =~ m/^conj(:|$)/)
+                        if($gpedge->{deprel} =~ m/^conj(:|$)/)
                         {
-                            $gpconj{$grandparentrecord->{id}}++;
+                            $gpconj{$gpedge->{id}}++;
                         }
                     }
                 }
             }
             # Is one of those grandparents also my non-conj parent?
             my $found = 0;
-            foreach my $parentrecord (@parents)
+            foreach my $iedge (@iedges)
             {
-                if($parentrecord->{deprel} !~ m/^conj(:|$)/ && exists($gpconj{$parentrecord->{id}}))
+                if($iedge->{deprel} !~ m/^conj(:|$)/ && exists($gpconj{$iedge->{id}}))
                 {
                     $found = 1;
                     last;
@@ -424,20 +394,20 @@ sub find_enhancements
         }
         # Subject propagation through xcomp: at least two parents, I am subject
         # or object of one, and subject of the other. The latter parent is xcomp of the former.
-        my @subjpr = grep {$_->{deprel} =~ m/^nsubj(:|$)/} (@parents);
+        my @subjpr = grep {$_->{deprel} =~ m/^nsubj(:|$)/} (@iedges);
         my @xcompgpr;
         foreach my $pr (@subjpr)
         {
-            my @xgpr = grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@{$nodes[$pr->{i}][10]});
+            my @xgpr = grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@{$graph->node($pr->{id})->iedges()});
             push(@xcompgpr, @xgpr);
         }
-        my @coreprxgpr = grep {my $r = relation($_->{i}, $i, @nodes); defined($r) && $r =~ m/^(nsubj|obj|iobj)(:|$)/} (@xcompgpr);
+        my @coreprxgpr = grep {my $r = relation($_->{id}, $curnode->{id}, $graph); defined($r) && $r =~ m/^(nsubj|obj|iobj)(:|$)/} (@xcompgpr);
         if(scalar(@coreprxgpr) > 0)
         {
             $stats{xsubj}++;
         }
         # Relative clauses: the ref relation; a cycle containing acl:relcl
-        my @refpr = grep {$_->{deprel} =~ m/^ref(:|$)/} (@parents);
+        my @refpr = grep {$_->{deprel} =~ m/^ref(:|$)/} (@iedges);
         if(scalar(@refpr) > 0)
         {
             $stats{relcl}++;
@@ -446,16 +416,16 @@ sub find_enhancements
         ###!!! Non-ASCII characters, underscores, or multiple colons in relation labels signal this enhancement.
         ###!!! However, none of them is a necessary condition. We can have a simple 'obl:between'.
         ###!!! We would probably have to look at the basic dependency and compare it with the enhanced relation.
-        my @unusual = grep {$_->{deprel} =~ m/(:.*:|[^a-z:])/} (@parents);
+        my @unusual = grep {$_->{deprel} =~ m/(:.*:|[^a-z:])/} (@iedges);
         if(scalar(@unusual) > 0)
         {
             $stats{case_deprel}++;
         }
         else
         {
-            my $basic_parent = $curnode->[6];
-            my $basic_deprel = $curnode->[7];
-            my @matchingpr = grep {$_->{id} == $basic_parent} (@parents);
+            my $basic_parent = $curnode->bparent();
+            my $basic_deprel = $curnode->bdeprel();
+            my @matchingpr = grep {$_->{id} == $basic_parent} (@iedges);
             my @extendedpr = grep {$_->{deprel} =~ m/^$basic_deprel:.+/} (@matchingpr);
             if(scalar(@extendedpr) > 0)
             {
