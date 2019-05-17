@@ -11,7 +11,22 @@ binmode(STDERR, ':utf8');
 use List::MoreUtils qw(any);
 ###!!! We need to tell Perl where to find my graph modules. But we should
 ###!!! modify it so that it works on any computer!
-use lib 'C:/Users/Dan/Documents/Lingvistika/Projekty/mrptask/tools';
+BEGIN
+{
+    my $path = $0;
+    my $currentpath = `pwd`;
+    $libpath = $currentpath;
+    if($path =~ m:/:)
+    {
+        $path =~ s:/[^/]*$:/:;
+        chdir($path);
+        $libpath = `pwd`;
+        chdir($currentpath);
+    }
+    $libpath =~ s/\r?\n$//;
+    #print STDERR ("libpath=$libpath\n");
+}
+use lib $libpath;
 use Graph;
 use Node;
 
