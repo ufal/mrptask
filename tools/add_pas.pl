@@ -60,16 +60,26 @@ sub process_sentence
 {
     my @sentence = @_;
     my $graph = new Graph;
-    # Get rid of everything except the node lines. But include empty nodes!
-    my @nodelines = grep {m/^\d+(\.\d+)?\t/} (@sentence);
-    foreach my $nodeline (@nodelines)
+    my $mlform = 0;
+    my $mllemma = 0;
+    foreach my $line (@sentence)
     {
-        my @fields = split(/\t/, $nodeline);
-        my $node = new Node('id' => $fields[0], 'form' => $fields[1], 'lemma' => $fields[2], 'upos' => $fields[3], 'xpos' => $fields[4],
-                            '_head' => $fields[6], '_deprel' => $fields[7], '_deps' => $fields[8]);
-        $node->set_feats_from_conllu($fields[5]);
-        $node->set_misc_from_conllu($fields[9]);
-        $graph->add_node($node);
+        if($line =~ m/^\#/)
+        {
+            push(@{$graph->comments()}, $line);
+        }
+        elsif($line =~ m/^\d/)
+        {
+            my @fields = split(/\t/, $line);
+            my $node = new Node('id' => $fields[0], 'form' => $fields[1], 'lemma' => $fields[2], 'upos' => $fields[3], 'xpos' => $fields[4],
+                                '_head' => $fields[6], '_deprel' => $fields[7], '_deps' => $fields[8]);
+            $node->set_feats_from_conllu($fields[5]);
+            $node->set_misc_from_conllu($fields[9]);
+            $graph->add_node($node);
+            # We will use the lengths of form and lemma in human-readable output format.
+            $mlform = length($fields[1]) if(length($fields[1]) > $mlform);
+            $mllemma = length($fields[2]) if(length($fields[2]) > $mllemma);
+        }
     }
     # Once all nodes have been added to the graph, we can draw edges between them.
     foreach my $node ($graph->get_nodes())
@@ -78,6 +88,12 @@ sub process_sentence
         $node->set_deps_from_conllu();
     }
     # We now have a complete representation of the graph and can do the actual work.
+    foreach my $comment (@{$graph->comments()})
+    {
+        # Comments are currently stored including the initial # character;
+        # but line-terminating characters have been stripped.
+        print("$comment\n");
+    }
     foreach my $node ($graph->get_nodes())
     {
         my $predicate = '_';
@@ -90,6 +106,13 @@ sub process_sentence
             $predicate = $node->lemma();
             if(defined($predicate) && $predicate ne '' && $predicate ne '_')
             {
+                # Pronominal (inherently reflexive) verbs have the reflexive marker
+                # as a part of their predicate identity. Same for verbal particles.
+                my @explpv = grep {$_->{deprel} =~ m/^(expl:pv|compound:prt)$/} (@{$node->oedges()});
+                if(scalar(@explpv) >= 1)
+                {
+                    $predicate .= ' '.lc($graph->node($explpv[0]{id})->form());
+                }
                 ###!!! Later on, we will look at obl:arg, nsubj:pass, obl:agent etc.
                 ###!!! For now, we only look at nsubj, obj, and iobj.
                 ###!!! Only look at active clauses now!
@@ -143,7 +166,19 @@ sub process_sentence
             }
         }
         my $arglinks = scalar(@arglinks) > 0 ? join('|', @arglinks) : '_';
-        my $nodeline = join("\t", ($node->id(), $node->form(), $node->lemma(), $node->upos(), $node->xpos(), $node->feats(), $node->_head(), $node->_deprel(), $node->_deps(), $node->misc(), $predicate, $arglinks));
+        ###!!! In the final product, we will want to print the new columns at the end of the line.
+        ###!!! However, for better readability during debugging, I am temporarily moving them closer to the beginning.
+        my $nodeline = join("\t", ($node->id(),
+            $node->form().(' ' x ($mlform-length($node->form()))),
+            $node->lemma().(' ' x ($mllemma-length($node->lemma()))),
+            $node->upos(),
+            $predicate.(' ' x ($mllemma-length($predicate))),
+            $arglinks.(' ' x (13-length($arglinks))),
+            '_', # místo nezajímavého $node->xpos(),
+            $node->get_feats_string(),
+            $node->bparent(), $node->bdeprel(), $node->get_deps_string(),
+            $node->get_misc_string()
+            ));
         print("$nodeline\n");
     }
     print("\n");

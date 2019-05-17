@@ -11,7 +11,8 @@ use Node;
 
 
 
-has 'nodes' => (is  => 'ro', isa => 'HashRef', default => sub {my $self = shift; {0 => new Node('id' => 0, 'graph' => $self)}});
+has 'comments' => (is => 'ro', isa => 'ArrayRef', default => sub {[]}, documentation => 'Sentence-level CoNLL-U comments.');
+has 'nodes'    => (is => 'ro', isa => 'HashRef', default => sub {my $self = shift; {0 => new Node('id' => 0, 'graph' => $self)}});
 
 
 

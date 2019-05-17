@@ -72,6 +72,31 @@ sub set_feats_from_conllu
 
 
 #------------------------------------------------------------------------------
+# Returns features as string that can be used in a CoNLL-U file.
+#------------------------------------------------------------------------------
+sub get_feats_string
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 1);
+    my $self = shift;
+    if(!defined($self->feats()))
+    {
+        return '_';
+    }
+    my %feats = %{$self->feats()};
+    my @keys = sort {lc($a) cmp lc($b)} (keys(%feats));
+    if(scalar(@keys)==0)
+    {
+        return '_';
+    }
+    else
+    {
+        return join('|', map {"$_=$feats{$_}"} (@keys));
+    }
+}
+
+
+
+#------------------------------------------------------------------------------
 # Parses the string from the MISC column of a CoNLL-U file and sets the misc
 # array accordingly. If the misc array has been set previously, it will be
 # discarded and replaced by the new one.
@@ -90,6 +115,30 @@ sub set_misc_from_conllu
     {
         my @misc = split(/\|/, $misc);
         $self->set_misc(\@misc);
+    }
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns MISC attributes as string that can be used in a CoNLL-U file.
+#------------------------------------------------------------------------------
+sub get_misc_string
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 1);
+    my $self = shift;
+    if(!defined($self->misc()))
+    {
+        return '_';
+    }
+    my @misc = @{$self->misc()};
+    if(scalar(@misc)==0)
+    {
+        return '_';
+    }
+    else
+    {
+        return join('|', @misc);
     }
 }
 
@@ -207,6 +256,35 @@ sub set_deps_from_conllu
                 print STDERR ("WARNING: Cannot understand dep '$dep'\n");
             }
         }
+    }
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns enhanced DEPS as string that can be used in a CoNLL-U file.
+#------------------------------------------------------------------------------
+sub get_deps_string
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 1);
+    my $self = shift;
+    my @iedges = sort
+    {
+        my $r = $a->{id} <=> $b->{id}; ###!!! This does not ensure that 3.14 > 3.2!
+        unless($r)
+        {
+            $r = $a->{deprel} cmp $b->{deprel};
+        }
+        $r
+    }
+    (@{$self->iedges()});
+    if(scalar(@iedges)==0)
+    {
+        return '_';
+    }
+    else
+    {
+        return join('|', map {"$_->{id}:$_->{deprel}"} (@iedges));
     }
 }
 
