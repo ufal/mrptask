@@ -31,6 +31,7 @@ use lib $libpath;
 use Graph;
 use Node;
 
+my %argpatterns;
 my @sentence;
 while(<>)
 {
@@ -49,6 +50,12 @@ while(<>)
 if(scalar(@sentence) > 0)
 {
     process_sentence(@sentence);
+}
+my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) { $a cmp $b } $r} (keys(%argpatterns));
+print STDERR ("Observed argument patterns:\n");
+foreach my $ap (@argpatterns)
+{
+    print STDERR ("$ap\t$argpatterns{$ap}\n");
 }
 
 
@@ -113,14 +120,20 @@ sub process_sentence
                 {
                     $predicate .= ' '.lc($graph->node($explpv[0]{id})->form());
                 }
+                # Investigation: what patterns of argumental deprels do we observe?
+                my @oedges = get_oedges_except_conj_propagated($node);
+                my @argedges = grep {$_->{deprel} =~ m/^(([nc]subj|obj|iobj|[cx]comp)(:|$)|obl:(arg|agent)$)/} (@oedges);
+                my $arguments = join(' ', sort (map {$_->{deprel}} (@argedges)));
+                $arguments = '_' if($arguments eq '');
+                $argpatterns{$arguments}++;
                 ###!!! Later on, we will look at obl:arg, nsubj:pass, obl:agent etc.
                 ###!!! For now, we only look at nsubj, obj, and iobj.
                 ###!!! Only look at active clauses now!
-                my @passive = grep {$_->{deprel} =~ m/:pass$/} (@{$node->oedges()});
+                my @passive = grep {$_->{deprel} =~ m/:pass(:|$)/} (@oedges);
                 unless(scalar(@passive) > 0)
                 {
                     # There should be at most one subject. In an active clause, we will make it argument 1.
-                    my @subjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} ne 'nsubj:pass'} (@{$node->oedges()});
+                    my @subjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} ne 'nsubj:pass'} (@oedges);
                     my $n = scalar(@subjects);
                     if($n > 1)
                     {
@@ -131,7 +144,7 @@ sub process_sentence
                         $arguments[1] = $subjects[0]->{id};
                     }
                     # There should be at most one direct object. In an active clause, we will make it argument 2.
-                    my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@{$node->oedges()});
+                    my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
                     $n = scalar(@dobjects);
                     if($n > 1)
                     {
@@ -142,7 +155,7 @@ sub process_sentence
                         $arguments[2] = $dobjects[0]->{id};
                     }
                     # There should be at most one indirect object. In an active clause, we will make it argument 3.
-                    my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@{$node->oedges()});
+                    my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
                     $n = scalar(@iobjects);
                     if($n > 1)
                     {
@@ -151,6 +164,51 @@ sub process_sentence
                     elsif($n == 1)
                     {
                         $arguments[3] = $iobjects[0]->{id};
+                    }
+                }
+                else # detected passive clause
+                {
+                    # A passive subject is argument 2. But if the subject is not
+                    # labeled with the ':pass' subtype, it is suspicious.
+                    my @passsubjects = grep {$_->{deprel} =~ m/^[nc]subj:pass(:|$)/} (@oedges);
+                    my @actsubjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} !~ m/^[nc]subj:pass(:|$)/} (@oedges);
+                    my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
+                    my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
+                    my @agents = grep {$_->{deprel} =~ m/^obl:agent(:|$)/} (@oedges);
+                    if(scalar(@actsubjects) > 0)
+                    {
+                        print STDERR ("WARNING: Subject of passive clause is labeled '$actsubjects[0]{deprel}'.\n");
+                    }
+                    if(scalar(@dobjects) > 0)
+                    {
+                        print STDERR ("WARNING: Cannot deal with direct object in a passive clause.\n");
+                    }
+                    my $n = scalar(@passsubjects);
+                    if($n > 1)
+                    {
+                        print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
+                    }
+                    elsif($n == 1)
+                    {
+                        $arguments[2] = $passsubjects[0]->{id};
+                    }
+                    $n = scalar(@iobjects);
+                    if($n > 1)
+                    {
+                        print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
+                    }
+                    elsif($n == 1)
+                    {
+                        $arguments[3] = $iobjects[0]->{id};
+                    }
+                    $n = scalar(@agents);
+                    if($n > 1)
+                    {
+                        print STDERR ("WARNING: Cannot deal with more than 1 oblique agent.\n");
+                    }
+                    elsif($n == 1)
+                    {
+                        $arguments[1] = $agents[0]->{id};
                     }
                 }
             }
@@ -182,4 +240,26 @@ sub process_sentence
         print("$nodeline\n");
     }
     print("\n");
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns enhanced children of a node that are not also attached as children of
+# another child of that node via the 'conj' relation.
+#------------------------------------------------------------------------------
+sub get_oedges_except_conj_propagated
+{
+    my $node = shift;
+    my @oe = @{$node->oedges()};
+    my @result;
+    foreach my $oe (@oe)
+    {
+        my @cie = grep {my $c = $_; $c->{deprel} =~ m/^conj(:|$)/ && any {$_->{id} eq $c->{id}} (@oe)} (@{$node->graph()->node($oe->{id})->iedges()});
+        unless(scalar(@cie) > 0)
+        {
+            push(@result, $oe);
+        }
+    }
+    return @result;
 }
