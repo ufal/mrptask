@@ -113,8 +113,10 @@ sub process_sentence
     {
         my $predicate = get_predicate($node);
         my @arguments;
+        my $argpattern = '_';
         unless($predicate eq '_')
         {
+            $argpattern = get_argpattern($node, $predicate);
             @arguments = get_arguments($node);
         }
         # Print the node including additional columns.
@@ -136,7 +138,7 @@ sub process_sentence
             $node->upos(),
             $predicate.(' ' x ($mllemma-length($predicate))),
             $arglinks.(' ' x (13-length($arglinks))),
-            '_', # místo nezajímavého $node->xpos(),
+            $argpattern, # místo nezajímavého $node->xpos(),
             $node->get_feats_string(),
             $node->bparent(), $node->bdeprel(), $node->get_deps_string(),
             $node->get_misc_string()
@@ -156,10 +158,13 @@ sub get_predicate
 {
     my $node = shift;
     my $predicate = '_';
+    # We will skip verbs that are attached as compound to something else.
+    # For example, in Dutch "laten zien" (2 verbs), "zien" is attached as compound to "laten".
+    my $is_compound = any {$_->{deprel} =~ m/^compound(:|$)/} (@{$node->iedges()});
     # The predicate could be identified by a reference to a frame in a valency lexicon.
     # We do not have a lexicon and we simply use the lemma.
     my $lemma = $node->lemma();
-    if($node->upos() eq 'VERB' && defined($lemma) && $lemma ne '' && $lemma ne '_')
+    if($node->upos() eq 'VERB' && defined($lemma) && $lemma ne '' && $lemma ne '_' && !$is_compound)
     {
         $predicate = $lemma;
         # Pronominal (inherently reflexive) verbs have the reflexive marker
@@ -178,23 +183,42 @@ sub get_predicate
 
 
 #------------------------------------------------------------------------------
-# Identifies arguments of verbal predicates.
+# Collects deprels that are probably arguments. Saves them as a pattern in a
+# global hash. Returns the pattern so that it can be explicitly printed in the
+# output file. The patterns can be used for debugging and also to establish
+# an automatic frame inventory.
 #------------------------------------------------------------------------------
-sub get_arguments
+sub get_argpattern
 {
     my $node = shift;
-    my @arguments;
+    my $predicate = shift;
     # Investigation: what patterns of argumental deprels do we observe?
     my @oedges = get_oedges_except_conj_propagated($node);
     my @argedges = grep {$_->{deprel} =~ m/^(([nc]subj|obj|iobj|[cx]comp)(:|$)|obl:(arg|agent)$)/} (@oedges);
     # Certain enhanced relation subtypes are not relevant for us here.
     @argedges = map {$_->{deprel} =~ s/:(xsubj|relsubj|relobj)//; $_} (@argedges);
     my $arguments = join(' ', sort (map {$_->{deprel}} (@argedges)));
-    $arguments = '_' if($arguments eq '');
+    # We want to be able to quickly find argumentless predicates in the data
+    # in order to debug. Therefore we use <NOARG> instead of an underscore.
+    $arguments = '<NOARG>' if($arguments eq '');
     $argpatterns{$arguments}++;
-#    my $predi_cate = $predicate;
-#    $predi_cate =~ s/\s+/_/g;
-#    $pargpatterns{"$predi_cate $arguments"}++;
+    my $predi_cate = $predicate;
+    $predi_cate =~ s/\s+/_/g;
+    my $pargpattern = "$predi_cate $arguments";
+    $pargpatterns{$pargpattern}++;
+    return $pargpattern;
+}
+
+
+
+#------------------------------------------------------------------------------
+# Identifies arguments of verbal predicates.
+#------------------------------------------------------------------------------
+sub get_arguments
+{
+    my $node = shift;
+    my @arguments;
+    my @oedges = get_oedges_except_conj_propagated($node);
     ###!!! Later on, we will look at obl:arg, nsubj:pass, obl:agent etc.
     ###!!! For now, we only look at nsubj, obj, and iobj.
     ###!!! Only look at active clauses now!
