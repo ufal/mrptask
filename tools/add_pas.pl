@@ -111,8 +111,12 @@ sub process_sentence
     }
     foreach my $node ($graph->get_nodes())
     {
-        my @arguments = get_predicate_arguments($node);
-        my $predicate = shift(@arguments);
+        my $predicate = get_predicate($node);
+        my @arguments;
+        unless($predicate eq '_')
+        {
+            @arguments = get_arguments($node);
+        }
         # Print the node including additional columns.
         my @arglinks;
         for(my $i = 0; $i <= $#arguments; $i++)
@@ -145,124 +149,137 @@ sub process_sentence
 
 
 #------------------------------------------------------------------------------
-# Identifies arguments of verbal predicates.
+# Returns the lemma-like identifier of a verbal predicate. For other nodes
+# returns just '_'.
 #------------------------------------------------------------------------------
-sub get_predicate_arguments
+sub get_predicate
 {
     my $node = shift;
-    my $graph = $node->graph();
     my $predicate = '_';
-    my @arguments;
-    # At present we only look at verbal predicates.
-    if($node->upos() eq 'VERB')
+    # The predicate could be identified by a reference to a frame in a valency lexicon.
+    # We do not have a lexicon and we simply use the lemma.
+    my $lemma = $node->lemma();
+    if($node->upos() eq 'VERB' && defined($lemma) && $lemma ne '' && $lemma ne '_')
     {
-        # The predicate could be identified by a reference to a frame in a valency lexicon.
-        # We do not have a lexicon and we simply use the lemma.
-        $predicate = $node->lemma();
-        if(defined($predicate) && $predicate ne '' && $predicate ne '_')
+        $predicate = $lemma;
+        # Pronominal (inherently reflexive) verbs have the reflexive marker
+        # as a part of their predicate identity. Same for verbal particles,
+        # light verb and serial verb compounds.
+        my @explpv = grep {$_->{deprel} =~ m/^(expl:pv|compound(:.+)?)$/} (@{$node->oedges()});
+        my $graph = $node->graph();
+        if(scalar(@explpv) >= 1)
         {
-            # Pronominal (inherently reflexive) verbs have the reflexive marker
-            # as a part of their predicate identity. Same for verbal particles.
-            my @explpv = grep {$_->{deprel} =~ m/^(expl:pv|compound(:.+)?)$/} (@{$node->oedges()});
-            if(scalar(@explpv) >= 1)
-            {
-                $predicate .= ' '.lc($graph->node($explpv[0]{id})->form());
-            }
-            # Investigation: what patterns of argumental deprels do we observe?
-            my @oedges = get_oedges_except_conj_propagated($node);
-            my @argedges = grep {$_->{deprel} =~ m/^(([nc]subj|obj|iobj|[cx]comp)(:|$)|obl:(arg|agent)$)/} (@oedges);
-            my $arguments = join(' ', sort (map {$_->{deprel}} (@argedges)));
-            $arguments = '_' if($arguments eq '');
-            $argpatterns{$arguments}++;
-            $pargpatterns{"$predicate $arguments"}++;
-            ###!!! Later on, we will look at obl:arg, nsubj:pass, obl:agent etc.
-            ###!!! For now, we only look at nsubj, obj, and iobj.
-            ###!!! Only look at active clauses now!
-            my @passive = grep {$_->{deprel} =~ m/:pass(:|$)/} (@oedges);
-            unless(scalar(@passive) > 0)
-            {
-                # There should be at most one subject. In an active clause, we will make it argument 1.
-                my @subjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} ne 'nsubj:pass'} (@oedges);
-                my $n = scalar(@subjects);
-                if($n > 1)
-                {
-                    print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
-                }
-                elsif($n == 1)
-                {
-                    $arguments[1] = $subjects[0]->{id};
-                }
-                # There should be at most one direct object. In an active clause, we will make it argument 2.
-                my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
-                $n = scalar(@dobjects);
-                if($n > 1)
-                {
-                    print STDERR ("WARNING: Cannot deal with more than 1 direct object.\n");
-                }
-                elsif($n == 1)
-                {
-                    $arguments[2] = $dobjects[0]->{id};
-                }
-                # There should be at most one indirect object. In an active clause, we will make it argument 3.
-                my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
-                $n = scalar(@iobjects);
-                if($n > 1)
-                {
-                    print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
-                }
-                elsif($n == 1)
-                {
-                    $arguments[3] = $iobjects[0]->{id};
-                }
-            }
-            else # detected passive clause
-            {
-                # A passive subject is argument 2. But if the subject is not
-                # labeled with the ':pass' subtype, it is suspicious.
-                my @passsubjects = grep {$_->{deprel} =~ m/^[nc]subj:pass(:|$)/} (@oedges);
-                my @actsubjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} !~ m/^[nc]subj:pass(:|$)/} (@oedges);
-                my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
-                my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
-                my @agents = grep {$_->{deprel} =~ m/^obl:agent(:|$)/} (@oedges);
-                if(scalar(@actsubjects) > 0)
-                {
-                    print STDERR ("WARNING: Subject of passive clause is labeled '$actsubjects[0]{deprel}'.\n");
-                }
-                if(scalar(@dobjects) > 0)
-                {
-                    print STDERR ("WARNING: Cannot deal with direct object in a passive clause.\n");
-                }
-                my $n = scalar(@passsubjects);
-                if($n > 1)
-                {
-                    print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
-                }
-                elsif($n == 1)
-                {
-                    $arguments[2] = $passsubjects[0]->{id};
-                }
-                $n = scalar(@iobjects);
-                if($n > 1)
-                {
-                    print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
-                }
-                elsif($n == 1)
-                {
-                    $arguments[3] = $iobjects[0]->{id};
-                }
-                $n = scalar(@agents);
-                if($n > 1)
-                {
-                    print STDERR ("WARNING: Cannot deal with more than 1 oblique agent.\n");
-                }
-                elsif($n == 1)
-                {
-                    $arguments[1] = $agents[0]->{id};
-                }
-            }
+            $predicate .= ' '.join(' ', map {lc($graph->node($_->{id})->form())} (@explpv));
         }
     }
-    $arguments[0] = $predicate;
+    return $predicate;
+}
+
+
+
+#------------------------------------------------------------------------------
+# Identifies arguments of verbal predicates.
+#------------------------------------------------------------------------------
+sub get_arguments
+{
+    my $node = shift;
+    my @arguments;
+    # Investigation: what patterns of argumental deprels do we observe?
+    my @oedges = get_oedges_except_conj_propagated($node);
+    my @argedges = grep {$_->{deprel} =~ m/^(([nc]subj|obj|iobj|[cx]comp)(:|$)|obl:(arg|agent)$)/} (@oedges);
+    # Certain enhanced relation subtypes are not relevant for us here.
+    @argedges = map {$_->{deprel} =~ s/:(xsubj|relsubj|relobj)//; $_} (@argedges);
+    my $arguments = join(' ', sort (map {$_->{deprel}} (@argedges)));
+    $arguments = '_' if($arguments eq '');
+    $argpatterns{$arguments}++;
+#    my $predi_cate = $predicate;
+#    $predi_cate =~ s/\s+/_/g;
+#    $pargpatterns{"$predi_cate $arguments"}++;
+    ###!!! Later on, we will look at obl:arg, nsubj:pass, obl:agent etc.
+    ###!!! For now, we only look at nsubj, obj, and iobj.
+    ###!!! Only look at active clauses now!
+    my @passive = grep {$_->{deprel} =~ m/:pass(:|$)/} (@oedges);
+    unless(scalar(@passive) > 0)
+    {
+        # There should be at most one subject. In an active clause, we will make it argument 1.
+        my @subjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} ne 'nsubj:pass'} (@oedges);
+        my $n = scalar(@subjects);
+        if($n > 1)
+        {
+            print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
+        }
+        elsif($n == 1)
+        {
+            $arguments[1] = $subjects[0]->{id};
+        }
+        # There should be at most one direct object. In an active clause, we will make it argument 2.
+        my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
+        $n = scalar(@dobjects);
+        if($n > 1)
+        {
+            print STDERR ("WARNING: Cannot deal with more than 1 direct object.\n");
+        }
+        elsif($n == 1)
+        {
+            $arguments[2] = $dobjects[0]->{id};
+        }
+        # There should be at most one indirect object. In an active clause, we will make it argument 3.
+        my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
+        $n = scalar(@iobjects);
+        if($n > 1)
+        {
+            print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
+        }
+        elsif($n == 1)
+        {
+            $arguments[3] = $iobjects[0]->{id};
+        }
+    }
+    else # detected passive clause
+    {
+        # A passive subject is argument 2. But if the subject is not
+        # labeled with the ':pass' subtype, it is suspicious.
+        my @passsubjects = grep {$_->{deprel} =~ m/^[nc]subj:pass(:|$)/} (@oedges);
+        my @actsubjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} !~ m/^[nc]subj:pass(:|$)/} (@oedges);
+        my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
+        my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
+        my @agents = grep {$_->{deprel} =~ m/^obl:agent(:|$)/} (@oedges);
+        if(scalar(@actsubjects) > 0)
+        {
+            print STDERR ("WARNING: Subject of passive clause is labeled '$actsubjects[0]{deprel}'.\n");
+        }
+        if(scalar(@dobjects) > 0)
+        {
+            print STDERR ("WARNING: Cannot deal with direct object in a passive clause.\n");
+        }
+        my $n = scalar(@passsubjects);
+        if($n > 1)
+        {
+            print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
+        }
+        elsif($n == 1)
+        {
+            $arguments[2] = $passsubjects[0]->{id};
+        }
+        $n = scalar(@iobjects);
+        if($n > 1)
+        {
+            print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
+        }
+        elsif($n == 1)
+        {
+            $arguments[3] = $iobjects[0]->{id};
+        }
+        $n = scalar(@agents);
+        if($n > 1)
+        {
+            print STDERR ("WARNING: Cannot deal with more than 1 oblique agent.\n");
+        }
+        elsif($n == 1)
+        {
+            $arguments[1] = $agents[0]->{id};
+        }
+    }
     return @arguments;
 }
 
