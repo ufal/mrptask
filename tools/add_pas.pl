@@ -75,8 +75,6 @@ sub process_sentence
 {
     my @sentence = @_;
     my $graph = new Graph;
-    my $mlform = 0;
-    my $mllemma = 0;
     foreach my $line (@sentence)
     {
         if($line =~ m/^\#/)
@@ -91,9 +89,6 @@ sub process_sentence
             $node->set_feats_from_conllu($fields[5]);
             $node->set_misc_from_conllu($fields[9]);
             $graph->add_node($node);
-            # We will use the lengths of form and lemma in human-readable output format.
-            $mlform = length($fields[1]) if(length($fields[1]) > $mlform);
-            $mllemma = length($fields[2]) if(length($fields[2]) > $mllemma);
         }
     }
     # Once all nodes have been added to the graph, we can draw edges between them.
@@ -103,45 +98,78 @@ sub process_sentence
         $node->set_deps_from_conllu();
     }
     # We now have a complete representation of the graph and can do the actual work.
+    foreach my $node ($graph->get_nodes())
+    {
+        my $predicate = get_predicate($node);
+        $node->set_predicate($predicate);
+        my $argpattern = '_';
+        my @arguments;
+        unless($predicate eq '_')
+        {
+            $argpattern = get_argpattern($node, $predicate);
+            @arguments = get_arguments($node);
+        }
+        $node->set_argpattern($argpattern);
+        for(my $i = 0; $i <= $#arguments; $i++)
+        {
+            if(defined($arguments[$i]))
+            {
+                my %arglink =
+                (
+                    'deprel' => "arg$i",
+                    'id'     => $arguments[$i]
+                );
+                push(@{$node->argedges()}, \%arglink);
+            }
+        }
+    }
+    print_sentence($graph);
+}
+
+
+
+#------------------------------------------------------------------------------
+# Prints a graph in the CoNLL-U Plus format.
+#------------------------------------------------------------------------------
+sub print_sentence
+{
+    my $graph = shift;
     foreach my $comment (@{$graph->comments()})
     {
         # Comments are currently stored including the initial # character;
         # but line-terminating characters have been stripped.
         print("$comment\n");
     }
+    my $mlform = 0;
+    my $mlpred = 0;
+    my $mlargs = 0;
+    my $mlpatt = 0;
+    my $mlfeat = 0;
     foreach my $node ($graph->get_nodes())
     {
-        my $predicate = get_predicate($node);
-        my @arguments;
-        my $argpattern = '_';
-        unless($predicate eq '_')
-        {
-            $argpattern = get_argpattern($node, $predicate);
-            @arguments = get_arguments($node);
-        }
-        # Print the node including additional columns.
-        my @arglinks;
-        for(my $i = 0; $i <= $#arguments; $i++)
-        {
-            if(defined($arguments[$i]))
-            {
-                my $arglink = "arg$i:$arguments[$i]";
-                push(@arglinks, $arglink);
-            }
-        }
-        my $arglinks = scalar(@arglinks) > 0 ? join('|', @arglinks) : '_';
+        my $arglinks = scalar(@{$node->argedges()}) > 0 ? join('|', map {"$_->{deprel}:$_->{id}"} (@{$node->argedges()})) : '_';
+        # We will use the lengths of form and lemma in human-readable output format.
+        $mlform = length($node->form()) if(length($node->form()) > $mlform);
+        $mlpred = length($node->predicate()) if(length($node->predicate()) > $mlpred);
+        $mlargs = length($arglinks) if(length($arglinks) > $mlargs);
+        $mlpatt = length($node->argpattern()) if(length($node->argpattern()) > $mlpatt);
+        $mlfeat = length($node->get_feats_string()) if(length($node->get_feats_string()) > $mlfeat);
+    }
+    foreach my $node ($graph->get_nodes())
+    {
+        my $arglinks = scalar(@{$node->argedges()}) > 0 ? join('|', map {"$_->{deprel}:$_->{id}"} (@{$node->argedges()})) : '_';
         ###!!! In the final product, we will want to print the new columns at the end of the line.
         ###!!! However, for better readability during debugging, I am temporarily moving them closer to the beginning.
         my $nodeline = join("\t", ($node->id(),
             $node->form().(' ' x ($mlform-length($node->form()))),
-            $node->lemma().(' ' x ($mllemma-length($node->lemma()))),
             $node->upos(),
-            $predicate.(' ' x ($mllemma-length($predicate))),
-            $arglinks.(' ' x (13-length($arglinks))),
-            $argpattern, # místo nezajímavého $node->xpos(),
-            $node->get_feats_string(),
+            $node->predicate().(' ' x ($mlpred-length($node->predicate()))),
+            $arglinks.(' ' x ($mlargs-length($arglinks))),
+            $node->argpattern().(' ' x ($mlpatt-length($node->argpattern()))), # místo nezajímavého $node->xpos(),
+            $node->get_feats_string().(' ' x ($mlfeat-length($node->get_feats_string()))),
             $node->bparent(), $node->bdeprel(), $node->get_deps_string(),
-            $node->get_misc_string()
+            $node->get_misc_string(),
+            $node->lemma()
             ));
         print("$nodeline\n");
     }
@@ -174,6 +202,10 @@ sub get_predicate
         my $graph = $node->graph();
         if(scalar(@explpv) >= 1)
         {
+            ###!!! Language-specific: In German and Dutch, compound:prt should be
+            ###!!! inserted as a prefix of the infinitive. Any other compounds,
+            ###!!! as well as the reflexive sich/zich, should still go as additional
+            ###!!! words after the infinitive.
             $predicate .= ' '.join(' ', map {lc($graph->node($_->{id})->form())} (@explpv));
         }
     }

@@ -26,6 +26,9 @@ has 'oedges'  => (is => 'rw', isa => 'ArrayRef', default => sub {[]}, documentat
 has 'bparent' => (is => 'rw', isa => 'Str', documentation => 'Parent node in the basic tree.');
 has 'bdeprel' => (is => 'rw', isa => 'Str', documentation => 'Type of relation between this node and its parent in the basic tree.');
 has 'bchildren' => (is=>'rw', isa => 'ArrayRef', default => sub {[]}, documentation => 'Array of ids of children in the basic tree.');
+has 'predicate' => (is => 'rw', isa => 'Str', documentation => 'Lemma and frame identifier of the predicate.');
+has 'argedges'  => (is => 'rw', isa => 'ArrayRef', default => sub {[]}, documentation => 'Array of records of edges from a predicate to its arguments, labeled with argument labels.');
+has 'argpattern' => (is => 'rw', isa => 'Str', documentation => 'Predicate with the pattern of deprels of its arguments.');
 
 
 
