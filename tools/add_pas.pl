@@ -321,7 +321,10 @@ sub get_arguments
     {
         print STDERR ("WARNING: Direct object in a passive clause.\n");
     }
-    ###!!! In the future, we will look at obl:arg, too.
+    ###!!! In the future, we will look at obl:arg, too. However, we will have to
+    ###!!! run it twice. First collect the surface frames of each predicate, then
+    ###!!! define a canonical ordering so that the same argument always gets the
+    ###!!! same number.
     unless($is_passive_clause)
     {
         # Subject of active clause is argument 1.
