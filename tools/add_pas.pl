@@ -280,90 +280,105 @@ sub get_arguments
 {
     my $node = shift;
     my @arguments;
-    my @oedges = get_oedges_except_conj_propagated($node);
-    ###!!! Later on, we will look at obl:arg, nsubj:pass, obl:agent etc.
-    ###!!! For now, we only look at nsubj, obj, and iobj.
-    ###!!! Only look at active clauses now!
-    my @passive = grep {$_->{deprel} =~ m/:pass(:|$)/} (@oedges);
-    unless(scalar(@passive) > 0)
+    # We want to be able to identify suspicious clauses with multiple instances
+    # of the same type of argument. Therefore we have to filter out dependencies
+    # propagated across coordination. However, when we will be actually marking
+    # the arguments, we will want to include the conjuncts too!
+    my @oedges_noconj = get_oedges_except_conj_propagated($node);
+    my @oedges = @{$node->oedges()};
+    my $is_passive_clause = any {$_->{deprel} =~ m/:pass(:|$)/} (@oedges);
+    my $n_subj_act  = scalar(grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} ne 'nsubj:pass'} (@oedges_noconj));
+    my $n_subj_pass = scalar(grep {$_->{deprel} =~ m/^[nc]subj:pass(:|$)/} (@oedges_noconj));
+    my $n_dobj      = scalar(grep {$_->{deprel} =~ m/^(obj|ccomp)(:|$)/} (@oedges_noconj));
+    my $n_iobj      = scalar(grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges_noconj));
+    my $n_agent     = scalar(grep {$_->{deprel} =~ m/^obl:agent(:|$)/} (@oedges_noconj));
+    my $n_xcomp     = scalar(grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@oedges_noconj));
+    if($n_subj_act + $n_subj_pass > 1)
     {
-        # There should be at most one subject. In an active clause, we will make it argument 1.
-        my @subjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} ne 'nsubj:pass'} (@oedges);
-        my $n = scalar(@subjects);
-        if($n > 1)
+        print STDERR ("WARNING: More than 1 subject, not in coordination.\n");
+    }
+    if($n_dobj > 1)
+    {
+        print STDERR ("WARNING: More than 1 direct object, not in coordination.\n");
+    }
+    if($n_iobj > 1)
+    {
+        print STDERR ("WARNING: More than 1 indirect object, not in coordination.\n");
+    }
+    if($n_agent > 1)
+    {
+        print STDERR ("WARNING: More than 1 oblique agent, not in coordination.\n");
+    }
+    if($n_xcomp > 1)
+    {
+        print STDERR ("WARNING: More than 1 open clausal complement, not in coordination.\n");
+    }
+    if($is_passive_clause && $n_subj_act > 0)
+    {
+        print STDERR ("WARNING: Non-passive subject in a passive clause.\n");
+    }
+    if($is_passive_clause && $n_dobj > 0)
+    {
+        print STDERR ("WARNING: Direct object in a passive clause.\n");
+    }
+    ###!!! In the future, we will look at obl:arg, too.
+    unless($is_passive_clause)
+    {
+        # Subject of active clause is argument 1.
+        my @subjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/} (@oedges);
+        if(scalar(@subjects) > 0)
         {
-            print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
+            @{$arguments[1]} = map {$_->{id}} (@subjects);
         }
-        elsif($n == 1)
+        # Direct object of active clause is argument 2.
+        # We treat ccomp as a clausal version of a direct object.
+        my @dobjects = grep {$_->{deprel} =~ m/^(obj|ccomp)(:|$)/} (@oedges);
+        if(scalar(@dobjects) > 0)
         {
-            $arguments[1] = $subjects[0]->{id};
+            @{$arguments[2]} = map {$_->{id}} (@dobjects);
         }
-        # There should be at most one direct object. In an active clause, we will make it argument 2.
-        my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
-        $n = scalar(@dobjects);
-        if($n > 1)
-        {
-            print STDERR ("WARNING: Cannot deal with more than 1 direct object.\n");
-        }
-        elsif($n == 1)
-        {
-            $arguments[2] = $dobjects[0]->{id};
-        }
-        # There should be at most one indirect object. In an active clause, we will make it argument 3.
+        # Indirect object of active clause is argument 3.
         my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
-        $n = scalar(@iobjects);
-        if($n > 1)
+        if(scalar(@iobjects) > 0)
         {
-            print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
+            @{$arguments[3]} = map {$_->{id}} (@iobjects);
         }
-        elsif($n == 1)
+        # We make open clausal complement argument 4 to avoid conflict with indirect object,
+        # although the examples of iobj and xcomp in the same clause that we observed so far
+        # seem to be annotation errors.
+        my @xcomps = grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@oedges);
+        if(scalar(@xcomps) > 0)
         {
-            $arguments[3] = $iobjects[0]->{id};
+            @{$arguments[4]} = map {$_->{id}} (@xcomps);
         }
     }
     else # detected passive clause
     {
-        # A passive subject is argument 2. But if the subject is not
-        # labeled with the ':pass' subtype, it is suspicious.
-        my @passsubjects = grep {$_->{deprel} =~ m/^[nc]subj:pass(:|$)/} (@oedges);
-        my @actsubjects = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/ && $_->{deprel} !~ m/^[nc]subj:pass(:|$)/} (@oedges);
-        my @dobjects = grep {$_->{deprel} =~ m/^obj(:|$)/} (@oedges);
+        # Subject of passive clause is argument 2.
+        my @subjects = grep {$_->{deprel} =~ m/^[nc]subj:pass(:|$)/} (@oedges);
         my @iobjects = grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges);
+        my @xcomps = grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@oedges);
         my @agents = grep {$_->{deprel} =~ m/^obl:agent(:|$)/} (@oedges);
-        if(scalar(@actsubjects) > 0)
+        if(scalar(@subjects) > 0)
         {
-            print STDERR ("WARNING: Subject of passive clause is labeled '$actsubjects[0]{deprel}'.\n");
+            @{$arguments[2]} = map {$_->{id}} (@subjects);
         }
-        if(scalar(@dobjects) > 0)
+        # Indirect object of passive clause is argument 3 (same as in active clause).
+        if(scalar(@iobjects) > 0)
         {
-            print STDERR ("WARNING: Cannot deal with direct object in a passive clause.\n");
+            @{$arguments[3]} = map {$_->{id}} (@iobjects);
         }
-        my $n = scalar(@passsubjects);
-        if($n > 1)
+        # We make open clausal complement argument 4 to avoid conflict with indirect object,
+        # although the examples of iobj and xcomp in the same clause that we observed so far
+        # seem to be annotation errors.
+        if(scalar(@xcomps) > 0)
         {
-            print STDERR ("WARNING: Cannot deal with more than 1 subject.\n");
+            @{$arguments[4]} = map {$_->{id}} (@xcomps);
         }
-        elsif($n == 1)
+        # Oblique agent in passive clause is argument 1.
+        if(scalar(@agents) > 0)
         {
-            $arguments[2] = $passsubjects[0]->{id};
-        }
-        $n = scalar(@iobjects);
-        if($n > 1)
-        {
-            print STDERR ("WARNING: Cannot deal with more than 1 indirect object.\n");
-        }
-        elsif($n == 1)
-        {
-            $arguments[3] = $iobjects[0]->{id};
-        }
-        $n = scalar(@agents);
-        if($n > 1)
-        {
-            print STDERR ("WARNING: Cannot deal with more than 1 oblique agent.\n");
-        }
-        elsif($n == 1)
-        {
-            $arguments[1] = $agents[0]->{id};
+            @{$arguments[1]} = map {$_->{id}} (@agents);
         }
     }
     return @arguments;

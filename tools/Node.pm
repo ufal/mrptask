@@ -344,7 +344,7 @@ sub get_args_string
     }
     else
     {
-        return join('|', map {"$_->{deprel}:$_->{id}"} (@argedges));
+        return join('|', map {my $a = $_; my $ids = ref($a->{id}) eq 'ARRAY' ? join(',', @{$a->{id}}) : $a->{id}; "$a->{deprel}:$ids"} (@argedges));
     }
 }
 
