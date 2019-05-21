@@ -273,10 +273,22 @@ sub get_deps_string
     my $self = shift;
     my @iedges = sort
     {
-        my $r = $a->{id} <=> $b->{id}; ###!!! This does not ensure that 3.14 > 3.2!
+        # Ids of empty nodes look like decimal numbers but in fact, 3.14 is
+        # considered greater than 3.2.
+        $a->{id} =~ m/^(\d+)(?:\.(\d+))?$/;
+        my $amaj = $1;
+        my $amin = defined($2) ? $2 : 0;
+        $b->{id} =~ m/^(\d+)(?:\.(\d+))?$/;
+        my $bmaj = $1;
+        my $bmin = defined($2) ? $2 : 0;
+        my $r = $amaj <=> $bmaj;
         unless($r)
         {
-            $r = $a->{deprel} cmp $b->{deprel};
+            $r = $amin <=> $bmin;
+            unless($r)
+            {
+                $r = $a->{deprel} cmp $b->{deprel};
+            }
         }
         $r
     }
@@ -313,6 +325,27 @@ sub get_out_degree
     confess('Incorrect number of arguments') if(scalar(@_) != 1);
     my $self = shift;
     return scalar(@{$self->oedges()});
+}
+
+
+
+#------------------------------------------------------------------------------
+# Returns predicate-argument edges as string that can be used in a CoNLL-U Plus
+# file.
+#------------------------------------------------------------------------------
+sub get_args_string
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 1);
+    my $self = shift;
+    my @argedges = @{$self->argedges()};
+    if(scalar(@argedges)==0)
+    {
+        return '_';
+    }
+    else
+    {
+        return join('|', map {"$_->{deprel}:$_->{id}"} (@argedges));
+    }
 }
 
 

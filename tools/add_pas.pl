@@ -34,12 +34,14 @@ use Node;
 my %argpatterns;
 my %pargpatterns;
 my @sentence;
+my $first_sentence = 1;
 while(<>)
 {
     if(m/^\s*$/)
     {
         process_sentence(@sentence);
         @sentence = ();
+        $first_sentence = 0;
     }
     else
     {
@@ -123,7 +125,7 @@ sub process_sentence
             }
         }
     }
-    print_sentence($graph);
+    print_sentence($graph, $first_sentence, 1);
 }
 
 
@@ -134,6 +136,19 @@ sub process_sentence
 sub print_sentence
 {
     my $graph = shift;
+    my $header = shift; # print the column headers? Only before the first sentence of a file.
+    my $debug = shift; # make columns wider using spaces? Put certain columns forward because they are more interesting?
+    if($header)
+    {
+        if($debug)
+        {
+            print("\# global.columns = ID FORM PRED ARGS ARGPATT FEATS HEAD DEPREL DEPS MISC LEMMA\n");
+        }
+        else
+        {
+            print("\# global.columns = ID FORM LEMMA UPOS XPOS FEATS HEAD DEPREL DEPS MISC PRED ARGS\n");
+        }
+    }
     foreach my $comment (@{$graph->comments()})
     {
         # Comments are currently stored including the initial # character;
@@ -145,33 +160,48 @@ sub print_sentence
     my $mlargs = 0;
     my $mlpatt = 0;
     my $mlfeat = 0;
-    foreach my $node ($graph->get_nodes())
+    if($debug)
     {
-        my $arglinks = scalar(@{$node->argedges()}) > 0 ? join('|', map {"$_->{deprel}:$_->{id}"} (@{$node->argedges()})) : '_';
-        # We will use the lengths of form and lemma in human-readable output format.
-        $mlform = length($node->form()) if(length($node->form()) > $mlform);
-        $mlpred = length($node->predicate()) if(length($node->predicate()) > $mlpred);
-        $mlargs = length($arglinks) if(length($arglinks) > $mlargs);
-        $mlpatt = length($node->argpattern()) if(length($node->argpattern()) > $mlpatt);
-        $mlfeat = length($node->get_feats_string()) if(length($node->get_feats_string()) > $mlfeat);
+        foreach my $node ($graph->get_nodes())
+        {
+            my $arglinks = $node->get_args_string();
+            my $feats = $node->get_feats_string();
+            # We will use the lengths of form and lemma in human-readable output format.
+            $mlform = length($node->form()) if(length($node->form()) > $mlform);
+            $mlpred = length($node->predicate()) if(length($node->predicate()) > $mlpred);
+            $mlargs = length($arglinks) if(length($arglinks) > $mlargs);
+            $mlpatt = length($node->argpattern()) if(length($node->argpattern()) > $mlpatt);
+            $mlfeat = length($feats) if(length($feats) > $mlfeat);
+        }
+        foreach my $node ($graph->get_nodes())
+        {
+            my $arglinks = $node->get_args_string();
+            ###!!! In the final product, we will want to print the new columns at the end of the line.
+            ###!!! However, for better readability during debugging, I am temporarily moving them closer to the beginning.
+            my $nodeline = join("\t", ($node->id(),
+                $node->form().(' ' x ($mlform-length($node->form()))),
+                $node->upos(),
+                $node->predicate().(' ' x ($mlpred-length($node->predicate()))),
+                $arglinks.(' ' x ($mlargs-length($arglinks))),
+                $node->argpattern().(' ' x ($mlpatt-length($node->argpattern()))), # místo nezajímavého $node->xpos(),
+                $node->get_feats_string().(' ' x ($mlfeat-length($node->get_feats_string()))),
+                $node->bparent(), $node->bdeprel(), $node->get_deps_string(),
+                $node->get_misc_string(),
+                $node->lemma()
+                ));
+            print("$nodeline\n");
+        }
     }
-    foreach my $node ($graph->get_nodes())
+    else
     {
-        my $arglinks = scalar(@{$node->argedges()}) > 0 ? join('|', map {"$_->{deprel}:$_->{id}"} (@{$node->argedges()})) : '_';
-        ###!!! In the final product, we will want to print the new columns at the end of the line.
-        ###!!! However, for better readability during debugging, I am temporarily moving them closer to the beginning.
-        my $nodeline = join("\t", ($node->id(),
-            $node->form().(' ' x ($mlform-length($node->form()))),
-            $node->upos(),
-            $node->predicate().(' ' x ($mlpred-length($node->predicate()))),
-            $arglinks.(' ' x ($mlargs-length($arglinks))),
-            $node->argpattern().(' ' x ($mlpatt-length($node->argpattern()))), # místo nezajímavého $node->xpos(),
-            $node->get_feats_string().(' ' x ($mlfeat-length($node->get_feats_string()))),
-            $node->bparent(), $node->bdeprel(), $node->get_deps_string(),
-            $node->get_misc_string(),
-            $node->lemma()
-            ));
-        print("$nodeline\n");
+        foreach my $node ($graph->get_nodes())
+        {
+            my $nodeline = join("\t", ($node->id(),
+                $node->form(), $node->lemma(), $node->upos(), $node->xpos(), $node->get_feats_string(),
+                $node->bparent(), $node->bdeprel(), $node->get_deps_string(), $node->get_misc_string(),
+                $node->predicate(), $node->get_args_string()));
+            print("$nodeline\n");
+        }
     }
     print("\n");
 }
