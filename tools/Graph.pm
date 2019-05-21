@@ -67,22 +67,9 @@ sub get_nodes
     my $self = shift;
     my @list = map {$self->get_node($_)} (sort
     {
-        # Ids of empty nodes look like decimal numbers but in fact, 3.14 is
-        # considered greater than 3.2.
-        $a =~ m/^(\d+)(?:\.(\d+))?$/;
-        my $amaj = $1;
-        my $amin = defined($2) ? $2 : 0;
-        $b =~ m/^(\d+)(?:\.(\d+))?$/;
-        my $bmaj = $1;
-        my $bmin = defined($2) ? $2 : 0;
-        my $r = $amaj <=> $bmaj;
-        unless($r)
-        {
-            $r = $amin <=> $bmin;
-        }
-        $r
+        Node::cmpids($a, $b)
     }
-    (grep {$_ != 0} (keys(%{$self->nodes()}))));
+    (grep {$_ ne '0'} (keys(%{$self->nodes()}))));
     return @list;
 }
 

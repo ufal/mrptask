@@ -273,22 +273,10 @@ sub get_deps_string
     my $self = shift;
     my @iedges = sort
     {
-        # Ids of empty nodes look like decimal numbers but in fact, 3.14 is
-        # considered greater than 3.2.
-        $a->{id} =~ m/^(\d+)(?:\.(\d+))?$/;
-        my $amaj = $1;
-        my $amin = defined($2) ? $2 : 0;
-        $b->{id} =~ m/^(\d+)(?:\.(\d+))?$/;
-        my $bmaj = $1;
-        my $bmin = defined($2) ? $2 : 0;
-        my $r = $amaj <=> $bmaj;
+        my $r = cmpids($a->{id}, $b->{id});
         unless($r)
         {
-            $r = $amin <=> $bmin;
-            unless($r)
-            {
-                $r = $a->{deprel} cmp $b->{deprel};
-            }
+            $r = $a->{deprel} cmp $b->{deprel};
         }
         $r
     }
@@ -301,6 +289,44 @@ sub get_deps_string
     {
         return join('|', map {"$_->{id}:$_->{deprel}"} (@iedges));
     }
+}
+
+
+
+#------------------------------------------------------------------------------
+# Compares ids of two nodes or multi-word tokens and returns -1, 0, or 1,
+# reflecting the order in which the lines must appear in a CoNLL-U file.
+# This is a static function that does not take a pointer to a Node object.
+#------------------------------------------------------------------------------
+sub cmpids
+{
+    my $a = shift;
+    my $b = shift;
+    # Ids of empty nodes look like decimal numbers but in fact, 3.14 is
+    # considered greater than 3.2.
+    # Furthermore, there may be interval ids of multi-word tokens (e.g. 3-4).
+    # The intervals cannot overlap within one sentence, but the line must be
+    # before the lines of the tokens in the interval.
+    $a =~ m/^(\d+)(?:\.(\d+))?(?:-(\d+))?$/;
+    my $amaj = $1; confess("Unexpected node id '$a->{id}'") if(!defined($amaj));
+    my $amin = defined($2) ? $2 : 0;
+    my $amwt = defined($3) ? $3 : 0;
+    $b =~ m/^(\d+)(?:\.(\d+))?$/;
+    my $bmaj = $1; confess("Unexpected node id '$b->{id}'") if(!defined($bmaj));
+    my $bmin = defined($2) ? $2 : 0;
+    my $bmwt = defined($3) ? $3 : 0;
+    my $r = $amaj <=> $bmaj;
+    unless($r)
+    {
+        $r = $amin <=> $bmin;
+        unless($r)
+        {
+            # MWT line goes before the first word line. Hence any nonzero xmwt
+            # is "smaller" than zero.
+            $r = $bmwt <=> $amwt;
+        }
+    }
+    return $r;
 }
 
 
