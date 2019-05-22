@@ -9,7 +9,7 @@ for i in UD_* ; do
   for j in $i/*.conllu ; do
     echo "  $j"
     $UDTOOLS/conllu_to_text.pl $j > /tmp/ctt.txt
-    diff $UD24/`basename $j .conllu`.txt /tmp/ctt.txt
+    diff $UD24/$i/`basename $j .conllu`.txt /tmp/ctt.txt
     rm /tmp/ctt.txt
   done
 done
