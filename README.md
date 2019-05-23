@@ -1,6 +1,11 @@
 [http://mrp.nlpl.eu/](http://mrp.nlpl.eu/)
 `/net/work/projects/mrptask`
 
+Download training data from LDC:
+
+* [https://catalog.ldc.upenn.edu/organization/downloads](https://catalog.ldc.upenn.edu/organization/downloads)
+  * Log-in as Dan. He is the contact point for Charles University, and only he can download the data.
+
 # TO DO
 
 * Ask organizers for the companion data we want to use:
