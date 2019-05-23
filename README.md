@@ -5,6 +5,8 @@ Download training data from LDC:
 
 * [https://catalog.ldc.upenn.edu/organization/downloads](https://catalog.ldc.upenn.edu/organization/downloads)
   * Log-in as Dan. He is the contact point for Charles University, and only he can download the data.
+* [Update of UCCA training data](http://svn.nlpl.eu/mrp/2019/public/ucca.tgz) can be downloaded directly from the shared task website.
+* [UDPipe-analyzed training data](http://svn.nlpl.eu/mrp/2019/public/companion.tgz) available as Companion Data.
 
 # TO DO
 
