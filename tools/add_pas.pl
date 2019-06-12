@@ -57,7 +57,7 @@ if($config{folder} !~ m/^UD_[A-Z]/)
 {
     die("--folder must provide the name of the UD treebank repository");
 }
-if($config{file} !~ m-^[-a-z_]+\.conllu$-)
+if($config{file} !~ m/^[-a-z_]+\.conllu$/)
 {
     die("--file must provide the name of the source CoNLL-U file (without path)");
 }
