@@ -104,9 +104,9 @@ sub process_sentence
     {
         my $predicate = get_predicate($node);
         $node->set_predicate($predicate);
-        my $argpattern = '_';
+        my $argpattern = '*';
         my @arguments;
-        unless($predicate eq '_')
+        unless($predicate eq '*')
         {
             $argpattern = get_argpattern($node, $predicate);
             @arguments = get_arguments($node);
@@ -142,11 +142,11 @@ sub print_sentence
     {
         if($debug)
         {
-            print("\# global.columns = ID FORM PRED ARGS ARGPATT FEATS HEAD DEPREL DEPS MISC LEMMA\n");
+            print("\# global.columns = ID FORM DEEP:PRED DEEP:ARGS DEEP:ARGPATT FEATS HEAD DEPREL DEPS MISC LEMMA\n");
         }
         else
         {
-            print("\# global.columns = ID FORM LEMMA UPOS XPOS FEATS HEAD DEPREL DEPS MISC PRED ARGS\n");
+            print("\# global.columns = ID FORM LEMMA UPOS XPOS FEATS HEAD DEPREL DEPS MISC DEEP:PRED DEEP:ARGS\n");
         }
     }
     foreach my $comment (@{$graph->comments()})
@@ -215,7 +215,7 @@ sub print_sentence
 sub get_predicate
 {
     my $node = shift;
-    my $predicate = '_';
+    my $predicate = '*';
     # We will skip verbs that are attached as compound to something else.
     # For example, in Dutch "laten zien" (2 verbs), "zien" is attached as compound to "laten".
     my $is_compound = any {$_->{deprel} =~ m/^compound(:|$)/} (@{$node->iedges()});

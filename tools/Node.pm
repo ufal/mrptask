@@ -366,7 +366,7 @@ sub get_args_string
     my @argedges = @{$self->argedges()};
     if(scalar(@argedges)==0)
     {
-        return '_';
+        return '*';
     }
     else
     {
