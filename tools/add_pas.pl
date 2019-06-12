@@ -42,8 +42,25 @@ $config{debug} = 0;
 $config{empty} = '_'; # '*'
 GetOptions
 (
-    'debug' => \$config{debug}
+    'debug' => \$config{debug},
+    # We need to know the identifiers of the underlying UD release and file
+    # because we must refer to them from every sentence.
+    'release' => \$config{release}, # e.g. http://hdl.handle.net/11234/1-2837
+    'folder'  => \$config{folder},  # e.g. UD_German-GSD
+    'file'    => \$config{file},    # e.g. de_gsd-ud-train.conllu
 );
+if($config{release} !~ m-^http://hdl.handle.net/-)
+{
+    die("--release must provide the http://hdl.handle.net/ identifier of the underlying UD release");
+}
+if($config{folder} !~ m/^UD_[A-Z]/)
+{
+    die("--folder must provide the name of the UD treebank repository");
+}
+if($config{file} !~ m-^[-a-z_]+\.conllu$-)
+{
+    die("--file must provide the name of the source CoNLL-U file (without path)");
+}
 
 my %argpatterns;
 my %pargpatterns;
@@ -167,6 +184,11 @@ sub print_sentence
     {
         # Comments are currently stored including the initial # character;
         # but line-terminating characters have been stripped.
+        if($comment =~ m/^\#\s*sent_id\s*=\s*(\S+)/)
+        {
+            my $sent_id = $1;
+            print("\# source_sent_id = conllu $config{release} $config{folder}/$config{file} $sent_id\n");
+        }
         print("$comment\n");
     }
     my $mlform = 0;
