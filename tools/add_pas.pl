@@ -9,6 +9,7 @@ binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use List::MoreUtils qw(any);
+use Getopt::Long;
 ###!!! We need to tell Perl where to find my graph modules. But we should
 ###!!! modify it so that it works on any computer!
 BEGIN
@@ -30,6 +31,12 @@ BEGIN
 use lib $libpath;
 use Graph;
 use Node;
+
+$config{debug} = 0;
+GetOptions
+(
+    'debug' => \$config{debug}
+);
 
 my %argpatterns;
 my %pargpatterns;
@@ -125,7 +132,7 @@ sub process_sentence
             }
         }
     }
-    print_sentence($graph, $first_sentence, 1);
+    print_sentence($graph, $first_sentence, $config{debug});
 }
 
 
