@@ -45,9 +45,9 @@ GetOptions
     'debug' => \$config{debug},
     # We need to know the identifiers of the underlying UD release and file
     # because we must refer to them from every sentence.
-    'release' => \$config{release}, # e.g. http://hdl.handle.net/11234/1-2837
-    'folder'  => \$config{folder},  # e.g. UD_German-GSD
-    'file'    => \$config{file},    # e.g. de_gsd-ud-train.conllu
+    'release=s' => \$config{release}, # e.g. http://hdl.handle.net/11234/1-2837
+    'folder=s'  => \$config{folder},  # e.g. UD_German-GSD
+    'file=s'    => \$config{file},    # e.g. de_gsd-ud-train.conllu
 );
 if($config{release} !~ m-^http://hdl.handle.net/-)
 {
