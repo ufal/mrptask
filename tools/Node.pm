@@ -366,7 +366,7 @@ sub get_args_string
     my @argedges = @{$self->argedges()};
     if(scalar(@argedges)==0)
     {
-        return '*';
+        return '_'; ###!!! $config{empty} in the main module may actually require '*' or something else here. Should we make it an optional parameter?
     }
     else
     {
