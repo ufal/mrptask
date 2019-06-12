@@ -33,6 +33,13 @@ use Graph;
 use Node;
 
 $config{debug} = 0;
+# The specification of the CoNLL-U Plus format (https://universaldependencies.org/ext-format.html)
+# recommends using '*' for empty but known values, and '_' for unknown values
+# (as in blind test data). It is used that way in the PARSEME initiative but
+# it is not used that way in core UD (where '_' serves both purposes). I still
+# don't know whether I like the '*' proposal and whether we actually need it.
+# But we should fix it once we release the data.
+$config{empty} = '_'; # '*'
 GetOptions
 (
     'debug' => \$config{debug}
@@ -111,9 +118,9 @@ sub process_sentence
     {
         my $predicate = get_predicate($node);
         $node->set_predicate($predicate);
-        my $argpattern = '*';
+        my $argpattern = $config{empty};
         my @arguments;
-        unless($predicate eq '*')
+        unless($predicate eq $config{empty})
         {
             $argpattern = get_argpattern($node, $predicate);
             @arguments = get_arguments($node);
@@ -222,7 +229,7 @@ sub print_sentence
 sub get_predicate
 {
     my $node = shift;
-    my $predicate = '*';
+    my $predicate = $config{empty};
     # We will skip verbs that are attached as compound to something else.
     # For example, in Dutch "laten zien" (2 verbs), "zien" is attached as compound to "laten".
     my $is_compound = any {$_->{deprel} =~ m/^compound(:|$)/} (@{$node->iedges()});
