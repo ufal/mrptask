@@ -311,7 +311,7 @@ sub cmpids
     my $amaj = $1; confess("Unexpected node id '$a->{id}'") if(!defined($amaj));
     my $amin = defined($2) ? $2 : 0;
     my $amwt = defined($3) ? $3 : 0;
-    $b =~ m/^(\d+)(?:\.(\d+))?$/;
+    $b =~ m/^(\d+)(?:\.(\d+))?(?:-(\d+))?$/;
     my $bmaj = $1; confess("Unexpected node id '$b->{id}'") if(!defined($bmaj));
     my $bmin = defined($2) ? $2 : 0;
     my $bmwt = defined($3) ? $3 : 0;

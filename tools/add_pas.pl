@@ -34,7 +34,8 @@ use Node;
 
 sub usage
 {
-    print STDERR ("Usage: perl add_pas.pl --release <handle-url> --folder UD_Language-TBK --file <conllufilename> <full-path-to-file>\n");
+    # Example: /net/work/people/zeman/mrptask/tools/add_pas.pl --release http://hdl.handle.net/11234/1-2988 --folder UD_Czech-PUD --file cs_pud-ud-test.conllu /net/work/people/droganova/Data_for_Enhancer/final_2.4/UD_Czech-PUD/cs_pud-ud-test.conllu |& less
+    print STDERR ("Usage: perl add_pas.pl [--debug] --release <handle-url> --folder UD_Language-TBK --file <conllufilename> <full-path-to-file>\n");
 }
 
 $config{debug} = 0;
