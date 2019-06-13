@@ -32,6 +32,11 @@ use lib $libpath;
 use Graph;
 use Node;
 
+sub usage
+{
+    print STDERR ("Usage: perl add_pas.pl --release <handle-url> --folder UD_Language-TBK --file <conllufilename> <full-path-to-file>\n");
+}
+
 $config{debug} = 0;
 # The specification of the CoNLL-U Plus format (https://universaldependencies.org/ext-format.html)
 # recommends using '*' for empty but known values, and '_' for unknown values
@@ -51,14 +56,17 @@ GetOptions
 );
 if($config{release} !~ m-^http://hdl.handle.net/-)
 {
+    usage();
     die("--release must provide the http://hdl.handle.net/ identifier of the underlying UD release");
 }
 if($config{folder} !~ m/^UD_[A-Z]/)
 {
+    usage();
     die("--folder must provide the name of the UD treebank repository");
 }
 if($config{file} !~ m/^[-a-z_]+\.conllu$/)
 {
+    usage();
     die("--file must provide the name of the source CoNLL-U file (without path)");
 }
 
