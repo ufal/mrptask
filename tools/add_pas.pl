@@ -34,8 +34,8 @@ use Node;
 
 sub usage
 {
-    # Example: /net/work/people/zeman/mrptask/tools/add_pas.pl --release http://hdl.handle.net/11234/1-2988 --folder UD_Czech-PUD --file cs_pud-ud-test.conllu /net/work/people/droganova/Data_for_Enhancer/final_2.4/UD_Czech-PUD/cs_pud-ud-test.conllu |& less
-    print STDERR ("Usage: perl add_pas.pl [--debug] --release <handle-url> --folder UD_Language-TBK --file <conllufilename> <full-path-to-file>\n");
+    # Example: /net/work/people/zeman/mrptask/tools/add_pas.pl --udpath /net/work/people/droganova/Data_for_Enhancer/final_2.4 --release http://hdl.handle.net/11234/1-2988 --folder UD_Czech-PUD --file cs_pud-ud-test.conllu |& less
+    print STDERR ("Usage: perl add_pas.pl [--debug] [--udpath <path-to-all-ud-folders>] --release <handle-url> --folder UD_Language-TBK --file <conllufilename>\n");
 }
 
 $config{debug} = 0;
@@ -46,9 +46,13 @@ $config{debug} = 0;
 # don't know whether I like the '*' proposal and whether we actually need it.
 # But we should fix it once we release the data.
 $config{empty} = '_'; # '*'
+$config{udpath} = '.';
 GetOptions
 (
     'debug' => \$config{debug},
+    # We need the path to the folder with all UD repositories that are to be augmented.
+    # We will get the treebank and file name separately and we will construct the full path ourselves.
+    'udpath=s' => \$config{udpath},
     # We need to know the identifiers of the underlying UD release and file
     # because we must refer to them from every sentence.
     'release=s' => \$config{release}, # e.g. http://hdl.handle.net/11234/1-2837
@@ -70,6 +74,9 @@ if($config{file} !~ m/^[-a-z_]+\.conllu$/)
     usage();
     die("--file must provide the name of the source CoNLL-U file (without path)");
 }
+# This script uses the usual while(<>) to read input. Let's make sure that
+# there is just one argument with the full path to the source file.
+@ARGV = ("$config{udpath}/$config{folder}/$config{file}");
 
 my %argpatterns;
 my %pargpatterns;
