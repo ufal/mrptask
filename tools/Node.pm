@@ -202,6 +202,13 @@ sub set_basic_dep_from_conllu
         $self->set_bdeprel($deprel);
         push(@{$self->graph()->get_node($head)->bchildren()}, $self->id());
     }
+    # We must set bparent and bdeprel even if they are undefined ('_').
+    # They are undefined on multiword token lines but we must preserve and output '_' on these lines.
+    else
+    {
+        $self->set_bparent('_');
+        $self->set_bdeprel('_');
+    }
 }
 
 
