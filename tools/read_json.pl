@@ -38,6 +38,7 @@ while(<>)
         push(@snodes, join('_', @surfaces));
     }
     print("There are $n nodes: ", join(', ', @snodes), "\n");
+    get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
 }
 
 
@@ -45,13 +46,18 @@ while(<>)
 #------------------------------------------------------------------------------
 # Finds tokenization consistent with the anchors of the nodes.
 #------------------------------------------------------------------------------
-sub get_tokens
+sub get_tokens_for_graph
 {
     my $input = shift; # the input sentence, surface text
     my $nodes = shift; # arrayref, graph nodes
     my @input = split(//, $input);
     my @nodes = @{$nodes};
-    my @covered; # flag for each character whether a node is anchored to it
+    # Global projection from characters to corresponding token objects.
+    # N-th position in the array corresponds to the n-th input character.
+    # The value at the n-th position is undefined if the character is not (yet) part of any token.
+    # Otherwise it is a hash reference. The target hash is either a graph node,
+    # or a simple surface token (padding) that is not part of the graph structure.
+    my @gc2t = map {undef} (@input);
     foreach my $node (@nodes)
     {
         foreach my $anchor (@{$node->{anchors}})
@@ -60,11 +66,11 @@ sub get_tokens
             my $t = $anchor->{to};
             for(my $i = $f; $i <= $t; $i++)
             {
-                if($covered[$i])
+                if(defined($gc2t[$i]))
                 {
                     print STDERR ("WARNING: Multiple nodes are anchored to character $i.\n");
                 }
-                $covered[$i]++;
+                $gc2t[$i] = $node;
             }
         }
     }
@@ -72,26 +78,49 @@ sub get_tokens
     my ($current_text, $current_from, $current_to);
     for(my $i = 0; $i <= $#input + 1; $i++)
     {
-        if(($covered[$i] || $i > $#input) && defined($current_text))
+        if((defined($gc2t[$i]) || $i > $#input) && defined($current_text))
         {
-            $current_text =~ s/^\s+//;
-            $current_text =~ s/\s+$//;
-            $current_text =~ s/\s+/ /;
-            unless($current_text eq '')
+            my $modified_text = $current_text;
+            $modified_text =~ s/^\s+//;
+            $modified_text =~ s/\s+$//;
+            $modified_text =~ s/\s+/ /g;
+            unless($modified_text eq '')
             {
-                my %record =
-                (
-                    'text' => $current_text,
-                    'from' => $current_from,
-                    'to'   => $current_to
-                );
-                push(@paddings, \%record);
+                my @tokens = tokenize($modified_text);
+                my ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
+                # Sanity check.
+                if(scalar(@{$c2t}) != $current_to-$current_from+1)
+                {
+                    die("Incorrect length of \$c2t");
+                }
+                # Project the local map to the global map.
+                my @records;
+                for(my $j = 0; $j <= $#tokens; $j++)
+                {
+                    my %record =
+                    (
+                        'text' => $tokens[$j],
+                        'from' => $t2c[$j][0],
+                        'to'   => $t2c[$j][1]
+                    );
+                    push(@records, \%record);
+                    push(@paddings, \%record);
+                }
+                for(my $j = $current_from; $j <= $current_to; $j++)
+                {
+                    my $itok = $c2t[$j-$current_from];
+                    if($itok>0)
+                    {
+                        $itok--;
+                        $gc2t[$j] = $records[$itok];
+                    }
+                }
             }
             $current_text = undef;
             $current_from = undef;
             $current_to = undef;
         }
-        if(!$covered[$i] && $i <= $#input)
+        if(!defined($gc2t[$i]) && $i <= $#input)
         {
             if(!defined($current_from))
             {
@@ -101,4 +130,74 @@ sub get_tokens
             $current_text .= $input[$i];
         }
     }
+    ###!!! It is yet to determine what we want to return from this function.
+    print STDERR ('Paddings: ', join(' ', map {$_->{text}} (@paddings)), "\n");
+}
+
+
+
+#------------------------------------------------------------------------------
+# Takes an input string and returns the list of tokens in the string. This is
+# a naive tokenizer. We may want to replace it with something more sophistica-
+# ted, such as reading tokenized output of UDPipe.
+#------------------------------------------------------------------------------
+sub tokenize
+{
+    my $string = shift;
+    $string =~ s/(\pP)/ $1/g;
+    $string =~ s/^\s+//s;
+    $string =~ s/\s+$//s;
+    $string =~ s/\s+/ /sg;
+    my @tokens = split(/\s+/, $string);
+    return @tokens;
+}
+
+
+
+#------------------------------------------------------------------------------
+# Takes an input string and a list of tokens that constitute a tokenization of
+# the input string. The tokens must be ordered as in the input string, and they
+# must contain all non-whitespace characters of the string. The function
+# returns for each token a from-to anchor (character indices, starting with 0).
+# It also returns a list of inverse references, from each character to its
+# token (token indices start with 1, and 0 is used for whitespace characters
+# that do not correspond to any token).
+#------------------------------------------------------------------------------
+sub map_tokens_to_string
+{
+    my $string = shift;
+    my @tokens = @_;
+    my @anchors;
+    my @c2t = map {0} (1..length($string));
+    my $is = 0;
+    for(my $i = 0; $i <= $#tokens; $i++)
+    {
+        # We rely on the fact that tokens cannot contain spaces (unlike in UD).
+        if($tokens[$i] =~ m/\s/)
+        {
+            die("Token '$tokens[$i]' contains whitespace");
+        }
+        # Remove leading whitespace in the string.
+        my $lsbefore = length($string);
+        $string =~ s/^\s+//;
+        my $lsafter = length($string);
+        $is += $lsbefore-$lsafter;
+        # Verify that the string now begins with the next token.
+        my $l = length($tokens[$i]);
+        my $strstart = substr($string, 0, $l);
+        if($strstart ne $tokens[$i])
+        {
+            die("Mismatch: next token is '$tokens[$i]' but the remainder of the string is '$string'");
+        }
+        # Now we know the character span of the token in the string.
+        my $f = $is;
+        my $t = $is+$l-1;
+        push(@anchors, [$f, $t]);
+        my $itok = $i+1;
+        for(my $j = $f; $j <= $t; $j++)
+        {
+            $c2t[$j] = $itok;
+        }
+    }
+    return (\@anchors, \@c2t);
 }
