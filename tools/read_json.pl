@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 # Reads the MRP JSON file.
+# See http://mrp.nlpl.eu/index.php?page=4#format for a short description of the JSON graph format.
+# See http://alt.qcri.org/semeval2015/task18/index.php?id=data-and-tools for the specification of the SDP 2015 file format.
 # Copyright © 2019 Dan Zeman <zeman@ufal.mff.cuni.cz>
 # License: GNU GPL
 
@@ -20,20 +22,78 @@ use JSON::Parse ':all';
 while(<>)
 {
     my $jgraph = parse_json($_);
-    print("id = $jgraph->{id}\n");
-    print("$jgraph->{input}\n");
     my ($tokens, $gc2t) = get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
     my @tokens = @{$tokens};
     my @gc2t = @{$gc2t};
+    # Map node ids to node objects.
+    my %nodeidmap;
+    foreach my $node (@{$jgraph->{nodes}})
+    {
+        $nodeidmap{$node->{id}} = $node;
+    }
+    # For each node, save the incoming edges.
+    foreach my $edge (@{$jgraph->{edges}})
+    {
+        my $parent = $nodeidmap{$edge->{source}};
+        my $child = $nodeidmap{$edge->{target}};
+        die if(!defined($parent));
+        die if(!defined($child));
+        # A node is predicate if it has outgoing edges.
+        $parent->{is_pred} = 1;
+        my %record =
+        (
+            'parent' => $parent,
+            'label'  => $edge->{label}
+        );
+        push(@{$child->{iedges}}, \%record);
+    }
+    # For each predicate, remember its order among predicates.
+    my $predord = 0;
+    foreach my $node (@{$jgraph->{nodes}})
+    {
+        if($node->{is_pred})
+        {
+            $node->{predord} = $predord++;
+        }
+    }
+    my $npred = $predord;
     # Print the sentence graph in the SDP 2015 format.
-    print("\# $jgraph->{id}\n");
+    print("\#$jgraph->{id}\n");
+    #print("\# text = $jgraph->{input}\n"); # this is not part of the SDP format
     for(my $i = 0; $i <= $#tokens; $i++)
     {
-        my $id = $i+1;
+        my $id = $tokens[$i]{surfid};
         my $form = $tokens[$i]{text};
-        my $type = $tokens[$i]{is_node} ? 'N' : 'P';
-        my $start = $tokens[$i]{start};
-        print("$id\t$form\t$type\t$start\n");
+        my $lemma = '_';
+        my $pos = '_';
+        if($tokens[$i]{is_node} && $tokens[$i]{properties}[0] eq 'pos')
+        {
+            $pos = $tokens[$i]{values}[0];
+        }
+        my $top = ($tokens[$i]{is_node} && grep {$_ == $tokens[$i]{id}} (@{$jgraph->{tops}})) ? '+' : '-';
+        my $pred = $tokens[$i]{is_pred} ? '+' : '-';
+        my $frame = '_';
+        if($tokens[$i]{is_node} && $tokens[$i]{properties}[1] eq 'frame')
+        {
+            $frame = $tokens[$i]{values}[1];
+        }
+        my @iemap = map {'_'} (1..$npred);
+        if($tokens[$i]{is_node})
+        {
+            foreach my $iedge (@{$tokens[$i]{iedges}})
+            {
+                my $pord = $iedge->{parent}{predord};
+                die if(!defined($pord));
+                die if($iemap[$pord] ne '_');
+                $iemap[$pord] = $iedge->{label};
+            }
+        }
+        my $args = '';
+        if(scalar(@iemap) > 0)
+        {
+            $args = "\t".join("\t", @iemap);
+        }
+        print("$id\t$form\t$lemma\t$pos\t$top\t$pred\t$frame$args\n");
     }
     print("\n");
 }
@@ -139,6 +199,15 @@ sub get_tokens_for_graph
         # Make sure we can tell apart nodes from paddings.
         $node->{is_node} = 1;
         $node->{start} = -1;
+        # It would be natural for us to assume that every node is anchored to
+        # just one contiguous span of characters but it is not necessarily the
+        # case. Let us see whether and how often a node is unanchored, or
+        # anchored to multiple disjoint character spans.
+        my $nanchors = scalar(@{$node->{anchors}});
+        unless($nanchors == 1)
+        {
+            print STDERR ("WARNING: Node has $nanchors anchors.\n");
+        }
         my @surfaces;
         foreach my $anchor (@{$node->{anchors}})
         {
@@ -161,6 +230,26 @@ sub get_tokens_for_graph
         push(@tokens, $padding);
     }
     @tokens = sort {$a->{start} <=> $b->{start}} (@tokens);
+    # Sanity check. We ordered nodes by their starting position in the surface string.
+    # Are they also ordered by their ids?
+    # At the same time, remember the surface id (includes both nodes and non-nodes) of each token.
+    my $last_id = -1;
+    for(my $i = 0; $i <= $#tokens; $i++)
+    {
+        my $token = $tokens[$i];
+        $token->{surfid} = $i+1;
+        if($token->{is_node})
+        {
+            # Note that there are examples of sentences where some id numbers are skipped.
+            # For instance in DM, the original id from the full sentence was retained but some original tokens are not graph nodes.
+            if($token->{id} <= $last_id)
+            {
+                print STDERR ("Last id = $last_id; current id = $token->{id}\n");
+                die("Unexpected ordering or ids of graph nodes");
+            }
+            $last_id = $token->{id};
+        }
+    }
     return (\@tokens, \@gc2t);
 }
 
