@@ -22,29 +22,28 @@ while(<>)
     my $jgraph = parse_json($_);
     print("id = $jgraph->{id}\n");
     print("$jgraph->{input}\n");
-    my @nodes = @{$jgraph->{nodes}};
-    my $n = scalar(@nodes);
-    my @snodes;
-    foreach my $node (@nodes)
+    my ($tokens, $gc2t) = get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
+    my @tokens = @{$tokens};
+    my @gc2t = @{$gc2t};
+    # Print the sentence graph in the SDP 2015 format.
+    print("\# $jgraph->{id}\n");
+    for(my $i = 0; $i <= $#tokens; $i++)
     {
-        my @surfaces;
-        foreach my $anchor (@{$node->{anchors}})
-        {
-            my $f = $anchor->{from};
-            my $t = $anchor->{to};
-            my $surface = substr($jgraph->{input}, $f, $t-$f);
-            push(@surfaces, $surface);
-        }
-        push(@snodes, join('_', @surfaces));
+        my $id = $i+1;
+        my $form = $tokens[$i]{text};
+        my $type = $tokens[$i]{is_node} ? 'N' : 'P';
+        my $start = $tokens[$i]{start};
+        print("$id\t$form\t$type\t$start\n");
     }
-    print("There are $n nodes: ", join(', ', @snodes), "\n");
-    get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
+    print("\n");
 }
 
 
 
 #------------------------------------------------------------------------------
-# Finds tokenization consistent with the anchors of the nodes.
+# Finds tokenization consistent with the anchors of the nodes. Returns the
+# reference to the list of tokens (hashes), and the reference to character-to-
+# token mapping.
 #------------------------------------------------------------------------------
 sub get_tokens_for_graph
 {
@@ -162,9 +161,7 @@ sub get_tokens_for_graph
         push(@tokens, $padding);
     }
     @tokens = sort {$a->{start} <=> $b->{start}} (@tokens);
-    ###!!! It is yet to determine what we want to return from this function.
-    my $n = scalar(@tokens);
-    print STDERR ("There are $n tokens: ", join(' ', map {($_->{is_node} ? 'N' : 'P').':'.$_->{text}.':'.$_->{start}} (@tokens)), "\n");
+    return (\@tokens, \@gc2t);
 }
 
 
