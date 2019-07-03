@@ -221,6 +221,9 @@ sub get_tokens_for_graph
             push(@surfaces, $surface);
         }
         $node->{text} = join('_', @surfaces);
+        # We rely on the fact that tokens in SDP cannot contain spaces (unlike in UD).
+        # However, in the JSON file they sometimes do (e.g. ". . ."); so we must replace them with underscores.
+        $node->{text} =~ s/\s/_/g;
         push(@tokens, $node);
     }
     foreach my $padding (@paddings)
