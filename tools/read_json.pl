@@ -62,8 +62,10 @@ sub get_tokens_for_graph
     {
         foreach my $anchor (@{$node->{anchors}})
         {
+            # In JSON the range is right-open, i.e., 'to' is the first character after the span.
+            # In contrast, we understand 'to' as the index of the last character that is included.
             my $f = $anchor->{from};
-            my $t = $anchor->{to};
+            my $t = $anchor->{to}-1;
             for(my $i = $f; $i <= $t; $i++)
             {
                 if(defined($gc2t[$i]))
@@ -87,7 +89,8 @@ sub get_tokens_for_graph
             unless($modified_text eq '')
             {
                 my @tokens = tokenize($modified_text);
-                my ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
+                my ($t2c, $c2t);
+                ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
                 # Sanity check.
                 if(scalar(@{$c2t}) != $current_to-$current_from+1)
                 {
@@ -100,8 +103,8 @@ sub get_tokens_for_graph
                     my %record =
                     (
                         'text' => $tokens[$j],
-                        'from' => $t2c[$j][0],
-                        'to'   => $t2c[$j][1]
+                        'from' => $current_from + $t2c->[$j][0],
+                        'to'   => $current_from + $t2c->[$j][1]
                     );
                     push(@records, \%record);
                     push(@paddings, \%record);
@@ -130,8 +133,38 @@ sub get_tokens_for_graph
             $current_text .= $input[$i];
         }
     }
+    # Combine nodes and paddings in one array.
+    my @tokens;
+    foreach my $node (@nodes)
+    {
+        # Make sure we can tell apart nodes from paddings.
+        $node->{is_node} = 1;
+        $node->{start} = -1;
+        my @surfaces;
+        foreach my $anchor (@{$node->{anchors}})
+        {
+            my $f = $anchor->{from};
+            my $t = $anchor->{to}-1;
+            if($node->{start} == -1 || $node->{start} > $f)
+            {
+                $node->{start} = $f;
+            }
+            my $surface = substr($input, $f, $t-$f+1);
+            push(@surfaces, $surface);
+        }
+        $node->{text} = join('_', @surfaces);
+        push(@tokens, $node);
+    }
+    foreach my $padding (@paddings)
+    {
+        $padding->{is_node} = 0;
+        $padding->{start} = $padding->{from};
+        push(@tokens, $padding);
+    }
+    @tokens = sort {$a->{start} <=> $b->{start}} (@tokens);
     ###!!! It is yet to determine what we want to return from this function.
-    print STDERR ('Paddings: ', join(' ', map {$_->{text}} (@paddings)), "\n");
+    my $n = scalar(@tokens);
+    print STDERR ("There are $n tokens: ", join(' ', map {($_->{is_node} ? 'N' : 'P').':'.$_->{text}.':'.$_->{start}} (@tokens)), "\n");
 }
 
 
@@ -198,6 +231,8 @@ sub map_tokens_to_string
         {
             $c2t[$j] = $itok;
         }
+        # Consume the token we just mapped.
+        $string = substr($string, $l);
     }
     return (\@anchors, \@c2t);
 }
