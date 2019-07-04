@@ -106,7 +106,7 @@ while(<>)
         my @tokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
         # UDPipe seems to have been applied to unnormalized text while the input strings in JSON underwent some normalization.
         # Try to normalize the UDPipe word forms so we can match them.
-        @tokens = map
+        my @mtokens = map
         {
             s/[“”]/"/g; # "
             s/’/'/g; # '
@@ -118,17 +118,18 @@ while(<>)
         (@tokens);
         # Undo the spaces in '. . .' (see above).
         my $input = $jgraph->{input};
-        $input =~ s/\. \. \./.../g;
-        my ($t2c, $c2t) = map_tokens_to_string($input, @tokens);
+        my $we_did_the_dots = ($input =~ s/\. \. \./.../g);
+        my ($t2c, $c2t) = map_tokens_to_string($input, @mtokens);
         my @tokenranges = map {my @f = split(/\t/, $_); $f[9] =~ m/TokenRange=(\d+):(\d+)/; [$1, $2-1]} (@tokenlines);
         for(my $i = 0; $i <= $#tokenranges; $i++)
         {
             # Due to the normalizations, this error is almost guaranteed to occur and we cannot die on it in the final version.
-            if($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1])
+            if(($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1]) && !$we_did_the_dots)
             {
                 print STDERR ("JSON:   $jgraph->{input}\n");
                 print STDERR ("Modif:  $input\n");
                 print STDERR ("Tokens: ".join(' ', @tokens)."\n");
+                print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
                 print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
                 print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
                 die("Mismatch in character anchors");
