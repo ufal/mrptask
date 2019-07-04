@@ -435,19 +435,27 @@ sub get_sentence_companion
     my @ctokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
     # UDPipe seems to have been applied to unnormalized text while the input strings in JSON underwent some normalization.
     # Try to normalize the UDPipe word forms so we can match them.
-    my @mtokens = map
+    # Do not use map() because we may need to look at the neighboring token.
+    my @mtokens;
+    for(my $i = 0; $i <= $#ctokens; $i++)
     {
-        my $x = $_;
+        my $x = $ctokens[$i];
         $x =~ s/[“”]/"/g; # "
         $x =~ s/’/'/g; # '
         $x =~ s/‘/`/g; # `
         $x =~ s/–/--/g;
-        $x =~ s/…/. . ./g;
-        $x
+        # Handling of periods is not consistent; there is at least one example of '....' in the data, corresponding to '….'.
+        if($x eq '…' && $i < $#ctokens && $ctokens[$i+1] =~ m/^\./)
+        {
+            $x = '...';
+        }
+        else
+        {
+            $x =~ s/…/. . ./g;
+        }
+        push(@mtokens, $x);
     }
-    (@ctokens);
-    my $input = $jgraph->{input};
-    my ($t2c, $c2t) = map_tokens_to_string($input, @mtokens);
+    my ($t2c, $c2t) = map_tokens_to_string($jgraph->{input}, @mtokens);
     my @tokenranges = map {my @f = split(/\t/, $_); $f[9] =~ m/TokenRange=(\d+):(\d+)/; [$1, $2-1]} (@tokenlines);
     for(my $i = 0; $i <= $#tokenranges; $i++)
     {
@@ -456,7 +464,6 @@ sub get_sentence_companion
         {
             print STDERR ("sent_id $jgraph->{id}\n");
             print STDERR ("JSON:   $jgraph->{input}\n");
-            print STDERR ("Modif:  $input\n");
             print STDERR ("Tokens: ".join(' ', @ctokens)."\n");
             print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
             print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
