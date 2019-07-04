@@ -107,12 +107,21 @@ while(<>)
     {
         my $id = $tokens[$i]{surfid};
         my $form = $tokens[$i]{text};
-        my $lemma = '_';
+        my $lemma = $tokens[$i]{lemma};
         my $pos = '_';
-        if($tokens[$i]{is_node} && $tokens[$i]{properties}[0] eq 'pos')
+        if(0) # POS tags from JSON, if available (only for nodes).
         {
-            $pos = $tokens[$i]{values}[0];
+            if($tokens[$i]{is_node} && $tokens[$i]{properties}[0] eq 'pos')
+            {
+                $pos = $tokens[$i]{values}[0];
+            }
         }
+        else # XPOS tags from companion annotation (predicted by UDPipe for all tokens)
+        {
+            $pos = $tokens[$i]{xpos};
+        }
+        ###!!! There is one other vertical file that the parser needs, and it contains the deprels.
+        ###!!! We should generate one or the other file depending on a command-line switch.
         my $top = ($tokens[$i]{is_node} && grep {$_ == $tokens[$i]{id}} (@{$jgraph->{tops}})) ? '+' : '-';
         my $pred = $tokens[$i]{is_pred} ? '+' : '-';
         my $frame = '_';
@@ -311,6 +320,14 @@ sub get_tokens_for_graph
     if($njt != $nct)
     {
         print STDERR ("JSON has $njt tokens, companion has $nct.\n");
+        print STDERR ("WARNING: This mismatch means that we will copy lemmas and POS tags to wrong tokens!\n");
+    }
+    for(my $i = 0; $i <= $#tokens; $i++)
+    {
+        $tokens[$i]{lemma}  = $jgraph->{ctokens}[$i]{lemma};
+        $tokens[$i]{upos}   = $jgraph->{ctokens}[$i]{upos};
+        $tokens[$i]{xpos}   = $jgraph->{ctokens}[$i]{xpos};
+        $tokens[$i]{deprel} = $jgraph->{ctokens}[$i]{deprel};
     }
     return (\@tokens, \@gc2t);
 }
@@ -500,11 +517,17 @@ sub get_sentence_companion
     my @tokens;
     for(my $i = 0; $i <= $#mtokens; $i++)
     {
+        my @f = split(/\t/, $tokenlines[$i]);
         my %record =
         (
-            'text' => $mtokens[$i],
-            'from' => $t2c->[$i][0],
-            'to'   => $t2c->[$i][1]
+            'text'   => $mtokens[$i],
+            'from'   => $t2c->[$i][0],
+            'to'     => $t2c->[$i][1],
+            'ctext'  => $ctokens[$i],
+            'lemma'  => $f[2],
+            'upos'   => $f[3],
+            'xpos'   => $f[4],
+            'deprel' => $f[7]
         );
         push(@tokens, \%record);
     }
