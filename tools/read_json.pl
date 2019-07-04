@@ -10,12 +10,29 @@ use open ':utf8';
 binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
+use Getopt::Long;
 # JSON::Parse is a third-party module available from CPAN.
 # If you have Perl without JSON::Parse, try:
 #   cpanm JSON::Parse
 # If you don't have cpanm, try:
 #   cpan JSON::Parse
 use JSON::Parse ':all';
+
+sub usage
+{
+    print STDERR ("Usage: perl read_json.pl --companion data/wsj.conllu < data/wsj.mrp > data/wsj.sdp\n");
+}
+
+my $companion; # path to the CoNLL-U file with lemmas, POS tags and dependencies from UDPipe (if available)
+GetOptions
+(
+    'companion=s' => \$companion
+);
+if(defined($companion))
+{
+    # File handle COMPANION will be global and we will access it from functions.
+    open(COMPANION, $companion) or die("Cannot read $companion: $!");
+}
 
 # Individual input lines are complete JSON structures (sentence graphs).
 # The entire file is not valid JSON because the lines are not enclosed in an array and there are no commas at the ends of lines.
@@ -57,6 +74,24 @@ while(<>)
         }
     }
     my $npred = $predord;
+    # Read the companion data and merge it with the main graph.
+    if(defined($companion))
+    {
+        my @conllu = read_companion_sentence();
+        my $csid;
+        if(scalar(@conllu) >= 1 && $conllu[0] =~ m/^\#(\d+)$/)
+        {
+            $csid = $1;
+        }
+        if(!defined($csid))
+        {
+            die("Unknown id of the companion sentence");
+        }
+        if($csid ne $jgraph->{id})
+        {
+            die("Sentence id mismatch: JSON '$jgraph->{id}', companion '$csid'");
+        }
+    }
     # Print the sentence graph in the SDP 2015 format.
     print("\#$jgraph->{id}\n");
     #print("\# text = $jgraph->{input}\n"); # this is not part of the SDP format
@@ -324,4 +359,24 @@ sub map_tokens_to_string
         $string = substr($string, $l);
     }
     return (\@anchors, \@c2t);
+}
+
+
+
+#------------------------------------------------------------------------------
+# Reads a dependency tree from the companion CoNLL-U file.
+#------------------------------------------------------------------------------
+sub read_companion_sentence
+{
+    my @sentence;
+    while(<COMPANION> && !m/^\s*$/)
+    {
+        s/\r?\n$//;
+        push(@sentence, $_);
+    }
+    if(scalar(@sentence)==0)
+    {
+        print STDERR ("WARNING: No more companion sentences.\n");
+    }
+    return @sentence;
 }
