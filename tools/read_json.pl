@@ -139,6 +139,14 @@ while(<>)
                 last; # If we survived, do not report subsequent errors in this sentence.
             }
         }
+        # We can now also compare the tokenization based on JSON nodes and my split of paddings, vs. the companion tokenization.
+        ###!!! We are looking at the total number of tokens but it is of course possible that the number will be the same but the token boundaries will not.
+        if(scalar(@ctokens) != scalar(@tokens))
+        {
+            print STDERR ("sent_id $jgraph->{id} tokenization mismatch\n");
+            print STDERR ("JSON+PADD: ".join(' ', map {$_->{text}} (@tokens))."\n");
+            print STDERR ("COMPANION: ".join(' ', @ctokens)."\n");
+        }
     }
     # Print the sentence graph in the SDP 2015 format.
     print("\#$jgraph->{id}\n");
