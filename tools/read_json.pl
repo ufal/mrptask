@@ -109,6 +109,7 @@ while(<>)
         @tokens = map
         {
             s/[“”]/"/g;
+            s/’/'/g;
             $_
         }
         (@tokens);
