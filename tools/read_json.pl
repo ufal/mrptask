@@ -31,6 +31,7 @@ GetOptions
 my %companion;
 if(defined($companion))
 {
+    print STDERR ("Reading the companion annotation...\n");
     # File handle COMPANION will be global and we will access it from functions.
     open(COMPANION, $companion) or die("Cannot read $companion: $!");
     # The sentences in the companion data are not ordered by their ids.
@@ -50,6 +51,7 @@ if(defined($companion))
         }
         $companion{$csid} = \@conllu;
     }
+    print STDERR ("... done.\n");
 }
 
 # Individual input lines are complete JSON structures (sentence graphs).
@@ -99,6 +101,10 @@ while(<>)
         {
             die("Cannot find companion annotation of input sentence '$jgraph->{id}'");
         }
+        # Sanity check: do the companion tokens match the input string from JSON?
+        my @tokenlines = grep {m/^\d/} (@{$companion{$jgraph->{id}}});
+        my @tokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
+        my ($t2c, $c2t) = map_tokens_to_string($jgraph->{input}, @tokens);
     }
     # Print the sentence graph in the SDP 2015 format.
     print("\#$jgraph->{id}\n");
