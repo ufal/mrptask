@@ -482,4 +482,6 @@ sub get_sentence_companion
     # Instead of returning the values, store them directly in %jgraph.
     $jgraph->{ctlines} = \@tokenlines;
     $jgraph->{ctokens} = \@tokens;
+    ###!!! DEBUGGING
+    print STDERR ("Companion tokens: ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n");
 }
