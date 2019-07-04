@@ -108,14 +108,17 @@ while(<>)
         # Try to normalize the UDPipe word forms so we can match them.
         @tokens = map
         {
-            s/[“”]/"/g;
-            s/’/'/g;
+            s/[“”]/"/g; # "
+            s/’/'/g; # '
             s/–/--/g;
             s/…/.../g; # In fact, they have even spaces ('. . .') in JSON. But we do not allow tokens with spaces.
             $_
         }
         (@tokens);
-        my ($t2c, $c2t) = map_tokens_to_string($jgraph->{input}, @tokens);
+        # Undo the spaces in '. . .' (see above).
+        my $input = $jgraph->{input};
+        $input =~ s/\. \. \./.../g;
+        my ($t2c, $c2t) = map_tokens_to_string($input, @tokens);
     }
     # Print the sentence graph in the SDP 2015 format.
     print("\#$jgraph->{id}\n");
