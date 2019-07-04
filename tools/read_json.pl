@@ -59,6 +59,11 @@ if(defined($companion))
 while(<>)
 {
     my $jgraph = parse_json($_);
+    # Read the companion data and merge it with the main graph.
+    if(defined($companion))
+    {
+        get_sentence_companion($jgraph, \%companion);
+    }
     my ($tokens, $gc2t) = get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
     my @tokens = @{$tokens};
     my @gc2t = @{$gc2t};
@@ -94,62 +99,6 @@ while(<>)
         }
     }
     my $npred = $predord;
-    # Read the companion data and merge it with the main graph.
-    if(defined($companion))
-    {
-        if(!exists($companion{$jgraph->{id}}))
-        {
-            die("Cannot find companion annotation of input sentence '$jgraph->{id}'");
-        }
-        # Sanity check: do the companion tokens match the input string from JSON?
-        my @tokenlines = grep {m/^\d/} (@{$companion{$jgraph->{id}}});
-        @ctokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines); ###!!! GLOBAL FOR A WHILE
-        # UDPipe seems to have been applied to unnormalized text while the input strings in JSON underwent some normalization.
-        # Try to normalize the UDPipe word forms so we can match them.
-        @mtokens = map ###!!! GLOBAL FOR A WHILE
-        {
-            my $x = $_;
-            $x =~ s/[“”]/"/g; # "
-            $x =~ s/’/'/g; # '
-            $x =~ s/‘/`/g; # `
-            $x =~ s/–/--/g;
-            $x =~ s/…/.../g; # In fact, they have even spaces ('. . .') in JSON. But we do not allow tokens with spaces.
-            $x
-        }
-        (@ctokens);
-        # Undo the spaces in '. . .' (see above).
-        my $input = $jgraph->{input};
-        my $we_did_the_dots = ($input =~ s/\. \. \./.../g);
-        ($t2c, $c2t) = map_tokens_to_string($input, @mtokens); # GLOBAL FOR A WHILE
-        my @tokenranges = map {my @f = split(/\t/, $_); $f[9] =~ m/TokenRange=(\d+):(\d+)/; [$1, $2-1]} (@tokenlines);
-        for(my $i = 0; $i <= $#tokenranges; $i++)
-        {
-            # Due to the normalizations, this error is almost guaranteed to occur and we cannot die on it in the final version.
-            if(($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1]) && !$we_did_the_dots)
-            {
-                print STDERR ("sent_id $jgraph->{id}\n");
-                print STDERR ("JSON:   $jgraph->{input}\n");
-                print STDERR ("Modif:  $input\n");
-                print STDERR ("Tokens: ".join(' ', @ctokens)."\n");
-                print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
-                print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
-                print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
-                print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
-                # Known problem: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
-                die unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')');
-                last; # If we survived, do not report subsequent errors in this sentence.
-            }
-        }
-        # We can now also compare the tokenization based on JSON nodes and my split of paddings, vs. the companion tokenization.
-        ###!!! We are looking at the total number of tokens but it is of course possible that the number will be the same but the token boundaries will not.
-        if(scalar(@ctokens) != scalar(@tokens))
-        {
-            print STDERR ("sent_id $jgraph->{id} tokenization mismatch\n");
-            print STDERR ("JSON node: ".join(' ', map {$_->{text}} (grep {$_->{is_node}} (@tokens)))."\n");
-            print STDERR ("JSON+PADD: ".join(' ', map {$_->{text}} (@tokens))."\n");
-            print STDERR ("COMPANION: ".join(' ', @ctokens)."\n");
-        }
-    }
     # Print the sentence graph in the SDP 2015 format.
     print("\#$jgraph->{id}\n");
     #print("\# text = $jgraph->{input}\n"); # this is not part of the SDP format
@@ -242,7 +191,7 @@ sub get_tokens_for_graph
             {
                 my @tokens = tokenize($modified_text);
                 ###!!!
-                get_external_tokens($current_text, $current_from, $current_to, \@mtokens, $t2c);
+                get_external_tokens($current_text, $current_from, $current_to, $jgraph->{ctokens});
                 my ($t2c, $c2t);
                 ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
                 # Sanity check.
@@ -381,22 +330,8 @@ sub get_external_tokens
     my $string = shift;
     my $cf = shift;
     my $ct = shift;
-    my $tokens = shift; # list of strings
-    my $anchors = shift; # corresponding list of [$f, $t] pairs
-    my @tokens0 = @{$tokens};
-    my @anchors = @{$anchors};
-    die if(scalar(@tokens0) != scalar(@anchors));
-    my @tokens;
-    for(my $i = 0; $i <= $#tokens0; $i++)
-    {
-        my %record =
-        (
-            'text' => $tokens0[$i],
-            'from' => $anchors[$i][0],
-            'to'   => $anchors[$i][1]
-        );
-        push(@tokens, \%record);
-    }
+    my $tokens = shift;
+    my @tokens = @{$tokens};
     @tokens = grep {$_->{from}<=$cf && $_->{to}>=$ct || $_->{from}>=$cf && $_->{from}<=$ct || $_->{to}>=$cf && $_->{to}<=$ct} (@tokens);
     @tokens = sort {$a->{from} <=> $b->{from}} (@tokens);
     print STDERR ("String to tokenize: '$string' (span $cf..$ct)\n");
@@ -473,4 +408,78 @@ sub read_companion_sentence
     }
     # Empty @sentence signals the end of the file.
     return @sentence;
+}
+
+
+
+#------------------------------------------------------------------------------
+# Takes companion data for a given sentence and prepares it for exploitation.
+#------------------------------------------------------------------------------
+sub get_sentence_companion
+{
+    my $jgraph = shift;
+    my $companion = shift; # hash reference indexed by sentence ids
+    if(!exists($companion->{$jgraph->{id}}))
+    {
+        die("Cannot find companion annotation of input sentence '$jgraph->{id}'");
+    }
+    # Sanity check: do the companion tokens match the input string from JSON?
+    my @tokenlines = grep {m/^\d/} (@{$companion->{$jgraph->{id}}});
+    my @ctokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
+    # UDPipe seems to have been applied to unnormalized text while the input strings in JSON underwent some normalization.
+    # Try to normalize the UDPipe word forms so we can match them.
+    my @mtokens = map
+    {
+        my $x = $_;
+        $x =~ s/[“”]/"/g; # "
+        $x =~ s/’/'/g; # '
+        $x =~ s/‘/`/g; # `
+        $x =~ s/–/--/g;
+        $x =~ s/…/.../g; # In fact, they have even spaces ('. . .') in JSON. But we do not allow tokens with spaces.
+        $x
+    }
+    (@ctokens);
+    # Undo the spaces in '. . .' (see above).
+    my $input = $jgraph->{input};
+    my $we_did_the_dots = ($input =~ s/\. \. \./.../g);
+    my ($t2c, $c2t) = map_tokens_to_string($input, @mtokens);
+    my @tokenranges = map {my @f = split(/\t/, $_); $f[9] =~ m/TokenRange=(\d+):(\d+)/; [$1, $2-1]} (@tokenlines);
+    for(my $i = 0; $i <= $#tokenranges; $i++)
+    {
+        # Due to the normalizations, this error is almost guaranteed to occur and we cannot die on it in the final version.
+        if(($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1]) && !$we_did_the_dots)
+        {
+            print STDERR ("sent_id $jgraph->{id}\n");
+            print STDERR ("JSON:   $jgraph->{input}\n");
+            print STDERR ("Modif:  $input\n");
+            print STDERR ("Tokens: ".join(' ', @ctokens)."\n");
+            print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
+            print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
+            print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
+            print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
+            # Known problem: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
+            die unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')');
+            last; # If we survived, do not report subsequent errors in this sentence.
+        }
+    }
+    # Restructure tokens as hashes that contain both the text and its character span.
+    my $tokens = shift; # list of strings
+    my $anchors = shift; # corresponding list of [$f, $t] pairs
+    my @tokens0 = @{$tokens};
+    my @anchors = @{$anchors};
+    die if(scalar(@tokens0) != scalar(@anchors));
+    my @tokens;
+    for(my $i = 0; $i <= $#mtokens; $i++)
+    {
+        my %record =
+        (
+            'text' => $mtokens[$i],
+            'from' => $t2c->[$i][0],
+            'to'   => $t2c->[$i][1]
+        );
+        push(@tokens, \%record);
+    }
+    # Instead of returning the values, store them directly in %jgraph.
+    $jgraph->{ctlines} = \@tokenlines;
+    $jgraph->{ctokens} = \@tokens;
 }
