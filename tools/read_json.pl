@@ -462,7 +462,7 @@ sub get_sentence_companion
             print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
             print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
             # Known problem: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
-            die unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')' || $jgraph->{id} eq '20041063');
+            die unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')' || $mtokens[$i] eq '. . .');
             last; # If we survived, do not report subsequent errors in this sentence.
         }
     }
