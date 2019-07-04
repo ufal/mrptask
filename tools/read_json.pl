@@ -108,7 +108,7 @@ while(<>)
         # Try to normalize the UDPipe word forms so we can match them.
         @tokens = map
         {
-            s/“/"/g;
+            s/[“”]/"/g;
             $_
         }
         (@tokens);
