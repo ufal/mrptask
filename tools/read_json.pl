@@ -369,9 +369,9 @@ sub map_tokens_to_string
 sub read_companion_sentence
 {
     my @sentence;
-    while(<COMPANION> && !m/^\s*$/)
+    while(my $line = <COMPANION> && $line !~ m/^\s*$/)
     {
-        s/\r?\n$//;
+        $line =~ s/\r?\n$//;
         push(@sentence, $_);
     }
     if(scalar(@sentence)==0)
