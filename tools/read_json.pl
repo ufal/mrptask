@@ -191,9 +191,15 @@ sub get_tokens_for_graph
             $modified_text =~ s/\s+/ /g;
             unless($modified_text eq '')
             {
-                my @tokens = tokenize($modified_text);
-                ###!!!
-                get_external_tokens($current_text, $current_from, $current_to, $jgraph->{ctokens});
+                my @tokens;
+                if(exists($jgraph->{ctokens}))
+                {
+                    @tokens = get_external_tokens($current_text, $current_from, $current_to, $jgraph->{ctokens});
+                }
+                else
+                {
+                    @tokens = tokenize($modified_text);
+                }
                 my ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
                 # Sanity check.
                 if(scalar(@{$c2t}) != $current_to-$current_from+1)
@@ -341,7 +347,9 @@ sub get_external_tokens
         print STDERR ("String to tokenize: '$string' (span $cf..$ct)\n");
         print STDERR ("Companion tokens:   ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n\n");
         ###!!! We may want to die here because we are not prepared for tokens that expand beyond the current string.
+        die;
     }
+    return map {$_->{text}} (@tokens);
 }
 
 
