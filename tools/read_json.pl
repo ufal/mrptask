@@ -445,13 +445,15 @@ sub get_sentence_companion
         $x =~ s/‘/`/g; # `
         $x =~ s/–/--/g;
         # Handling of periods is not consistent; there is at least one example of '....' in the data, corresponding to '….'.
-        if($x eq '…' && $i < $#ctokens && $ctokens[$i+1] =~ m/^\./)
+        # Unfortunately, we cannot base our heuristic on observing four periods because elsewhere, '….' is normalized as '. . . .'
+        # So we will simply check the input string (hopefully there is at most one occurrence of '. . .')
+        if($jgraph->{input} =~ m/\. \. \./)
         {
-            $x = '...';
+            $x =~ s/…/. . ./g;
         }
         else
         {
-            $x =~ s/…/. . ./g;
+            $x =~ s/…/.../g;
         }
         push(@mtokens, $x);
     }
