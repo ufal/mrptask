@@ -369,8 +369,10 @@ sub map_tokens_to_string
 sub read_companion_sentence
 {
     my @sentence;
-    while(my $line = <COMPANION> && $line !~ m/^\s*$/)
+    my $line;
+    while($line = <COMPANION>)
     {
+        last if($line =~ m/^\s*$/);
         $line =~ s/\r?\n$//;
         push(@sentence, $line);
     }
