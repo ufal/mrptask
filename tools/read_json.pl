@@ -357,7 +357,7 @@ sub get_tokens_for_graph
 sub tokenize
 {
     my $string = shift;
-    $string =~ s/(\pP)/ $1/g;
+    $string =~ s/(\pP)/ $1 /g;
     $string =~ s/^\s+//s;
     $string =~ s/\s+$//s;
     $string =~ s/\s+/ /sg;
