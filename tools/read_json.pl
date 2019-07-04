@@ -107,6 +107,9 @@ while(<>)
     {
         my $id = $tokens[$i]{surfid};
         my $form = $tokens[$i]{text};
+        # While we may have tokens with spaces, the SDP format cannot accommodate them.
+        $form =~ s/\s//g;
+        $form = '_' if($form eq '');
         my $lemma = $tokens[$i]{lemma};
         my $pos = '_';
         if(0) # POS tags from JSON, if available (only for nodes).
