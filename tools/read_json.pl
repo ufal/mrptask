@@ -477,6 +477,7 @@ sub get_sentence_companion
                 print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
                 die;
             }
+            last; # If we survived, do not report subsequent errors in this sentence.
         }
     }
     # Restructure tokens as hashes that contain both the text and its character span.
