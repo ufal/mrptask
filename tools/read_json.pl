@@ -132,9 +132,9 @@ while(<>)
                 print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
                 print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
                 print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
-                print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i");
+                print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n");
                 # Known problem: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
-                die unless($tokenranges[$i][0]==126);
+                die unless($tokenranges[$i][0]==126 || $tokenranges[$i][0]==109);
             }
         }
     }
