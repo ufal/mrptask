@@ -132,7 +132,7 @@ while(<>)
                 print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
                 print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
                 print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
-                die("Mismatch in character anchors");
+                die("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1]");
             }
         }
     }
