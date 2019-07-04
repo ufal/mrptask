@@ -304,6 +304,14 @@ sub get_tokens_for_graph
             $last_id = $token->{id};
         }
     }
+    ###!!! Hypothesis: Maybe we have the same number of tokens as the companion data.
+    ###!!! If so, then we can probably directly copy the lemmas and POS tags from UDPipe.
+    my $njt = scalar(@tokens);
+    my $nct = scalar(@{$jgraph->{ctokens}});
+    if($njt != $nct)
+    {
+        print STDERR ("JSON has $njt tokens, companion has $nct.\n");
+    }
     return (\@tokens, \@gc2t);
 }
 
