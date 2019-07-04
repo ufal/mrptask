@@ -85,7 +85,7 @@ while(<>)
         }
         if(!defined($csid))
         {
-            die("Unknown id of the companion sentence");
+            die("Unknown id of the companion sentence (current JSON id is '$jgraph->{id}')");
         }
         if($csid ne $jgraph->{id})
         {
