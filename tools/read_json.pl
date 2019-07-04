@@ -144,6 +144,7 @@ while(<>)
         if(scalar(@ctokens) != scalar(@tokens))
         {
             print STDERR ("sent_id $jgraph->{id} tokenization mismatch\n");
+            print STDERR ("JSON node: ".join(' ', map {$_->{text}} (grep {$_->{is_node}} (@tokens)))."\n");
             print STDERR ("JSON+PADD: ".join(' ', map {$_->{text}} (@tokens))."\n");
             print STDERR ("COMPANION: ".join(' ', @ctokens)."\n");
         }
