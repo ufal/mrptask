@@ -63,10 +63,8 @@ while(<>)
     if(defined($companion))
     {
         get_sentence_companion($jgraph, \%companion);
-        my $n = scalar(@{$jgraph->{ctokens}});
-        print STDERR ("n=$n\n");
     }
-    my ($tokens, $gc2t) = get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
+    my ($tokens, $gc2t) = get_tokens_for_graph($jgraph);
     my @tokens = @{$tokens};
     my @gc2t = @{$gc2t};
     # Map node ids to node objects.
@@ -151,8 +149,9 @@ while(<>)
 #------------------------------------------------------------------------------
 sub get_tokens_for_graph
 {
-    my $input = shift; # the input sentence, surface text
-    my $nodes = shift; # arrayref, graph nodes
+    my $jgraph = shift;
+    my $input = $jgraph->{input}; # the input sentence, surface text
+    my $nodes = $jgraph->{nodes}; # arrayref, graph nodes
     my @input = split(//, $input);
     my @nodes = @{$nodes};
     # Global projection from characters to corresponding token objects.
