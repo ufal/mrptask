@@ -11,6 +11,7 @@ binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Getopt::Long;
+use Carp;
 # JSON::Parse is a third-party module available from CPAN.
 # If you have Perl without JSON::Parse, try:
 #   cpanm JSON::Parse
@@ -33,7 +34,7 @@ if(defined($companion))
 {
     print STDERR ("Reading the companion annotation...\n");
     # File handle COMPANION will be global and we will access it from functions.
-    open(COMPANION, $companion) or die("Cannot read $companion: $!");
+    open(COMPANION, $companion) or confess("Cannot read $companion: $!");
     # The sentences in the companion data are not ordered by their ids.
     # Therefore we have to read them all in memory before accessing them.
     while(1)
@@ -47,7 +48,7 @@ if(defined($companion))
         }
         if(!defined($csid))
         {
-            die("Unknown id of the companion sentence");
+            confess("Unknown id of the companion sentence");
         }
         $companion{$csid} = \@conllu;
     }
@@ -197,7 +198,7 @@ sub get_tokens_for_graph
                 # Sanity check.
                 if(scalar(@{$c2t}) != $current_to-$current_from+1)
                 {
-                    die("Incorrect length of \$c2t");
+                    confess("Incorrect length of \$c2t");
                 }
                 # Project the local map to the global map.
                 my @records;
@@ -292,7 +293,7 @@ sub get_tokens_for_graph
             if($token->{id} <= $last_id)
             {
                 print STDERR ("Last id = $last_id; current id = $token->{id}\n");
-                die("Unexpected ordering or ids of graph nodes");
+                confess("Unexpected ordering or ids of graph nodes");
             }
             $last_id = $token->{id};
         }
@@ -367,7 +368,7 @@ sub map_tokens_to_string
         # Tokens can contain spaces but they must start and end with a non-space character.
         if($tokens[$i] =~ m/^\s/ || $tokens[$i] =~ m/\s$/)
         {
-            die("Token '$tokens[$i]' starts or ends with whitespace");
+            confess("Token '$tokens[$i]' starts or ends with whitespace");
         }
         # Remove leading whitespace in the string.
         my $lsbefore = length($string);
@@ -379,7 +380,7 @@ sub map_tokens_to_string
         my $strstart = substr($string, 0, $l);
         if($strstart ne $tokens[$i])
         {
-            die("Mismatch: next token is '$tokens[$i]' but the remainder of the string is '$string'");
+            confess("Mismatch: next token is '$tokens[$i]' but the remainder of the string is '$string'");
         }
         # Now we know the character span of the token in the string.
         my $f = $is;
@@ -427,7 +428,7 @@ sub get_sentence_companion
     my $companion = shift; # hash reference indexed by sentence ids
     if(!exists($companion->{$jgraph->{id}}))
     {
-        die("Cannot find companion annotation of input sentence '$jgraph->{id}'");
+        confess("Cannot find companion annotation of input sentence '$jgraph->{id}'");
     }
     # Sanity check: do the companion tokens match the input string from JSON?
     my @tokenlines = grep {m/^\d/} (@{$companion->{$jgraph->{id}}});
