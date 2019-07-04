@@ -348,11 +348,12 @@ sub get_external_tokens
 #------------------------------------------------------------------------------
 # Takes an input string and a list of tokens that constitute a tokenization of
 # the input string. The tokens must be ordered as in the input string, and they
-# must contain all non-whitespace characters of the string. The function
-# returns for each token a from-to anchor (character indices, starting with 0).
-# It also returns a list of inverse references, from each character to its
-# token (token indices start with 1, and 0 is used for whitespace characters
-# that do not correspond to any token).
+# must contain all non-whitespace characters of the string. They may also
+# contain whitespace characters but they cannot start or end with a whitespace.
+# The function returns for each token a from-to anchor (character indices,
+# starting with 0). It also returns a list of inverse references, from each
+# character to its token (token indices start with 1, and 0 is used for
+# whitespace characters that do not correspond to any token).
 #------------------------------------------------------------------------------
 sub map_tokens_to_string
 {
@@ -363,10 +364,10 @@ sub map_tokens_to_string
     my $is = 0;
     for(my $i = 0; $i <= $#tokens; $i++)
     {
-        # We rely on the fact that tokens cannot contain spaces (unlike in UD).
-        if($tokens[$i] =~ m/\s/)
+        # Tokens can contain spaces but they must start and end with a non-space character.
+        if($tokens[$i] =~ m/^\s/ || $tokens[$i] =~ m/\s$/)
         {
-            die("Token '$tokens[$i]' contains whitespace");
+            die("Token '$tokens[$i]' starts or ends with whitespace");
         }
         # Remove leading whitespace in the string.
         my $lsbefore = length($string);
@@ -440,19 +441,17 @@ sub get_sentence_companion
         $x =~ s/’/'/g; # '
         $x =~ s/‘/`/g; # `
         $x =~ s/–/--/g;
-        $x =~ s/…/.../g; # In fact, they have even spaces ('. . .') in JSON. But we do not allow tokens with spaces.
+        $x =~ s/…/. . ./g;
         $x
     }
     (@ctokens);
-    # Undo the spaces in '. . .' (see above).
     my $input = $jgraph->{input};
-    my $we_did_the_dots = ($input =~ s/\. \. \./.../g);
     my ($t2c, $c2t) = map_tokens_to_string($input, @mtokens);
     my @tokenranges = map {my @f = split(/\t/, $_); $f[9] =~ m/TokenRange=(\d+):(\d+)/; [$1, $2-1]} (@tokenlines);
     for(my $i = 0; $i <= $#tokenranges; $i++)
     {
         # Due to the normalizations, this error is almost guaranteed to occur and we cannot die on it in the final version.
-        if(($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1]) && !$we_did_the_dots)
+        if($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1])
         {
             print STDERR ("sent_id $jgraph->{id}\n");
             print STDERR ("JSON:   $jgraph->{input}\n");
