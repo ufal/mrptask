@@ -63,6 +63,8 @@ while(<>)
     if(defined($companion))
     {
         get_sentence_companion($jgraph, \%companion);
+        my $n = scalar(@{$jgraph->{ctokens}});
+        print STDERR ("n=$n\n");
     }
     my ($tokens, $gc2t) = get_tokens_for_graph($jgraph->{input}, $jgraph->{nodes});
     my @tokens = @{$tokens};
@@ -464,11 +466,6 @@ sub get_sentence_companion
         }
     }
     # Restructure tokens as hashes that contain both the text and its character span.
-    my $tokens = shift; # list of strings
-    my $anchors = shift; # corresponding list of [$f, $t] pairs
-    my @tokens0 = @{$tokens};
-    my @anchors = @{$anchors};
-    die if(scalar(@tokens0) != scalar(@anchors));
     my @tokens;
     for(my $i = 0; $i <= $#mtokens; $i++)
     {
