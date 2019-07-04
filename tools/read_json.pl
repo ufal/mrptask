@@ -335,9 +335,12 @@ sub get_external_tokens
     my $n = scalar(@tokens);
     @tokens = grep {$_->{from}<=$cf && $_->{to}>=$ct || $_->{from}>=$cf && $_->{from}<=$ct || $_->{to}>=$cf && $_->{to}<=$ct} (@tokens);
     @tokens = sort {$a->{from} <=> $b->{from}} (@tokens);
-    print STDERR ("Total $n companion tokens\n");
-    print STDERR ("String to tokenize: '$string' (span $cf..$ct)\n");
-    print STDERR ("Companion tokens:   ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n\n");
+    if(scalar(@tokens)==0 || $tokens[0]{from}<$cf || $tokens[-1]{to}>$ct)
+    {
+        print STDERR ("String to tokenize: '$string' (span $cf..$ct)\n");
+        print STDERR ("Companion tokens:   ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n\n");
+        ###!!! We may want to die here because we are not prepared for tokens that expand beyond the current string.
+    }
 }
 
 
@@ -480,5 +483,5 @@ sub get_sentence_companion
     $jgraph->{ctlines} = \@tokenlines;
     $jgraph->{ctokens} = \@tokens;
     ###!!! DEBUGGING
-    print STDERR ("Companion tokens: ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n");
+    #print STDERR ("Companion tokens: ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n");
 }
