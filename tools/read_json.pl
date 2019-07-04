@@ -464,16 +464,19 @@ sub get_sentence_companion
         # Due to the normalizations, this error is almost guaranteed to occur and we cannot die on it in the final version.
         if($tokenranges[$i][0] != $t2c->[$i][0] || $tokenranges[$i][1] != $t2c->[$i][1])
         {
-            print STDERR ("sent_id $jgraph->{id}\n");
-            print STDERR ("JSON:   $jgraph->{input}\n");
-            print STDERR ("Tokens: ".join(' ', @ctokens)."\n");
-            print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
-            print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
-            print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
-            print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
-            # Known problem: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
-            die unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')' || $mtokens[$i] eq '. . .');
-            last; # If we survived, do not report subsequent errors in this sentence.
+            # Known problems: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
+            # For '. . .', it includes the following space in the token ('. . . ').
+            unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')' || $mtokens[$i] eq '. . .')
+            {
+                print STDERR ("sent_id $jgraph->{id}\n");
+                print STDERR ("JSON:   $jgraph->{input}\n");
+                print STDERR ("Tokens: ".join(' ', @ctokens)."\n");
+                print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
+                print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
+                print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
+                print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
+                die;
+            }
         }
     }
     # Restructure tokens as hashes that contain both the text and its character span.
