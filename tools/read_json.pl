@@ -28,10 +28,28 @@ GetOptions
 (
     'companion=s' => \$companion
 );
+my %companion;
 if(defined($companion))
 {
     # File handle COMPANION will be global and we will access it from functions.
     open(COMPANION, $companion) or die("Cannot read $companion: $!");
+    # The sentences in the companion data are not ordered by their ids.
+    # Therefore we have to read them all in memory before accessing them.
+    while(1)
+    {
+        my @conllu = read_companion_sentence();
+        last if(scalar(@conllu) == 0);
+        my $csid;
+        if($conllu[0] =~ m/^\#(\d+)$/)
+        {
+            $csid = $1;
+        }
+        if(!defined($csid))
+        {
+            die("Unknown id of the companion sentence");
+        }
+        $companion{$csid} = \@conllu;
+    }
 }
 
 # Individual input lines are complete JSON structures (sentence graphs).
@@ -77,19 +95,9 @@ while(<>)
     # Read the companion data and merge it with the main graph.
     if(defined($companion))
     {
-        my @conllu = read_companion_sentence();
-        my $csid;
-        if(scalar(@conllu) >= 1 && $conllu[0] =~ m/^\#(\d+)$/)
+        if(!exists($companion{$jgraph->{id}}))
         {
-            $csid = $1;
-        }
-        if(!defined($csid))
-        {
-            die("Unknown id of the companion sentence (current JSON id is '$jgraph->{id}')");
-        }
-        if($csid ne $jgraph->{id})
-        {
-            die("Sentence id mismatch: JSON '$jgraph->{id}', companion '$csid'");
+            die("Cannot find companion annotation of input sentence '$jgraph->{id}'");
         }
     }
     # Print the sentence graph in the SDP 2015 format.
@@ -376,9 +384,6 @@ sub read_companion_sentence
         $line =~ s/\r?\n$//;
         push(@sentence, $line);
     }
-    if(scalar(@sentence)==0)
-    {
-        print STDERR ("WARNING: No more companion sentences.\n");
-    }
+    # Empty @sentence signals the end of the file.
     return @sentence;
 }
