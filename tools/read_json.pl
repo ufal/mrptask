@@ -192,8 +192,7 @@ sub get_tokens_for_graph
                 my @tokens = tokenize($modified_text);
                 ###!!!
                 get_external_tokens($current_text, $current_from, $current_to, $jgraph->{ctokens});
-                my ($t2c, $c2t);
-                ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
+                my ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
                 # Sanity check.
                 if(scalar(@{$c2t}) != $current_to-$current_from+1)
                 {
@@ -332,8 +331,10 @@ sub get_external_tokens
     my $ct = shift;
     my $tokens = shift;
     my @tokens = @{$tokens};
+    my $n = scalar(@tokens);
     @tokens = grep {$_->{from}<=$cf && $_->{to}>=$ct || $_->{from}>=$cf && $_->{from}<=$ct || $_->{to}>=$cf && $_->{to}<=$ct} (@tokens);
     @tokens = sort {$a->{from} <=> $b->{from}} (@tokens);
+    print STDERR ("Total $n companion tokens\n");
     print STDERR ("String to tokenize: '$string' (span $cf..$ct)\n");
     print STDERR ("Companion tokens:   ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n\n");
 }
