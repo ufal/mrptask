@@ -103,10 +103,10 @@ while(<>)
         }
         # Sanity check: do the companion tokens match the input string from JSON?
         my @tokenlines = grep {m/^\d/} (@{$companion{$jgraph->{id}}});
-        my @ctokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
+        @ctokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines); ###!!! GLOBAL FOR A WHILE
         # UDPipe seems to have been applied to unnormalized text while the input strings in JSON underwent some normalization.
         # Try to normalize the UDPipe word forms so we can match them.
-        my @mtokens = map
+        @mtokens = map ###!!! GLOBAL FOR A WHILE
         {
             my $x = $_;
             $x =~ s/[“”]/"/g; # "
@@ -120,7 +120,7 @@ while(<>)
         # Undo the spaces in '. . .' (see above).
         my $input = $jgraph->{input};
         my $we_did_the_dots = ($input =~ s/\. \. \./.../g);
-        my ($t2c, $c2t) = map_tokens_to_string($input, @mtokens);
+        ($t2c, $c2t) = map_tokens_to_string($input, @mtokens); # GLOBAL FOR A WHILE
         my @tokenranges = map {my @f = split(/\t/, $_); $f[9] =~ m/TokenRange=(\d+):(\d+)/; [$1, $2-1]} (@tokenlines);
         for(my $i = 0; $i <= $#tokenranges; $i++)
         {
@@ -241,6 +241,8 @@ sub get_tokens_for_graph
             unless($modified_text eq '')
             {
                 my @tokens = tokenize($modified_text);
+                ###!!!
+                get_external_tokens($current_text, $current_from, $current_to, \@mtokens, $t2c);
                 my ($t2c, $c2t);
                 ($t2c, $c2t) = map_tokens_to_string($current_text, @tokens);
                 # Sanity check.
@@ -365,6 +367,40 @@ sub tokenize
     $string =~ s/\s+/ /sg;
     my @tokens = split(/\s+/, $string);
     return @tokens;
+}
+
+
+
+#------------------------------------------------------------------------------
+# An alternative to our own tokenization. Takes a substring, its character span
+# in the original string, list of tokens and their spans provided by an exter-
+# nal tokenizer. Returns the tokens that correspond to our substring.
+#------------------------------------------------------------------------------
+sub get_external_tokens
+{
+    my $string = shift;
+    my $cf = shift;
+    my $ct = shift;
+    my $tokens = shift; # list of strings
+    my $anchors = shift; # corresponding list of [$f, $t] pairs
+    my @tokens0 = @{$tokens};
+    my @anchors = @{$anchors};
+    die if(scalar(@tokens0) != scalar(@anchors));
+    my @tokens;
+    for(my $i = 0; $i <= $#tokens0; $i++)
+    {
+        my %record =
+        (
+            'text' => $tokens0[$i],
+            'from' => $anchors[$i][0],
+            'to'   => $anchors[$i][1]
+        );
+        push(@tokens, \%record);
+    }
+    @tokens = grep {$_->{from}<=$cf && $_->{to}>=$ct || $_->{from}>=$cf && $_->{from}<=$ct || $_->{to}>=$cf && $_->{to}<=$ct} (@tokens);
+    @tokens = sort {$a->{from} <=> $b->{from}} (@tokens);
+    print STDERR ("String to tokenize: '$string' (span $cf..$ct)\n");
+    print STDERR ("Companion tokens:   ".join(' ', map {$_->{text}.':'.$_->{from}.':'.$_->{to}} (@tokens))."\n\n");
 }
 
 
