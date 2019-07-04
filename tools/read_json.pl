@@ -372,7 +372,7 @@ sub read_companion_sentence
     while(my $line = <COMPANION> && $line !~ m/^\s*$/)
     {
         $line =~ s/\r?\n$//;
-        push(@sentence, $_);
+        push(@sentence, $line);
     }
     if(scalar(@sentence)==0)
     {
