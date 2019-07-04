@@ -400,6 +400,7 @@ sub map_tokens_to_string
         }
         # Consume the token we just mapped.
         $string = substr($string, $l);
+        $is += $l;
     }
     return (\@anchors, \@c2t);
 }
