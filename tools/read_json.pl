@@ -110,6 +110,7 @@ while(<>)
         {
             s/[“”]/"/g; # "
             s/’/'/g; # '
+            s/‘/`/g; # `
             s/–/--/g;
             s/…/.../g; # In fact, they have even spaces ('. . .') in JSON. But we do not allow tokens with spaces.
             $_
