@@ -103,7 +103,7 @@ while(<>)
         }
         # Sanity check: do the companion tokens match the input string from JSON?
         my @tokenlines = grep {m/^\d/} (@{$companion{$jgraph->{id}}});
-        my @tokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
+        my @ctokens = map {my @f = split(/\t/, $_); $f[1]} (@tokenlines);
         # UDPipe seems to have been applied to unnormalized text while the input strings in JSON underwent some normalization.
         # Try to normalize the UDPipe word forms so we can match them.
         my @mtokens = map
@@ -115,7 +115,7 @@ while(<>)
             s/…/.../g; # In fact, they have even spaces ('. . .') in JSON. But we do not allow tokens with spaces.
             $_
         }
-        (@tokens);
+        (@ctokens);
         # Undo the spaces in '. . .' (see above).
         my $input = $jgraph->{input};
         my $we_did_the_dots = ($input =~ s/\. \. \./.../g);
@@ -129,7 +129,7 @@ while(<>)
                 print STDERR ("sent_id $jgraph->{id}\n");
                 print STDERR ("JSON:   $jgraph->{input}\n");
                 print STDERR ("Modif:  $input\n");
-                print STDERR ("Tokens: ".join(' ', @tokens)."\n");
+                print STDERR ("Tokens: ".join(' ', @ctokens)."\n");
                 print STDERR ("MToks:  ".join(' ', @mtokens)."\n");
                 print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
                 print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
