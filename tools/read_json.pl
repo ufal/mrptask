@@ -345,7 +345,9 @@ sub get_tokens_for_graph
     }
     for(my $i = 0; $i <= $#tokens; $i++)
     {
-        if($tokens[$i]{id} != $jgraph->{ctokens}[$i]{id})
+        # The target token has an id only if it is a node of the JSON graph (and not a padding).
+        # Node ids start with 0 while surface tokens in CoNLL-U files start with 1, we have to take this in account.
+        if(defined($tokens[$i]{id}) && $tokens[$i]{id} != $jgraph->{ctokens}[$i]{id}-1)
         {
             print STDERR ("WARNING: Copying data from a companion token whose id '$jgraph->{ctokens}[$i]{id}' does not match the id of the main token '$tokens[$i]{id}'.\n");
         }
