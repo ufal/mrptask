@@ -347,7 +347,7 @@ sub get_tokens_for_graph
     {
         if($tokens[$i]{id} != $jgraph->{ctokens}[$i]{id})
         {
-            print STDERR ("WARNING: Copying data from a companion token whose id does not match the id of the main token.\n");
+            print STDERR ("WARNING: Copying data from a companion token whose id '$jgraph->{ctokens}[$i]{id}' does not match the id of the main token '$tokens[$i]{id}'.\n");
         }
         $tokens[$i]{lemma}  = $jgraph->{ctokens}[$i]{lemma};
         $tokens[$i]{upos}   = $jgraph->{ctokens}[$i]{upos};
