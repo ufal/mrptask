@@ -132,6 +132,8 @@ while(<>)
         }
         if($cpn)
         {
+            # Sample of a CPN file:
+            # /home/droganova/work/Data_for_Enhancer/NeurboParser/semeval2015_data/train/en.sb.bn.cpn
             my $head = $tokens[$i]{head};
             my $deprel = $tokens[$i]{deprel};
             print("$pos\t$head\t$deprel\n");
