@@ -22,12 +22,15 @@ use JSON::Parse ':all';
 sub usage
 {
     print STDERR ("Usage: perl read_json.pl --companion data/wsj.conllu < data/wsj.mrp > data/wsj.sdp\n");
+    print STDERR ("       --cpn ... instead of SDP, output a CPN file required by one of the parsers\n");
 }
 
 my $companion; # path to the CoNLL-U file with lemmas, POS tags and dependencies from UDPipe (if available)
+my $cpn = 0; # output a CPN file instead of the default SDP
 GetOptions
 (
-    'companion=s' => \$companion
+    'companion=s' => \$companion,
+    'cpn'         => \$cpn
 );
 my %companion;
 if(defined($companion))
@@ -53,6 +56,10 @@ if(defined($companion))
         $companion{$csid} = \@conllu;
     }
     print STDERR ("... done.\n");
+}
+elsif($cpn)
+{
+    die("Cannot output the CPN file if there is no companion data");
 }
 
 # Individual input lines are complete JSON structures (sentence graphs).
@@ -123,32 +130,41 @@ while(<>)
         {
             $pos = $tokens[$i]{xpos};
         }
-        ###!!! There is one other vertical file that the parser needs, and it contains the deprels.
-        ###!!! We should generate one or the other file depending on a command-line switch.
-        my $top = ($tokens[$i]{is_node} && grep {$_ == $tokens[$i]{id}} (@{$jgraph->{tops}})) ? '+' : '-';
-        my $pred = $tokens[$i]{is_pred} ? '+' : '-';
-        my $frame = '_';
-        if($tokens[$i]{is_node} && $tokens[$i]{properties}[1] eq 'frame')
+        if($cpn)
         {
-            $frame = $tokens[$i]{values}[1];
+            my $head = $tokens[$i]{head};
+            my $deprel = $tokens[$i]{deprel};
+            print("$pos\t$head\t$deprel\n");
         }
-        my @iemap = map {'_'} (1..$npred);
-        if($tokens[$i]{is_node})
+        else
         {
-            foreach my $iedge (@{$tokens[$i]{iedges}})
+            ###!!! There is one other vertical file that the parser needs, and it contains the deprels.
+            ###!!! We should generate one or the other file depending on a command-line switch.
+            my $top = ($tokens[$i]{is_node} && grep {$_ == $tokens[$i]{id}} (@{$jgraph->{tops}})) ? '+' : '-';
+            my $pred = $tokens[$i]{is_pred} ? '+' : '-';
+            my $frame = '_';
+            if($tokens[$i]{is_node} && $tokens[$i]{properties}[1] eq 'frame')
             {
-                my $pord = $iedge->{parent}{predord};
-                die if(!defined($pord));
-                die if($iemap[$pord] ne '_');
-                $iemap[$pord] = $iedge->{label};
+                $frame = $tokens[$i]{values}[1];
             }
+            my @iemap = map {'_'} (1..$npred);
+            if($tokens[$i]{is_node})
+            {
+                foreach my $iedge (@{$tokens[$i]{iedges}})
+                {
+                    my $pord = $iedge->{parent}{predord};
+                    die if(!defined($pord));
+                    die if($iemap[$pord] ne '_');
+                    $iemap[$pord] = $iedge->{label};
+                }
+            }
+            my $args = '';
+            if(scalar(@iemap) > 0)
+            {
+                $args = "\t".join("\t", @iemap);
+            }
+            print("$id\t$form\t$lemma\t$pos\t$top\t$pred\t$frame$args\n");
         }
-        my $args = '';
-        if(scalar(@iemap) > 0)
-        {
-            $args = "\t".join("\t", @iemap);
-        }
-        print("$id\t$form\t$lemma\t$pos\t$top\t$pred\t$frame$args\n");
     }
     print("\n");
 }
@@ -327,9 +343,14 @@ sub get_tokens_for_graph
     }
     for(my $i = 0; $i <= $#tokens; $i++)
     {
+        if($tokens[$i]{id} != $jgraph->{ctokens}[$i]{id})
+        {
+            print STDERR ("WARNING: Copying data from a companion token whose id does not match the id of the main token.\n");
+        }
         $tokens[$i]{lemma}  = $jgraph->{ctokens}[$i]{lemma};
         $tokens[$i]{upos}   = $jgraph->{ctokens}[$i]{upos};
         $tokens[$i]{xpos}   = $jgraph->{ctokens}[$i]{xpos};
+        $tokens[$i]{head}   = $jgraph->{ctokens}[$i]{head};
         $tokens[$i]{deprel} = $jgraph->{ctokens}[$i]{deprel};
     }
     return (\@tokens, \@gc2t);
@@ -530,6 +551,8 @@ sub get_sentence_companion
             'lemma'  => $f[2],
             'upos'   => $f[3],
             'xpos'   => $f[4],
+            'id'     => $f[0],
+            'head'   => $f[6],
             'deprel' => $f[7]
         );
         push(@tokens, \%record);

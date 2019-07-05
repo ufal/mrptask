@@ -16,6 +16,7 @@ $(MRPDATA)/companion/wsj.conllu: $(MRPDATA)/companion/dm/wsj00.conllu $(MRPDATA)
 
 experimental_dm_json_to_sdp: $(MRPDATA)/training/dm/wsj.mrp $(MRPDATA)/companion/wsj.conllu tools/read_json.pl
 	tools/read_json.pl --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/dm/wsj.mrp > $(MRPDATA)/training/dan/dm-wsj.sdp
+	tools/read_json.pl --cpn --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/dm/wsj.mrp > $(MRPDATA)/training/dan/dm-wsj.cpn
 
 validate_dm_sdp:
 	$(SHAREDIR)/sdp/validate.pl $(MRPDATA)/training/dan/dm-wsj.sdp | tee $(MRPDATA)/training/dan/dm-wsj.log
