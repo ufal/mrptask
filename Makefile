@@ -17,13 +17,13 @@ $(MRPDATA)/companion/wsj.conllu: $(MRPDATA)/companion/dm/wsj00.conllu $(MRPDATA)
 .PHONY: dmpsd
 dmpsd: $(MRPDATA)/training/dan/dm-wsj.sdp $(MRPDATA)/training/dan/psd-wsj.sdp
 
-$(MRPDATA)/training/dan/dm-wsj.sdp: $(MRPDATA)/training/dm/wsj.mrp $(MRPDATA)/companion/wsj.conllu tools/read_json.pl
-	tools/read_json.pl --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/dm/wsj.mrp > $(MRPDATA)/training/dan/dm-wsj.sdp
-	tools/read_json.pl --cpn --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/dm/wsj.mrp > $(MRPDATA)/training/dan/dm-wsj.cpn
+$(MRPDATA)/training/dan/dm-wsj.sdp: $(MRPDATA)/training/dm/wsj.mrp $(MRPDATA)/companion/wsj.conllu tools/mrp2sdp.pl
+	tools/mrp2sdp.pl --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/dm/wsj.mrp > $(MRPDATA)/training/dan/dm-wsj.sdp
+	tools/mrp2sdp.pl --cpn --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/dm/wsj.mrp > $(MRPDATA)/training/dan/dm-wsj.cpn
 
-$(MRPDATA)/training/dan/psd-wsj.sdp: $(MRPDATA)/training/psd/wsj.mrp $(MRPDATA)/companion/wsj.conllu tools/read_json.pl
-	tools/read_json.pl --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/psd/wsj.mrp > $(MRPDATA)/training/dan/psd-wsj.sdp
-	tools/read_json.pl --cpn --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/psd/wsj.mrp > $(MRPDATA)/training/dan/psd-wsj.cpn
+$(MRPDATA)/training/dan/psd-wsj.sdp: $(MRPDATA)/training/psd/wsj.mrp $(MRPDATA)/companion/wsj.conllu tools/mrp2sdp.pl
+	tools/mrp2sdp.pl --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/psd/wsj.mrp > $(MRPDATA)/training/dan/psd-wsj.sdp
+	tools/mrp2sdp.pl --cpn --companion $(MRPDATA)/companion/wsj.conllu $(MRPDATA)/training/psd/wsj.mrp > $(MRPDATA)/training/dan/psd-wsj.cpn
 
 validate_dm_sdp:
 	$(SHAREDIR)/sdp/validate.pl $(MRPDATA)/training/dan/dm-wsj.sdp | tee $(MRPDATA)/training/dan/dm-wsj.log
