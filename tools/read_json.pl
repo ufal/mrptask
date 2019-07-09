@@ -527,7 +527,8 @@ sub get_sentence_companion
         {
             # Known problems: UDPipe splits '")' to '"' and ')' but assigns TokenRange=126:127 to both.
             # For '. . .', it includes the following space in the token ('. . . ').
-            unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')' || $mtokens[$i] eq '. . .')
+            #unless($mtokens[$i] eq '"' && $mtokens[$i+1] eq ')' || $mtokens[$i] eq '. . .')
+            unless($mtokens[$i] eq '. . .') # This version will print the ") errors for Stephan Oepen.
             {
                 print STDERR ("sent_id $jgraph->{id}\n");
                 print STDERR ("JSON:   $jgraph->{input}\n");
@@ -536,7 +537,7 @@ sub get_sentence_companion
                 print STDERR ("Jt2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@{$t2c}))."\n");
                 print STDERR ("Ut2c:   ".join(' ', map {"$_->[0]:$_->[1]"} (@tokenranges))."\n");
                 print STDERR ("Mismatch in character anchors: $tokenranges[$i][0]:$tokenranges[$i][1] vs. $t2c->[$i][0]:$t2c->[$i][1] for token $i\n\n");
-                die;
+                ###!!!die;
             }
             last; # If we survived, do not report subsequent errors in this sentence.
         }
