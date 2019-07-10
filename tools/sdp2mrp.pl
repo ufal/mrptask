@@ -12,18 +12,39 @@ use Getopt::Long;
 
 sub usage
 {
-    print STDERR ("Usage: perl sdp2mrp.pl --framework (dm|psd) < input.sdp > output.mrp\n");
+    print STDERR ("Usage: perl sdp2mrp.pl --framework (dm|psd) --source source.mrp < input.sdp > output.mrp\n");
+    print STDERR ("    The source MRP file is needed because of input strings, source tokenization and anchoring of tokens in the input string.\n");
 }
 
 my $framework;
+my $source; # path to the source file
 GetOptions
 (
-    'framework=s' => \$framework
+    'framework=s' => \$framework,
+    'source=s' => \$source
 );
 if(!defined($framework) || $framework !~ m/^(dm|psd)$/)
 {
     usage();
     die("Unknown framework '$framework'");
+}
+# Read the source file to the memory.
+my %source;
+if(defined($source))
+{
+    print STDERR ("Reading source...\n");
+    open(SOURCE, $source) or die("Cannot open $source: $!");
+    while(<SOURCE>)
+    {
+        my $json = $_;
+        my $jgraph = parse_json($json);
+        my $id = $jgraph->{id};
+        die("Undefined source graph id") if(!defined($id));
+        die("Multiple source graphs with id '$id'") if(exists($source{$id}));
+        $source{$id} = $jgraph;
+    }
+    close(SOURCE);
+    print STDERR ("... done\n");
 }
 # Get the current date and time. We will save it with every graph.
 my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday) = localtime(time);
@@ -102,7 +123,27 @@ sub process_sentence
     print('"id": "'.$sid.'", ');
     print('"flavor": 0, "framework": "'.$framework.'", "version": 0.9, ');
     print('"time": "'.$timestamp.'", ');
-    my $input = escape_string(join(' ', map {$_->[1]} (@matrix)));
+    my $input;
+    my @anchors;
+    if(defined($source))
+    {
+        die("Unknown source for sentence '$sid'") if(!exists($source{$sid}));
+        $input = $source{$sid}{input};
+        my $nsrctok = scalar(@{$source{$sid}{nodes}});
+        my $nnodes = scalar(@matrix);
+        if($nsrctok != $nnodes)
+        {
+            die("The graph has $nnodes nodes but the source sentence has $nsrctok tokens");
+        }
+        foreach my $srctoken (@{$source{$sid}{nodes}})
+        {
+            $anchors[$srctoken->{id}] = $srctoken->{anchors};
+        }
+    }
+    else
+    {
+        $input = escape_string(join(' ', map {$_->[1]} (@matrix)));
+    }
     print('"input": "'.$input.'", ');
     # Note that the array of top nodes may be empty. Normal DM or PSD graph
     # would always have at least one top node but the parser may have failed
@@ -126,7 +167,25 @@ sub process_sentence
         print('"label": "'.escape_string($node->[1]).'", ');
         print('"properties": ["pos", "frame"], ');
         print('"values": ["'.escape_string($node->[3]).'", "'.escape_string($node->[6]).'"], ');
-        print('"anchors": [{"from": '.$offset.', "to": '.($offset+length($node->[1])).'}]');
+        if(defined($source))
+        {
+            print('"anchors": [');
+            my @janchors;
+            foreach my $anchor (@{$anchors[$node->[0]]})
+            {
+                my $janchor = '{';
+                $janchor .= '"from": '.$anchor->{from}.', ';
+                $janchor .= '"to": '.$anchor->{to};
+                $janchor .= '}';
+                push(@janchors, $janchor);
+            }
+            print(join(', ', @janchors));
+            print(']');
+        }
+        else
+        {
+            print('"anchors": [{"from": '.$offset.', "to": '.($offset+length($node->[1])).'}]');
+        }
         print('}');
         $offset += length($node->[1])+1; # the "+1" accounts for the space after the token
     }

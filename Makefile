@@ -36,7 +36,7 @@ test:
 	$(SHAREDIR)/sdp/validate.pl pokus.sdp | tee pokus-validate.log
 
 dm_sdp_to_mrp:
-	tools/sdp2mrp.pl --framework dm < pokus.sdp > pokus.mrp
+	tools/sdp2mrp.pl --framework dm --source $(MRPDATA)/companion/udpipe.mrp < pokus.sdp > pokus.mrp
 	$(MTOOL)/main.py --read mrp --validate all pokus.mrp
 
 evaluate:
