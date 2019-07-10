@@ -39,7 +39,8 @@ dm_sdp_to_mrp:
 	tools/sdp2mrp.pl --framework dm --source $(MRPDATA)/companion/udpipe.mrp < pokus.sdp > pokus.mrp
 	$(MTOOL)/main.py --read mrp --validate all pokus.mrp
 
+# --limit 0:0 should speed up scoring at the cost of not finding the optimal match. Default is 20:500000. We could try e.g. 5:100000 (example from the docs).
 evaluate:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < pokus.mrp > gold.mrp
-	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp pokus.mrp
+	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp pokus.mrp
 
