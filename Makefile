@@ -28,4 +28,9 @@ $(MRPDATA)/training/dan/psd-wsj.sdp: $(MRPDATA)/training/psd/wsj.mrp $(MRPDATA)/
 validate_dm_sdp:
 	$(SHAREDIR)/sdp/validate.pl $(MRPDATA)/training/dan/dm-wsj.sdp | tee $(MRPDATA)/training/dan/dm-wsj.log
 
+# Test sample output from the parser.
+# We do not expect the #SDP 2015 comment lines. Let's get rid of them.
+test:
+	grep -vP '^#SDP 2015' /lnet/spec/work/people/droganova/Data_for_Enhancer/MRP_data/dm.adadelta.lstm200.layer2.h100.drop0.25_42B.pred > pokus.sdp
+	$(SHAREDIR)/sdp/validate.pl pokus.sdp | tee pokus-validate.log
 
