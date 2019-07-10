@@ -26,7 +26,7 @@ if(!defined($framework) || $framework !~ m/^(dm|psd)$/)
     die("Unknown framework '$framework'");
 }
 # Get the current date and time. We will save it with every graph.
-my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday) = gmtime(time);
+my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday) = localtime(time);
 my $timestamp = sprintf("%04d-%02d-%02d (%02d:%02d)", 1900+$year, 1+$mon, $mday, $hour, $min);
 
 my @sentence;
