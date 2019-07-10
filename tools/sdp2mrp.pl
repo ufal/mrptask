@@ -133,6 +133,7 @@ sub process_sentence
     print('"time": "'.$timestamp.'", ');
     my $input;
     my @anchors;
+    my @nodelabels;
     if(defined($source))
     {
         die("Unknown source for sentence '$sid'") if(!exists($source{$sid}));
@@ -143,9 +144,16 @@ sub process_sentence
         {
             die("The graph has $nnodes nodes but the source sentence has $nsrctok tokens");
         }
+        my $i = 0;
         foreach my $srctoken (@{$source{$sid}{nodes}})
         {
+            if($srctoken->{id} != $i)
+            {
+                die("Source node ids do not form a contiguous sequence starting at 0");
+            }
+            $nodelabels[$srctoken->{id}] = $srctoken->{label};
             $anchors[$srctoken->{id}] = $srctoken->{anchors};
+            $i++;
         }
     }
     else
@@ -173,7 +181,14 @@ sub process_sentence
         print('{');
         # The custom in MRP is to start node ids at 0. Not adhering is not penalized in evaluation, though (but we need it to find source anchors).
         print('"id": '.($node->[0]-1).', ');
-        print('"label": "'.escape_string($node->[1]).'", ');
+        if(defined($source))
+        {
+            print('"label": "'.escape_string($nodelabels[$node->[0]-1]).'", ');
+        }
+        else
+        {
+            print('"label": "'.escape_string($node->[1]).'", ');
+        }
         print('"properties": ["pos", "frame"], ');
         print('"values": ["'.escape_string($node->[3]).'", "'.escape_string($node->[6]).'"], ');
         if(defined($source))
