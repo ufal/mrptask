@@ -34,3 +34,6 @@ test:
 	grep -vP '^#SDP 2015' /lnet/spec/work/people/droganova/Data_for_Enhancer/MRP_data/dm.adadelta.lstm200.layer2.h100.drop0.25_42B.pred > pokus.sdp
 	$(SHAREDIR)/sdp/validate.pl pokus.sdp | tee pokus-validate.log
 
+dm_sdp_to_mrp:
+	tools/sdp2mrp.pl --framework dm < pokus.sdp > pokus.mrp
+

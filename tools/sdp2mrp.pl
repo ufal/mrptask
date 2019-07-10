@@ -75,10 +75,6 @@ sub process_sentence
     {
         die("Unknown sentence id");
     }
-    if(scalar(@tops)==0)
-    {
-        die("There must be at least one top node");
-    }
     my $npred = scalar(@preds);
     # Collect edges.
     my @edges;
@@ -105,6 +101,9 @@ sub process_sentence
     print('"time": "1989-11-17 (19:00)", ');
     my $input = escape_string(join(' ', map {$_->[1]} (@matrix)));
     print('"input": "'.$input.'", ');
+    # Note that the array of top nodes may be empty. Normal DM or PSD graph
+    # would always have at least one top node but the parser may have failed
+    # to predict it.
     print('"tops": ['.join(', ', @tops).'], ');
     print('"nodes": [');
     my $first = 1;
