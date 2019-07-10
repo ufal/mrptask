@@ -169,7 +169,8 @@ sub process_sentence
             print(', ');
         }
         print('{');
-        print('"id": '.$node->[0].', ');
+        # The custom in MRP is to start node ids at 0. Not adhering is not penalized in evaluation, though (but we need it to find source anchors).
+        print('"id": '.($node->[0]-1).', ');
         print('"label": "'.escape_string($node->[1]).'", ');
         print('"properties": ["pos", "frame"], ');
         print('"values": ["'.escape_string($node->[3]).'", "'.escape_string($node->[6]).'"], ');
@@ -209,8 +210,9 @@ sub process_sentence
             print(', ');
         }
         print('{');
-        print('"source": '.$edge->[0].', ');
-        print('"target": '.$edge->[1].', ');
+        # The custom in MRP is to start node ids at 0. Not adhering is not penalized in evaluation, though (but we need it to find source anchors).
+        print('"source": '.($edge->[0]-1).', ');
+        print('"target": '.($edge->[1]-1).', ');
         print('"label": "'.escape_string($edge->[2]).'"');
         print('}');
     }
