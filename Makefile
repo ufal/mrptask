@@ -1,4 +1,5 @@
 SHAREDIR=/net/work/projects/mrptask
+MTOOL=$(SHAREDIR)/mtool
 
 all: $(SHAREDIR)/penntb-psd.conllu $(SHAREDIR)/penntb-dm.conllu
 
@@ -36,4 +37,5 @@ test:
 
 dm_sdp_to_mrp:
 	tools/sdp2mrp.pl --framework dm < pokus.sdp > pokus.mrp
+	$(MTOOL)/main.py --read mrp --validate all pokus.mrp
 

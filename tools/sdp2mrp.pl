@@ -143,7 +143,7 @@ sub process_sentence
         print('{');
         print('"source": '.$edge->[0].', ');
         print('"target": '.$edge->[1].', ');
-        print('"label": '.escape_string($edge->[2]));
+        print('"label": "'.escape_string($edge->[2]).'"');
         print('}');
     }
     print(']');
