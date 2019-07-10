@@ -9,6 +9,12 @@ binmode(STDIN, ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use Getopt::Long;
+# JSON::Parse is a third-party module available from CPAN.
+# If you have Perl without JSON::Parse, try:
+#   cpanm JSON::Parse
+# If you don't have cpanm, try:
+#   cpan JSON::Parse
+use JSON::Parse ':all';
 
 sub usage
 {
