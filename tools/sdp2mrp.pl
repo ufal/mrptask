@@ -180,7 +180,7 @@ sub process_sentence
         {
             print('"anchors": [');
             my @janchors;
-            foreach my $anchor (@{$anchors[$node->[0]]})
+            foreach my $anchor (@{$anchors[$node->[0]-1]})
             {
                 my $janchor = '{';
                 $janchor .= '"from": '.$anchor->{from}.', ';
