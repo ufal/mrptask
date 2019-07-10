@@ -125,7 +125,7 @@ sub process_sentence
         print('"values": ["'.escape_string($node->[3]).'", "'.escape_string($node->[6]).'"], ');
         print('"anchors": [{"from": '.$offset.', "to": '.($offset+length($node->[1])).'}]');
         print('}');
-        $offset += length($node->[1]);
+        $offset += length($node->[1])+1; # the "+1" accounts for the space after the token
     }
     print('], ');
     print('"edges": [');
