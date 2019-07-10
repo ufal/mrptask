@@ -134,7 +134,7 @@ sub process_sentence
     if(defined($source))
     {
         die("Unknown source for sentence '$sid'") if(!exists($source{$sid}));
-        $input = $source{$sid}{input};
+        $input = escape_string($source{$sid}{input});
         my $nsrctok = scalar(@{$source{$sid}{nodes}});
         my $nnodes = scalar(@matrix);
         if($nsrctok != $nnodes)
