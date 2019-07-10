@@ -21,7 +21,7 @@ use JSON::Parse ':all';
 
 sub usage
 {
-    print STDERR ("Usage: perl read_json.pl --companion data/wsj.conllu < data/wsj.mrp > data/wsj.sdp\n");
+    print STDERR ("Usage: perl mrp2sdp.pl --companion data/wsj.conllu < data/wsj.mrp > data/wsj.sdp\n");
     print STDERR ("       --cpn ... instead of SDP, output a CPN file required by one of the parsers\n");
 }
 

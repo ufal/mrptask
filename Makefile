@@ -39,3 +39,7 @@ dm_sdp_to_mrp:
 	tools/sdp2mrp.pl --framework dm < pokus.sdp > pokus.mrp
 	$(MTOOL)/main.py --read mrp --validate all pokus.mrp
 
+evaluate:
+	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < pokus.mrp > gold.mrp
+	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp pokus.mrp
+
