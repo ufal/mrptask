@@ -120,6 +120,7 @@ sub process_sentence
             my $label = $node->[7+$i];
             unless($label eq '_')
             {
+                die("Undefined predicate no. $i") if(!defined($preds[$i]) || $preds[$i]<1);
                 push(@edges, [$preds[$i], $node->[0], $label]);
             }
         }
