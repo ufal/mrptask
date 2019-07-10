@@ -25,6 +25,9 @@ if(!defined($framework) || $framework !~ m/^(dm|psd)$/)
     usage();
     die("Unknown framework '$framework'");
 }
+# Get the current date and time. We will save it with every graph.
+my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday) = gmtime(time);
+my $timestamp = sprintf("%04d-%02d-%02d (%02d:%02d)", 1900+$year, 1+$mon, $mday, $hour, $min);
 
 my @sentence;
 while(<>)
@@ -98,7 +101,7 @@ sub process_sentence
     print('{');
     print('"id": "'.$sid.'", ');
     print('"flavor": 0, "framework": "'.$framework.'", "version": 0.9, ');
-    print('"time": "1989-11-17 (19:00)", ');
+    print('"time": "'.$timestamp.'", ');
     my $input = escape_string(join(' ', map {$_->[1]} (@matrix)));
     print('"input": "'.$input.'", ');
     # Note that the array of top nodes may be empty. Normal DM or PSD graph
