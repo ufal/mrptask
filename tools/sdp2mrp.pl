@@ -96,7 +96,8 @@ sub process_sentence
             {
                 die("Unexpected node ID '$f[0]'");
             }
-            push(@tops, $f[0]) if($f[4] eq '+');
+            # The custom in MRP is to start node ids at 0. Not adhering is not penalized in evaluation, though (but we need it to find source anchors).
+            push(@tops, $f[0]-1) if($f[4] eq '+');
             push(@preds, $f[0]) if($f[5] eq '+');
             push(@matrix, \@f);
         }
