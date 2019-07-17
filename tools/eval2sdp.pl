@@ -27,6 +27,12 @@ sub usage
     print STDERR ("       --cpn ... instead of SDP, output a CPN file required by one of the parsers\n");
 }
 
+my $cpn = 0; # output a CPN file instead of the default SDP
+GetOptions
+(
+    'cpn' => \$cpn
+);
+
 # Individual input lines are complete JSON structures (sentence graphs).
 # The entire file is not valid JSON because the lines are not enclosed in an array and there are no commas at the ends of lines.
 while(<>)
