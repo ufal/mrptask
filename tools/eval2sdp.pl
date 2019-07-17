@@ -126,7 +126,8 @@ while(<>)
             my $deprel = 'root';
             if(scalar(@{$tokens[$i]{iedges}}) > 0)
             {
-                $head = $tokens[$i]{iedges}[0]{parent}{id};
+                # MRP graphs number their nodes from 0 but in SDP, node ids must start from 1.
+                $head = $tokens[$i]{iedges}[0]{parent}{id}+1;
                 $deprel = $tokens[$i]{iedges}[0]{label};
             }
             print("$pos\t$head\t$deprel\n");
