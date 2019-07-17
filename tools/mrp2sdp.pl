@@ -140,8 +140,6 @@ while(<>)
         }
         else
         {
-            ###!!! There is one other vertical file that the parser needs, and it contains the deprels.
-            ###!!! We should generate one or the other file depending on a command-line switch.
             my $top = ($tokens[$i]{is_node} && grep {$_ == $tokens[$i]{id}} (@{$jgraph->{tops}})) ? '+' : '-';
             my $pred = $tokens[$i]{is_pred} ? '+' : '-';
             my $frame = '_';
