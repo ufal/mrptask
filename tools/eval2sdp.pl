@@ -33,7 +33,6 @@ while(<>)
 {
     my $jgraph = parse_json($_);
     my @tokens = sort {$a->{id} <=> $b->{id}} (@{$jgraph->{nodes}});
-    my @gc2t = @{$gc2t};###!!!
     # Map node ids to node objects.
     my %nodeidmap;
     foreach my $node (@{$jgraph->{nodes}})
@@ -71,8 +70,11 @@ while(<>)
     #print("\# text = $jgraph->{input}\n"); # this is not part of the SDP format
     for(my $i = 0; $i <= $#tokens; $i++)
     {
-        my $id = $tokens[$i]{id};
-        my $form = $tokens[$i]{text};
+        # MRP graphs number their nodes from 0 but in SDP, node ids must start from 1.
+        my $id = $tokens[$i]{id} + 1;
+        ###!!! Pro jednoduchost teď bereme atribut label od UDPipe, ale ten mohl být nějak normalizován, což by ho vzdálilo od trénovacích dat.
+        ###!!! Proto musíme místo toho vzít příslušný podřetězec vstupní věty!
+        my $form = $tokens[$i]{label};
         # While we may have tokens with spaces, the SDP format cannot accommodate them.
         $form =~ s/\s//g;
         $form = '_' if($form eq '');
