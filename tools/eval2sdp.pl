@@ -72,9 +72,28 @@ while(<>)
     {
         # MRP graphs number their nodes from 0 but in SDP, node ids must start from 1.
         my $id = $tokens[$i]{id} + 1;
-        ###!!! Pro jednoduchost teď bereme atribut label od UDPipe, ale ten mohl být nějak normalizován, což by ho vzdálilo od trénovacích dat.
-        ###!!! Proto musíme místo toho vzít příslušný podřetězec vstupní věty!
-        my $form = $tokens[$i]{label};
+        # $tokens[$i]{label} is often but not always the surface word form.
+        # In some cases it underwent normalization, so we should use the input
+        # string and the anchors instead.
+        my $form = '';
+        foreach my $anchor (@{$tokens[$i]{anchors}})
+        {
+            my $f = $anchor->{from};
+            my $t = $anchor->{to};
+            if($t <= $f)
+            {
+                die("Anchor to <= anchor from");
+            }
+            if($t < 0 || $t > length($jgraph->{input})+1)
+            {
+                die("Anchor to out of range");
+            }
+            $form .= substr($jgraph->{input}, $f, $t-$f);
+        }
+        if($form eq '')
+        {
+            die("Token (node) does not correspond to any surface characters");
+        }
         # While we may have tokens with spaces, the SDP format cannot accommodate them.
         $form =~ s/\s//g;
         $form = '_' if($form eq '');
