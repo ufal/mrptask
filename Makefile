@@ -31,8 +31,10 @@ validate_dm_sdp:
 
 # Test sample output from the parser.
 # We do not expect the #SDP 2015 comment lines. Let's get rid of them.
+SAMPLE_WITHOUT_FRAMES=/lnet/spec/work/people/droganova/Data_for_Enhancer/MRP_data/dm.adadelta.lstm200.layer2.h100.drop0.25_42B.pred
+SAMPLE_WITH_FRAMES=/lnet/spec/work/people/droganova/Data_for_Enhancer/MRP_data/dm.adadelta.lstm200.layer2.h100.drop0.25_42B_frames.sdp
 test:
-	grep -vP '^#SDP 2015' /lnet/spec/work/people/droganova/Data_for_Enhancer/MRP_data/dm.adadelta.lstm200.layer2.h100.drop0.25_42B.pred > pokus.sdp
+	grep -vP '^#SDP 2015' $(SAMPLE_WITH_FRAMES) > pokus.sdp
 	$(SHAREDIR)/sdp/validate.pl pokus.sdp | tee pokus-validate.log
 
 dm_sdp_to_mrp:
@@ -42,5 +44,5 @@ dm_sdp_to_mrp:
 # --limit 0:0 should speed up scoring at the cost of not finding the optimal match. Default is 20:500000. We could try e.g. 5:100000 (example from the docs).
 evaluate:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < pokus.mrp > gold.mrp
-	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp pokus.mrp
+	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp pokus.mrp | tee pokus.eval.txt
 
