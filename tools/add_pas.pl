@@ -101,6 +101,12 @@ if(scalar(@sentence) > 0)
 {
     process_sentence(@sentence);
 }
+# Print the accummulated warnings.
+my @warnings = sort {$warnings{$b} <=> $warnings{$a}} (keys(%warnings));
+foreach my $warning (@warnings)
+{
+    print STDERR ("$warning ($warnings{$warning} ×)\n");
+}
 ###!!! What do we want to print: %argpatterns, or %pargpatterns?
 my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) { $a cmp $b } $r} (keys(%argpatterns));
 print STDERR ("Observed argument patterns (regardless of predicate):\n");
@@ -347,31 +353,31 @@ sub get_arguments
     my $n_xcomp     = scalar(grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@oedges_noconj));
     if($n_subj_act + $n_subj_pass > 1)
     {
-        print STDERR ("WARNING: More than 1 subject, not in coordination.\n");
+        generate_warning("More than 1 subject, not in coordination.");
     }
     if($n_dobj > 1)
     {
-        print STDERR ("WARNING: More than 1 direct object, not in coordination.\n");
+        generate_warning("More than 1 direct object, not in coordination.");
     }
     if($n_iobj > 1)
     {
-        print STDERR ("WARNING: More than 1 indirect object, not in coordination.\n");
+        generate_warning("More than 1 indirect object, not in coordination.");
     }
     if($n_agent > 1)
     {
-        print STDERR ("WARNING: More than 1 oblique agent, not in coordination.\n");
+        generate_warning("More than 1 oblique agent, not in coordination.");
     }
     if($n_xcomp > 1)
     {
-        print STDERR ("WARNING: More than 1 open clausal complement, not in coordination.\n");
+        generate_warning("More than 1 open clausal complement, not in coordination.");
     }
     if($is_passive_clause && $n_subj_act > 0)
     {
-        print STDERR ("WARNING: Non-passive subject in a passive clause.\n");
+        generate_warning("Non-passive subject in a passive clause.");
     }
     if($is_passive_clause && $n_dobj > 0)
     {
-        print STDERR ("WARNING: Direct object in a passive clause.\n");
+        generate_warning("Direct object in a passive clause.");
     }
     ###!!! In the future, we will look at obl:arg, too. However, we will have to
     ###!!! run it twice. First collect the surface frames of each predicate, then
@@ -459,4 +465,25 @@ sub get_oedges_except_conj_propagated
         }
     }
     return @result;
+}
+
+
+
+#------------------------------------------------------------------------------
+# Generates a warning about an unexpected situation. Either prints the warning
+# immediately or just registers it so that we can print a summary at the end.
+#------------------------------------------------------------------------------
+sub generate_warning
+{
+    my $warning = shift;
+    my $immediately = 0;
+    if($immediately)
+    {
+        print STDERR ("WARNING: $warning\n");
+    }
+    else
+    {
+        # Register the warning in a global hash.
+        $warnings{$warning}++;
+    }
 }
