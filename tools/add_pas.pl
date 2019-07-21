@@ -103,13 +103,13 @@ if(scalar(@sentence) > 0)
 }
 ###!!! What do we want to print: %argpatterns, or %pargpatterns?
 my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) { $a cmp $b } $r} (keys(%argpatterns));
-print STDERR ("Observed argument patterns:\n");
+print STDERR ("Observed argument patterns (regardless of predicate):\n");
 foreach my $ap (@argpatterns)
 {
     print STDERR ("$ap\t$argpatterns{$ap}\n");
 }
 my @pargpatterns = sort(keys(%pargpatterns));
-print STDERR ("Observed argument patterns:\n");
+print STDERR ("Observed predicate-argument patterns:\n");
 foreach my $ap (@pargpatterns)
 {
     print STDERR ("$ap\t$pargpatterns{$ap}\n");
