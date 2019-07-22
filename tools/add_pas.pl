@@ -109,13 +109,37 @@ foreach my $warning (@warnings)
 }
 ###!!! What do we want to print: %argpatterns, or %pargpatterns?
 my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) { $a cmp $b } $r} (keys(%argpatterns));
-print STDERR ("Observed argument patterns (regardless of predicate):\n");
+print STDERR ("\nObserved argument patterns (regardless of predicate):\n");
 foreach my $ap (@argpatterns)
 {
     print STDERR ("$ap\t$argpatterns{$ap}\n");
 }
+my @predicate_types = sort(keys(%predicates));
+print STDERR ("\nObserved predicates:\n");
+if(exists($predicates{plain}))
+{
+    my $n = scalar(keys(%{$predicates{plain}}));
+    print STDERR ("plain\t$n\n");
+}
+foreach my $ptype (@predicate_types)
+{
+    unless($ptype eq 'plain')
+    {
+        my $n = scalar(keys(%{$predicates{$ptype}}));
+        print STDERR ("$ptype\t$n\n");
+    }
+}
+print STDERR ("\n");
+foreach my $ptype (@predicate_types)
+{
+    my @predicates = sort(keys(%{$predicates{$ptype}}));
+    foreach my $predicate (@predicates)
+    {
+        print STDERR ("$predicate\t$ptype\t$predicates{$ptype}{$predicate}\n");
+    }
+}
 my @pargpatterns = sort(keys(%pargpatterns));
-print STDERR ("Observed predicate-argument patterns:\n");
+print STDERR ("\nObserved predicate-argument patterns:\n");
 foreach my $ap (@pargpatterns)
 {
     print STDERR ("$ap\t$pargpatterns{$ap}\n");
@@ -295,6 +319,16 @@ sub get_predicate
             ###!!! as well as the reflexive sich/zich, should still go as additional
             ###!!! words after the infinitive.
             $predicate .= ' '.join(' ', map {lc($graph->node($_->{id})->form())} (@explpv));
+            # Collect statistics about unusual predicates. Collect them in a global hash.
+            foreach my $extra (@explpv)
+            {
+                $predicates{$extra->{deprel}}{$predicate}++;
+            }
+        }
+        else
+        {
+            # Also collect normal predicates in the global hash.
+            $predicates{plain}{$predicate}++;
         }
     }
     return $predicate;
