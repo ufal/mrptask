@@ -46,7 +46,7 @@ devconvert:
 	$(MTOOL)/main.py --read mrp --validate all dev.parsed.eds.mrp
 
 # --limit 0:0 should speed up scoring at the cost of not finding the optimal match. Default is 20:500000. We could try e.g. 5:100000 (example from the docs).
-deveval:
+devevalquick:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.dm.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp dev.parsed.dm.mrp | tee dev.parsed.dm.eval.txt
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.psd.mrp > gold.mrp
@@ -54,3 +54,10 @@ deveval:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.eds.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp dev.parsed.eds.mrp | tee dev.parsed.eds.eval.txt
 
+deveval:
+	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.dm.mrp > gold.mrp
+	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp dev.parsed.dm.mrp | tee dev.parsed.dm.eval.txt
+	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.psd.mrp > gold.mrp
+	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp dev.parsed.psd.mrp | tee dev.parsed.psd.eval.txt
+	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.eds.mrp > gold.mrp
+	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp dev.parsed.eds.mrp | tee dev.parsed.eds.eval.txt
