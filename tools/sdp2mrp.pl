@@ -29,7 +29,7 @@ GetOptions
     'framework=s' => \$framework,
     'source=s' => \$source
 );
-if(!defined($framework) || $framework !~ m/^(dm|psd)$/)
+if(!defined($framework) || $framework !~ m/^(dm|psd|eds)$/)
 {
     usage();
     die("Unknown framework '$framework'");
@@ -129,7 +129,14 @@ sub process_sentence
     # Write JSON (one line).
     print('{');
     print('"id": "'.$sid.'", ');
-    print('"flavor": 0, "framework": "'.$framework.'", "version": 0.9, ');
+    if($framework =~ m/^(dm|psd)$/)
+    {
+        print('"flavor": 0, "framework": "'.$framework.'", "version": 0.9, ');
+    }
+    elsif($framework eq 'eds')
+    {
+        print('"flavor": 1, "framework": "eds", "version": 0.9, ');
+    }
     print('"time": "'.$timestamp.'", ');
     my $input;
     my @anchors;
