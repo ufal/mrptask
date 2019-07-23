@@ -107,13 +107,14 @@ foreach my $warning (@warnings)
 {
     print STDERR ("$warning ($warnings{$warning} ×)\n");
 }
-###!!! What do we want to print: %argpatterns, or %pargpatterns?
+# Print the argument patterns regardless of predicate.
 my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) { $a cmp $b } $r} (keys(%argpatterns));
 print STDERR ("\nObserved argument patterns (regardless of predicate):\n");
 foreach my $ap (@argpatterns)
 {
     print STDERR ("$ap\t$argpatterns{$ap}\n");
 }
+# Print the predicates, pointing out compound predicates.
 my @predicate_types = sort(keys(%predicates));
 print STDERR ("\nObserved predicates:\n");
 if(exists($predicates{plain}))
@@ -138,11 +139,27 @@ foreach my $ptype (@predicate_types)
         print STDERR ("$predicate\t$ptype\t$predicates{$ptype}{$predicate}\n");
     }
 }
+# Print the predicates together with their argument patterns.
 my @pargpatterns = sort(keys(%pargpatterns));
 print STDERR ("\nObserved predicate-argument patterns:\n");
 foreach my $ap (@pargpatterns)
 {
     print STDERR ("$ap\t$pargpatterns{$ap}\n");
+}
+# Print statistics of argument types and counts for each diathesis type.
+my @diatypes = qw(active passive);
+my @argtypes = qw(subj obj iobj oblagent xcomp);
+foreach my $diatype (@diatypes)
+{
+    print STDERR ("\nNumber of $diatype verbal clauses: $arguments{$diatype}{pred}\n");
+    foreach my $argtype (@argtypes)
+    {
+        my @counts = sort {$a <=> $b} (keys(%{$arguments{$diatype}{$argtype}}));
+        foreach my $count (@counts)
+        {
+            print STDERR ("Number of $diatype verbal clauses with $count uncoordinated '$argtype' arguments: $arguments{$diatype}{$argtype}{$count}\n");
+        }
+    }
 }
 
 
@@ -385,6 +402,29 @@ sub get_arguments
     my $n_iobj      = scalar(grep {$_->{deprel} =~ m/^iobj(:|$)/} (@oedges_noconj));
     my $n_agent     = scalar(grep {$_->{deprel} =~ m/^obl:agent(:|$)/} (@oedges_noconj));
     my $n_xcomp     = scalar(grep {$_->{deprel} =~ m/^xcomp(:|$)/} (@oedges_noconj));
+    # Collect statistics in a global hash.
+    if(!$is_passive_clause)
+    {
+        # First key: clause diathesis type
+        # Second key: argument type
+        # Third key: number of such arguments occurring with the current predicate (coordination counts as 1)
+        # Value: number of times such a situation occurred
+        $arguments{active}{pred}++; # this is just to count the occurrences of active verbal predicates
+        $arguments{active}{subj}{$n_subj_act}++;
+        $arguments{active}{obj}{$n_dobj}++;
+        $arguments{active}{iobj}{$n_iobj}++;
+        $arguments{active}{oblagent}{$n_agent}++;
+        $arguments{active}{xcomp}{$n_xcomp}++;
+    }
+    else
+    {
+        $arguments{passive}{pred}++; # this is just to count the occurrences of active verbal predicates
+        $arguments{passive}{subj}{$n_subj_pass}++;
+        $arguments{passive}{obj}{$n_dobj}++;
+        $arguments{passive}{iobj}{$n_iobj}++;
+        $arguments{passive}{oblagent}{$n_agent}++;
+        $arguments{passive}{xcomp}{$n_xcomp}++;
+    }
     if($n_subj_act + $n_subj_pass > 1)
     {
         generate_warning("More than 1 subject, not in coordination.");
