@@ -45,6 +45,22 @@ devconvert:
 	tools/sdp2mrp.pl --framework eds --source $(MRPDATA)/companion/udpipe.mrp < dev.parsed.dm.sdp > dev.parsed.eds.mrp
 	$(MTOOL)/main.py --read mrp --validate all dev.parsed.eds.mrp
 
+TEST_PARSED_DM=/home/droganova/work/Data_for_Enhancer/python_MRP/eva/dm_eval.conllu
+TEST_PARSED_PSD=/home/droganova/work/Data_for_Enhancer/python_MRP/eval/psd_eval.conllu
+testconvert:
+	grep -vP '^#SDP 2015' $(TEST_PARSED_DM) > test.parsed.dm.sdp
+	$(SHAREDIR)/sdp/validate.pl test.parsed.dm.sdp | tee test.parsed.dm-validate.log
+	tools/sdp2mrp.pl --framework dm --source $(MRPDATA)/evaluation/udpipe.mrp < test.parsed.dm.sdp > test.parsed.dm.mrp
+	$(MTOOL)/main.py --read mrp --validate all test.parsed.dm.mrp
+	grep -vP '^#SDP 2015' $(TEST_PARSED_PSD) > test.parsed.psd.sdp
+	$(SHAREDIR)/sdp/validate.pl test.parsed.psd.sdp | tee test.parsed.psd-validate.log
+	tools/sdp2mrp.pl --framework psd --source $(MRPDATA)/evaluation/udpipe.mrp < test.parsed.psd.sdp > test.parsed.psd.mrp
+	$(MTOOL)/main.py --read mrp --validate all test.parsed.psd.mrp
+	tools/sdp2mrp.pl --framework eds --source $(MRPDATA)/evaluation/udpipe.mrp < test.parsed.dm.sdp > test.parsed.eds.mrp
+	$(MTOOL)/main.py --read mrp --validate all test.parsed.eds.mrp
+	cat test.parsed.dm.mrp test.parsed.psd.mrp test.parsed.eds.mrp > output.mrp
+	zip submission.zip output.mrp
+
 # --limit 0:0 should speed up scoring at the cost of not finding the optimal match. Default is 20:500000. We could try e.g. 5:100000 (example from the docs).
 devevalquick:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.dm.mrp > gold.mrp
