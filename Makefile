@@ -45,7 +45,7 @@ devconvert:
 	tools/sdp2mrp.pl --framework eds --source $(MRPDATA)/companion/udpipe.mrp < dev.parsed.dm.sdp > dev.parsed.eds.mrp
 	$(MTOOL)/main.py --read mrp --validate all dev.parsed.eds.mrp
 
-TEST_PARSED_DM=/home/droganova/work/Data_for_Enhancer/python_MRP/eva/dm_eval.conllu
+TEST_PARSED_DM=/home/droganova/work/Data_for_Enhancer/python_MRP/eval/dm_eval.conllu
 TEST_PARSED_PSD=/home/droganova/work/Data_for_Enhancer/python_MRP/eval/psd_eval.conllu
 testconvert:
 	grep -vP '^#SDP 2015' $(TEST_PARSED_DM) > test.parsed.dm.sdp
