@@ -49,15 +49,15 @@ devconvert:
 devevalquick:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.dm.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp dev.parsed.dm.mrp | tee dev.parsed.dm.eval.txt
-	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.psd.mrp > gold.mrp
+	tools/mrpfilter.pl --source $(MRPDATA)/training/psd/wsj.mrp < dev.parsed.psd.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp dev.parsed.psd.mrp | tee dev.parsed.psd.eval.txt
-	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.eds.mrp > gold.mrp
+	tools/mrpfilter.pl --source $(MRPDATA)/training/eds/wsj.mrp < dev.parsed.eds.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --limit 0:0 --gold gold.mrp dev.parsed.eds.mrp | tee dev.parsed.eds.eval.txt
 
 deveval:
 	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.dm.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp dev.parsed.dm.mrp | tee dev.parsed.dm.eval.txt
-	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.psd.mrp > gold.mrp
+	tools/mrpfilter.pl --source $(MRPDATA)/training/psd/wsj.mrp < dev.parsed.psd.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp dev.parsed.psd.mrp | tee dev.parsed.psd.eval.txt
-	tools/mrpfilter.pl --source $(MRPDATA)/training/dm/wsj.mrp < dev.parsed.eds.mrp > gold.mrp
+	tools/mrpfilter.pl --source $(MRPDATA)/training/eds/wsj.mrp < dev.parsed.eds.mrp > gold.mrp
 	$(MTOOL)/main.py --read mrp --score mrp --gold gold.mrp dev.parsed.eds.mrp | tee dev.parsed.eds.eval.txt
