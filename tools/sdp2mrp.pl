@@ -85,7 +85,7 @@ sub process_sentence
     my @preds;
     foreach my $line (@sentence)
     {
-        if($line =~ m/^\#\s*(\d+)$/)
+        if($line =~ m/^\#\s*(\S+)$/)
         {
             $sid = $1;
         }
@@ -104,7 +104,7 @@ sub process_sentence
     }
     if(!defined($sid))
     {
-        die("Unknown sentence id");
+        die("A graph in the SDP input lacks sentence id");
     }
     my $npred = scalar(@preds);
     # Collect edges.
