@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 SHAREDIR=/net/work/projects/mrptask
 MTOOL=$(SHAREDIR)/mtool
 
@@ -71,7 +72,7 @@ fakeamrucca:
 
 submission:
 	cat test.parsed.dm.mrp test.parsed.psd.mrp test.parsed.eds.mrp test.parsed.ucca.mrp test.parsed.amr.mrp > output.mrp
-	$(MTOOL)/main.py --read mrp --validate all output.mrp
+	$(MTOOL)/main.py --read mrp --validate all output.mrp |& tee validation.log
 	zip submission.zip output.mrp
 
 # --limit 0:0 should speed up scoring at the cost of not finding the optimal match. Default is 20:500000. We could try e.g. 5:100000 (example from the docs).
