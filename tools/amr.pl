@@ -20,7 +20,7 @@ sub usage
 {
     print STDERR ("Usage: perl amr.pl kira-andrey.mrp > output.mrp\n");
 }
-while(<SOURCE>)
+while(<>)
 {
     my $json = $_;
     #my $jgraph = parse_json($json);
