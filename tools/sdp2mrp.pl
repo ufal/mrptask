@@ -29,7 +29,7 @@ GetOptions
     'framework=s' => \$framework,
     'source=s' => \$source
 );
-if(!defined($framework) || $framework !~ m/^(dm|psd|eds)$/)
+if(!defined($framework) || $framework !~ m/^(dm|psd|eds|ucca|amr)$/)
 {
     usage();
     die("Unknown framework '$framework'");
@@ -133,9 +133,13 @@ sub process_sentence
     {
         print('"flavor": 0, "framework": "'.$framework.'", "version": 0.9, ');
     }
-    elsif($framework eq 'eds')
+    elsif($framework =~ m/^(eds|ucca)$/)
     {
-        print('"flavor": 1, "framework": "eds", "version": 0.9, ');
+        print('"flavor": 1, "framework": "'.$framework.'", "version": 0.9, ');
+    }
+    elsif($framework eq 'amr')
+    {
+        print('"flavor": 2, "framework": "amr", "version": 0.9, ');
     }
     print('"time": "'.$timestamp.'", ');
     my $input;
