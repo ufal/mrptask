@@ -33,6 +33,50 @@ has 'argpattern' => (is => 'rw', isa => 'Str', documentation => 'Predicate with 
 
 
 #------------------------------------------------------------------------------
+# Creates a deep copy of the current node. Attributes such as "id" and "form"
+# are copied. WHAT ABOUT EDGES?
+#------------------------------------------------------------------------------
+sub clone
+{
+    my $self = shift;
+    my %feats = %{$self->feats()};
+    my @misc = @{$self->misc()};
+    my @bchildren = @{$self->bchildren()};
+    my @iedges = @{$self->iedges()};
+    my @oedges = @{$self->oedges()};
+    my @argedges = @{$self->argedges()};
+    # The new copy is not part of the same Graph object. Therefore we do not
+    # copy the "graph" attribute. However, the other structural attributes
+    # refer to the other nodes through their ids, and we assume that the same
+    # ids will also be valid in the new graph. The caller has to call
+    # $graph->add_node($node) though.
+    my $clone = new Node
+    (
+        'id'         => $self->id(),
+        'form'       => $self->form(),
+        'lemma'      => $self->lemma(),
+        'upos'       => $self->upos(),
+        'xpos'       => $self->xpos(),
+        'feats'      => \%feats,
+        '_head'      => $self->_head(),
+        'bparent'    => $self->bparent(),
+        '_deprel'    => $self->_deprel(),
+        'bdeprel'    => $self->bdeprel(),
+        'bchildren'  => \@bchildren,
+        '_deps'      => $self->_deps(),
+        'iedges'     => \@iedges,
+        'oedges'     => \@oedges,
+        'misc'       => \@misc,
+        'predicate'  => $self->predicate(),
+        'argedges'   => \@argedges,
+        'argpattern' => $self->argpattern()
+    );
+    return $clone;
+}
+
+
+
+#------------------------------------------------------------------------------
 # Parses the string from the FEATS column of a CoNLL-U file and sets the feats
 # hash accordingly. If the feats hash has been set previously, it will be
 # discarded and replaced by the new one.

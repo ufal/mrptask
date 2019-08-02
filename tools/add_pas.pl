@@ -58,6 +58,7 @@ GetOptions
     'release=s' => \$config{release}, # e.g. http://hdl.handle.net/11234/1-2837
     'folder=s'  => \$config{folder},  # e.g. UD_German-GSD
     'file=s'    => \$config{file},    # e.g. de_gsd-ud-train.conllu
+    'eplus'     => \$config{eplus}, # should DEPS contain enhanced plus?
 );
 if($config{release} !~ m-^http://hdl.handle.net/-)
 {
@@ -108,7 +109,7 @@ foreach my $warning (@warnings)
     print STDERR ("$warning ($warnings{$warning} ×)\n");
 }
 # Print the argument patterns regardless of predicate.
-my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) { $a cmp $b } $r} (keys(%argpatterns));
+my @argpatterns = sort {my $r = $argpatterns{$b} <=> $argpatterns{$a}; unless($r) {$r = $a cmp $b } $r} (keys(%argpatterns));
 print STDERR ("\nObserved argument patterns (regardless of predicate):\n");
 foreach my $ap (@argpatterns)
 {
@@ -219,7 +220,7 @@ sub process_sentence
             }
         }
     }
-    print_sentence($graph, $first_sentence, $config{debug});
+    print_sentence($graph, $first_sentence, $config{eplus}, $config{debug});
 }
 
 
@@ -231,12 +232,18 @@ sub print_sentence
 {
     my $graph = shift;
     my $header = shift; # print the column headers? Only before the first sentence of a file.
+    my $eplus = shift; # print our enhanced-plus graph? 0 => print the original contents of DEPS.
     my $debug = shift; # make columns wider using spaces? Put certain columns forward because they are more interesting?
     if($header)
     {
         if($debug)
         {
-            print("\# global.columns = ID FORM DEEP:PRED DEEP:ARGS DEEP:ARGPATT FEATS HEAD DEPREL DEPS MISC LEMMA\n");
+            print("\# global.columns = ID FORM DEEP:PRED DEEP:ARGS DEEP:ARGPATT FEATS HEAD DEPREL DEPS MISC LEMMA");
+            if($eplus)
+            {
+                print(" DEEP:EPLUS");
+            }
+            print("\n");
         }
         else
         {
@@ -277,17 +284,24 @@ sub print_sentence
             my $arglinks = $node->get_args_string();
             ###!!! In the final product, we will want to print the new columns at the end of the line.
             ###!!! However, for better readability during debugging, I am temporarily moving them closer to the beginning.
-            my $nodeline = join("\t", ($node->id(),
+            my @fields =
+            (
+                $node->id(),
                 $node->form().(' ' x ($mlform-length($node->form()))),
                 $node->upos(),
                 $node->predicate().(' ' x ($mlpred-length($node->predicate()))),
                 $arglinks.(' ' x ($mlargs-length($arglinks))),
                 $node->argpattern().(' ' x ($mlpatt-length($node->argpattern()))), # místo nezajímavého $node->xpos(),
                 $node->get_feats_string().(' ' x ($mlfeat-length($node->get_feats_string()))),
-                $node->bparent(), $node->bdeprel(), $node->get_deps_string(),
+                $node->bparent(), $node->bdeprel(), $node->_deps(),
                 $node->get_misc_string(),
                 $node->lemma()
-                ));
+            );
+            if($eplus)
+            {
+                push(@fields, $node->get_deps_string());
+            }
+            my $nodeline = join("\t", @fields);
             print("$nodeline\n");
         }
     }
@@ -295,9 +309,10 @@ sub print_sentence
     {
         foreach my $node ($graph->get_nodes())
         {
+            my $deps = $eplus ? $node->get_deps_string() : $node->_deps();
             my $nodeline = join("\t", ($node->id(),
                 $node->form(), $node->lemma(), $node->upos(), $node->xpos(), $node->get_feats_string(),
-                $node->bparent(), $node->bdeprel(), $node->get_deps_string(), $node->get_misc_string(),
+                $node->bparent(), $node->bdeprel(), $deps, $node->get_misc_string(),
                 $node->predicate(), $node->get_args_string()));
             print("$nodeline\n");
         }
