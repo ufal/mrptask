@@ -79,6 +79,7 @@ if($config{file} !~ m/^[-a-z_]+\.conllu$/)
 # there is just one argument with the full path to the source file.
 @ARGV = ("$config{udpath}/$config{folder}/$config{file}");
 
+my %plus_enhancements;
 my %argpatterns;
 my %pargpatterns;
 my @sentence;
@@ -102,6 +103,14 @@ if(scalar(@sentence) > 0)
 {
     process_sentence(@sentence);
 }
+# Report on the additional enhanced dependencies that we created during processing.
+print STDERR ("Additional enhanced-plus dependency types we generated:\n");
+my @plus_enhancements = sort(keys(%plus_enhancements));
+foreach my $pe (@plus_enhancements)
+{
+    print STDERR ("$pe\t$plus_enhancements{$pe}\n");
+}
+print STDERR ("\n");
 # Print the accummulated warnings.
 my @warnings = sort {$warnings{$b} <=> $warnings{$a}} (keys(%warnings));
 foreach my $warning (@warnings)
@@ -195,6 +204,9 @@ sub process_sentence
         $node->set_deps_from_conllu();
     }
     # We now have a complete representation of the graph and can do the actual work.
+    # First, look for additional enhanced dependencies we may need.
+    enhance_plus($graph);
+    # Next, take the enhanced graph and look for predicates and their arguments.
     foreach my $node ($graph->get_nodes())
     {
         my $predicate = get_predicate($node);
@@ -319,6 +331,75 @@ sub print_sentence
     }
     print("\n");
 }
+
+
+
+#------------------------------------------------------------------------------
+# Looks for additional enhancements that are not defined in the UD v2
+# guidelines but may be useful for us to identify arguments of predicates.
+#------------------------------------------------------------------------------
+sub enhance_plus
+{
+    my $graph = shift;
+    foreach my $node ($graph->get_nodes())
+    {
+        $plus_enhancements{'TOTAL NODES'}++;
+        # Infinitives.
+        # We only recognize an infinitive if it has the feature VerbForm=Inf.
+        ###!!! We currently do not look at markers or auxiliary dependents.
+        ###!!! We also do not expect a multivalue in VerbForm (e.g. VerbForm=Inf,Part).
+        my $feats = $node->feats();
+        if($feats->{VerbForm} eq 'Inf')
+        {
+            # Some languages have adverbial infinitival clauses (advcl).
+            # For instance, Dutch:
+            # "Om ongelukken te voorkomen heb ik mezelf gedwongen om me alleen nog met de koers bezig te houden."
+            # Sometimes the clause becomes adnominal (acl) if it depends on a noun in a light verb construction.
+            # For instance, Dutch:
+            # "had moeite om zich te concentreren" (lit. "had trouble so himself to concentrate") ("struggled to concentrate")
+            # Unfortunately, we cannot detect the light verb situation automatically.
+            # An infinitive can modify a nominal without any relation to the verb
+            # that governs the nominal: (Czech) "vydělávali na touze lidí zbohatnout".
+            # Check whether the infinitive is attached to any of its parents as 'advcl'.
+            ###!!! Zdá se, že někdy infinitiv v pozici advcl má svůj vlastní podmět! Jak to? (Dutch Alpino)
+            my @iedges = @{$node->iedges()};
+            foreach my $ie (@iedges)
+            {
+                if($ie->{deprel} =~ m/^advcl(:|$)/)
+                {
+                    # We assume that the infinitive has the same subject as the matrix clause.
+                    # Find the subject of the matrix clause.
+                    my $parent = $graph->get_node($ie->{id});
+                    my @subjedges = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/} (@{$parent->oedges()});
+                    # If the list of subjects is not empty (actually we do not expect more than 1 subject unless there is coordination),
+                    # create new edges between the infinitive and each subject.
+                    foreach my $subjedge (@subjedges)
+                    {
+                        my $deprel = $subjedge->{deprel};
+                        $deprel =~ s/:.*//;
+                        $deprel .= ':advclsubj';
+                        # Outgoing edge from the infinitive to the subject.
+                        my %oe =
+                        (
+                            'id'     => $subjedge->{id},
+                            'deprel' => $deprel
+                        );
+                        push(@{$node->oedges()}, \%oe);
+                        # Incoming edge from the infinitive to the subject.
+                        my %ie =
+                        (
+                            'id'     => $node->{id},
+                            'deprel' => $deprel
+                        );
+                        push(@{$graph->get_node($subjedge->{id})->iedges()}, \%ie);
+                        $plus_enhancements{'infinitive-advcl'}++;
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 
 
