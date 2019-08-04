@@ -28,3 +28,6 @@ UD_Uyghur-UDT
 121 treebanks remain.
 For the first version we use only automatically enhanced graphs, even in treebanks where some enhancements
 are available. This is because it is not trivial to merge partial manual enhancements with automatic ones.
+
+PACKAGE THE DATA FOR RELEASE IN LINDAT:
+tar czf deep-ud-2.4-data.tgz deep
