@@ -344,11 +344,11 @@ sub enhance_plus
     foreach my $node ($graph->get_nodes())
     {
         $plus_enhancements{'TOTAL NODES'}++;
+        my $feats = $node->feats();
         # Infinitives.
         # We only recognize an infinitive if it has the feature VerbForm=Inf.
         ###!!! We currently do not look at markers or auxiliary dependents.
         ###!!! We also do not expect a multivalue in VerbForm (e.g. VerbForm=Inf,Part).
-        my $feats = $node->feats();
         if($feats->{VerbForm} eq 'Inf')
         {
             # Some languages have adverbial infinitival clauses (advcl).
@@ -378,20 +378,8 @@ sub enhance_plus
                         my $deprel = $subjedge->{deprel};
                         $deprel =~ s/:.*//;
                         $deprel .= ':advclsubj';
-                        # Outgoing edge from the infinitive to the subject.
-                        my %oe =
-                        (
-                            'id'     => $subjedge->{id},
-                            'deprel' => $deprel
-                        );
-                        push(@{$node->oedges()}, \%oe);
-                        # Incoming edge from the infinitive to the subject.
-                        my %ie =
-                        (
-                            'id'     => $node->{id},
-                            'deprel' => $deprel
-                        );
-                        push(@{$graph->get_node($subjedge->{id})->iedges()}, \%ie);
+                        # New edge from the infinitive to the subject.
+                        $graph->add_edge($node->{id}, $subjedge->{id}, $deprel);
                         $plus_enhancements{'infinitive-advcl'}++;
                     }
                 }
@@ -402,6 +390,15 @@ sub enhance_plus
         ###!!! We do not expect a multivalue in VerbForm (e.g. VerbForm=Inf,Part).
         elsif($feats->{VerbForm} eq 'Part')
         {
+            my @iedges = @{$node->iedges()};
+            foreach my $ie (@iedges)
+            {
+                if($ie->{deprel} =~ m/^(acl|amod)(:|$)/)
+                {
+                    # We assume that the "subject" of the participle is the modified noun.
+                    my $parent = $graph->get_node($ie->{id});
+                }
+            }
         }
     }
 }

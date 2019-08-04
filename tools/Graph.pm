@@ -99,6 +99,39 @@ sub add_node
 
 
 
+#------------------------------------------------------------------------------
+# Adds an edge between two nodes that are already in the graph.
+#------------------------------------------------------------------------------
+sub add_edge
+{
+    confess('Incorrect number of arguments') if(scalar(@_) != 4);
+    my $self = shift;
+    my $srcid = shift;
+    my $tgtid = shift;
+    my $deprel = shift;
+    my $srcnode = $self->get_node($srcid);
+    my $tgtnode = $self->get_node($tgtid);
+    confess("Unknown node '$srcid'") if(!defined($srcnode));
+    confess("Unknown node '$tgtid'") if(!defined($tgtnode));
+    # Outgoing edge from the source (parent).
+    my %oe =
+    (
+        'id'     => $tgtid,
+        'deprel' => $deprel
+    );
+    # Incoming edge to the target (child).
+    my %ie =
+    (
+        'id'     => $srcid,
+        'deprel' => $deprel
+    );
+    # Check that the same edge does not exist already.
+    push(@{$srcnode->oedges()}, \%oe) unless(any {$_->{id} eq $tgtid && $_->{deprel} eq $deprel} (@{$srcnode->oedges()}));
+    push(@{$tgtnode->iedges()}, \%ie) unless(any {$_->{id} eq $srcid && $_->{deprel} eq $deprel} (@{$tgtnode->iedges()}));
+}
+
+
+
 __PACKAGE__->meta->make_immutable();
 
 1;
