@@ -380,7 +380,7 @@ sub enhance_plus
                         $deprel .= ':advclsubj';
                         # New edge from the infinitive to the subject.
                         $graph->add_edge($node->{id}, $subjedge->{id}, $deprel);
-                        $plus_enhancements{'infinitive-advcl'}++;
+                        $plus_enhancements{'infinitive-advcl-subj'}++;
                     }
                 }
             }
@@ -393,10 +393,18 @@ sub enhance_plus
             my @iedges = @{$node->iedges()};
             foreach my $ie (@iedges)
             {
-                if($ie->{deprel} =~ m/^(acl|amod)(:|$)/)
+                ###!!! For now, exclude 'acl' because some of them are relative clauses and they have been enhanced already.
+                if($ie->{deprel} =~ m/^(amod)(:|$)/)
                 {
                     # We assume that the "subject" of the participle is the modified noun.
                     my $parent = $graph->get_node($ie->{id});
+                    # Is it a passive participle?
+                    ###!!! Currently we only examine the Voice=Pass feature.
+                    ###!!! However, a participle may have no Voice feature, as in English, though it is used passively. We would need to estimate whether the verb is transitive.
+                    my $is_passive = $feats->{Voice} eq 'Pass';
+                    my $deprel = $is_passive ? 'nsubj:pass' : 'nsubj:partsubj';
+                    $graph->add_edge($node->id(), $parent->id(), $deprel);
+                    $plus_enhancements{'participle-amod-subj'}++;
                 }
             }
         }
