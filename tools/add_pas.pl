@@ -397,6 +397,12 @@ sub enhance_plus
                 }
             }
         }
+        # Participles.
+        # We only recognize a participle if it has the feature VerbForm=Part.
+        ###!!! We do not expect a multivalue in VerbForm (e.g. VerbForm=Inf,Part).
+        elsif($feats->{VerbForm} eq 'Part')
+        {
+        }
     }
 }
 
