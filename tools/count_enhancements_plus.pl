@@ -41,7 +41,7 @@ print <<EOF
 EOF
 ;
 print("<table id=\"treebanks\">\n");
-print("  <tr><th>Treebank</th><th>Total nodes</th><th>Infinitives per 10k nodes</th><th>Converbs per 10k nodes</th><th>Participles per 10k nodes</tr>\n");
+print("  <tr><th>Treebank</th><th>Total nodes</th><th>Infinitives per 100k nodes</th><th>Converbs per 100k nodes</th><th>Participles per 100k nodes</tr>\n");
 foreach my $folder (@folders)
 {
     open(LOG, "$path/$folder/all.log") or die("Cannot read $path/$folder/all.log: $!");
@@ -76,7 +76,9 @@ foreach my $folder (@folders)
     my $current_treebank = $folder;
     $current_treebank =~ s/^UD_//;
     $current_treebank =~ s/[-_]/ /g;
-    my $nonplain = join(', ', map {"$_ $types{$_}"} (sort(grep {!m/^plain$/} (keys(%types)))));
+    $infinitive = sprintf("%d", ($infinitive/($total/100000))+0.5);
+    $participle = sprintf("%d", ($participle/($total/100000))+0.5);
+    $converb    = sprintf("%d", ($converb/($total/100000))+0.5);
     print("  <tr><td>$current_treebank</td><td>$total</td><td>$infinitive</td><td>$converb</td><td>$participle</td></tr>\n");
 }
 print("</table>\n");
