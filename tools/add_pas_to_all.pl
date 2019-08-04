@@ -18,7 +18,7 @@ my @folders = sort(grep {m/^UD_/} (readdir(DIR)));
 closedir(DIR);
 foreach my $folder (@folders)
 {
-    next unless($folder eq 'UD_Dutch-Alpino'); ###!!!
+    next unless($folder eq 'UD_English-EWT'); ###!!!
     opendir(DIR, "$enhanced/$folder") or die("Cannot read folder $enhanced/$folder: $!");
     my @files = grep {m/\.conllu$/} (readdir(DIR));
     closedir(DIR);

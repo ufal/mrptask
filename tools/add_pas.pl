@@ -408,9 +408,38 @@ sub enhance_plus
                 }
             }
         }
+        # Converbs and gerunds.
+        # We only recognize a converb or gerund by the value of its VerbForm feature.
+        ###!!! We do not expect a multivalue in VerbForm (e.g. VerbForm=Conv,Part).
+        if($feats->{VerbForm} =~ m/^(Conv|Ger)$/)
+        {
+            # Some languages use converbs as adverbial clauses (advcl).
+            # Check whether the converb is attached to any of its parents as 'advcl'.
+            my @iedges = @{$node->iedges()};
+            foreach my $ie (@iedges)
+            {
+                if($ie->{deprel} =~ m/^advcl(:|$)/)
+                {
+                    # We assume that the converb has the same subject as the matrix clause.
+                    # Find the subject of the matrix clause.
+                    my $parent = $graph->get_node($ie->{id});
+                    my @subjedges = grep {$_->{deprel} =~ m/^[nc]subj(:|$)/} (@{$parent->oedges()});
+                    # If the list of subjects is not empty (actually we do not expect more than 1 subject unless there is coordination),
+                    # create new edges between the converb and each subject.
+                    foreach my $subjedge (@subjedges)
+                    {
+                        my $deprel = $subjedge->{deprel};
+                        $deprel =~ s/:.*//;
+                        $deprel .= ':advclsubj';
+                        # New edge from the converb to the subject.
+                        $graph->add_edge($node->id(), $subjedge->{id}, $deprel);
+                        $plus_enhancements{'converb-advcl-subj'}++;
+                    }
+                }
+            }
+        }
     }
 }
-
 
 
 
