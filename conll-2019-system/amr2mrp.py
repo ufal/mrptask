@@ -437,12 +437,14 @@ if __name__ == '__main__':
         outfile = None
 
     converted_sentences = []
+    
+    sys.setrecursionlimit(10000)  # It sets recursion limit to 10000.
 
     for sentence in amr_phrases:
         try:
             converted = convert(sentence)
         except RecursionError:
-            print('Recursion error!')
+            print('Recursion error!', file=sys.stderr)
             continue
         print('Converted:', converted['id'], file=sys.stderr)
         converted_sentences.append(converted)
