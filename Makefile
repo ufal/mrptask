@@ -4,6 +4,21 @@ MTOOL=$(SHAREDIR)/mtool
 
 all: $(SHAREDIR)/penntb-psd.conllu $(SHAREDIR)/penntb-dm.conllu
 
+##################################################################################################
+# Goals related to enhanced and deep Universal Dependencies.
+##################################################################################################
+
+# Scan a Universal Dependencies release and find out which treebanks have enhanced graphs and
+# what enhancement types they contain.
+UDPATH=/net/data/universal-dependencies-2.5
+.PHONY: eud_survey
+eud_survey:
+	( for i in $UDPATH/UD_* ; do echo '============================================================'; echo $i ; ( cat $i/*.conllu | tools/enhanced_graph_properties.pl ) ; done ) 2>&1 | tee eudsurvey.txt
+
+##################################################################################################
+# Goals related to the CoNLL 2019 shared task in MRP (meaning representation parsing).
+##################################################################################################
+
 $(SHAREDIR)/penntb-psd.conllu:
 	cat $(SHAREDIR)/sdp/psd/all.sdp | tools/sdp2conllu.pl | tools/enhanced2basic.pl > $@
 	tools/enhanced_graph_properties.pl $@

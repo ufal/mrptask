@@ -75,6 +75,17 @@ print("$stats{n_graphs} graphs\n");
 print("$stats{n_nodes} nodes\n");
 print("  $stats{n_overt_nodes} overt surface nodes\n");
 print("  $stats{n_empty_nodes} empty nodes\n");
+if(exists($stats{graphs_with_n_empty_nodes}))
+{
+    my @counts = sort {$a <=> $b} (keys(%{$stats{graphs_with_n_empty_nodes}}));
+    if(scalar(@counts)>1 || scalar(@counts)==1 && $counts[0]!=0)
+    {
+        foreach my $count (@counts)
+        {
+            print("    $stats{graphs_with_n_empty_nodes}{$count} graphs with $count empty nodes\n");
+        }
+    }
+}
 print("$stats{n_edges} edges (not counting dependencies on 0)\n");
 print("$stats{n_single} singletons\n");
 print("$stats{n_in2plus} nodes with in-degree greater than 1\n");
@@ -352,6 +363,7 @@ sub relation
 sub find_enhancements
 {
     my $graph = shift;
+    my $n_empty_nodes_in_this_graph = 0;
     foreach my $curnode ($graph->get_nodes())
     {
         my @iedges = @{$curnode->iedges()};
@@ -360,6 +372,7 @@ sub find_enhancements
         if($curnode->id() =~ m/\./)
         {
             $stats{gapping}++;
+            $n_empty_nodes_in_this_graph++;
             ###!!! We may want to check other attributes of gapping resolution:
             ###!!! 1. there should be no 'orphan' relations in the enhanced graph.
             ###!!! 2. the empty node should be attached as conjunct to a verb. Perhaps it should also have a copy of the verb's form lemma, tag and features.
@@ -448,4 +461,5 @@ sub find_enhancements
             }
         }
     }
+    $stats{graphs_with_n_empty_nodes}{$n_empty_nodes_in_this_graph}++;
 }
