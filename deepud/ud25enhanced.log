@@ -1,0 +1,3297 @@
+==============================
+/net/data/universal-dependencies-2.5/UD_Afrikaans-AfriBooms
+1934 graphs
+49276 nodes
+  49276 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+49276 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Akkadian-PISANDUB
+101 graphs
+1852 nodes
+  1852 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1852 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Amharic-ATT
+1074 graphs
+10010 nodes
+  10010 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+10010 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Ancient_Greek-Perseus
+13919 graphs
+202989 nodes
+  202989 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+202989 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Ancient_Greek-PROIEL
+17080 graphs
+213999 nodes
+  213999 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+213999 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Arabic-NYUAD
+19738 graphs
+738889 nodes
+  738889 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+738889 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Arabic-PADT
+7664 graphs
+282384 nodes
+  282384 overt surface nodes
+  0 empty nodes
+290320 edges (not counting dependencies on 0)
+0 singletons
+15066 nodes with in-degree greater than 1
+7664 top nodes only depending on 0
+571 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 13139
+* Coord shared depend: 2239
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Arabic-PUD
+1000 graphs
+20751 nodes
+  20751 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+20751 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Armenian-ArmTDP
+2502 graphs
+52630 nodes
+  52630 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+52630 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Assyrian-AS
+57 graphs
+453 nodes
+  453 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+453 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Bambara-CRB
+1026 graphs
+13823 nodes
+  13823 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+13823 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Basque-BDT
+8993 graphs
+121443 nodes
+  121443 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+121443 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Belarusian-HSE
+637 graphs
+13325 nodes
+  13325 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+13325 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Bhojpuri-BHTB
+254 graphs
+4881 nodes
+  4881 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+4881 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Breton-KEB
+888 graphs
+10054 nodes
+  10054 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+10054 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Bulgarian-BTB
+11138 graphs
+156149 nodes
+  156149 overt surface nodes
+  0 empty nodes
+149664 edges (not counting dependencies on 0)
+0 singletons
+4150 nodes with in-degree greater than 1
+10790 top nodes only depending on 0
+380 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+1388 graphs that contain at least one cycle
+31 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 1122
+* Coord shared depend: 555
+* Controlled subject:  405
+* Relative clause:     1488
+* Deprel with case:    18487
+==============================
+/net/data/universal-dependencies-2.5/UD_Buryat-BDT
+927 graphs
+10185 nodes
+  10185 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+10185 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Cantonese-HK
+1004 graphs
+13918 nodes
+  13918 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+13918 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Catalan-AnCora
+16678 graphs
+531971 nodes
+  531971 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+531971 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Classical_Chinese-Kyoto
+15115 graphs
+74770 nodes
+  74770 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+74770 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Coptic-Scriptorium
+1575 graphs
+40034 nodes
+  40034 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+40034 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Croatian-SET
+9010 graphs
+199409 nodes
+  199409 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+199409 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Czech-CAC
+24709 graphs
+494383 nodes
+  494383 overt surface nodes
+  0 empty nodes
+503783 edges (not counting dependencies on 0)
+0 singletons
+38103 nodes with in-degree greater than 1
+24709 top nodes only depending on 0
+7264 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 30621
+* Coord shared depend: 8124
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Czech-CLTT
+1125 graphs
+35630 nodes
+  35630 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+35630 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Czech-FicTree
+12760 graphs
+167056 nodes
+  167056 overt surface nodes
+  0 empty nodes
+160744 edges (not counting dependencies on 0)
+0 singletons
+11329 nodes with in-degree greater than 1
+12760 top nodes only depending on 0
+5704 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 9075
+* Coord shared depend: 2332
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Czech-PDT
+87913 graphs
+1506484 nodes
+  1506484 overt surface nodes
+  0 empty nodes
+1482030 edges (not counting dependencies on 0)
+0 singletons
+78615 nodes with in-degree greater than 1
+87913 top nodes only depending on 0
+18960 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 66953
+* Coord shared depend: 12272
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Czech-PUD
+1000 graphs
+18610 nodes
+  18610 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+18610 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Danish-DDT
+5512 graphs
+100733 nodes
+  100733 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+100733 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Dutch-Alpino
+13578 graphs
+208601 nodes
+  208470 overt surface nodes
+  131 empty nodes
+202148 edges (not counting dependencies on 0)
+0 singletons
+6794 nodes with in-degree greater than 1
+13445 top nodes only depending on 0
+133 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+1548 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             131
+* Coord shared parent: 3023
+* Coord shared depend: 971
+* Controlled subject:  1143
+* Relative clause:     1993
+* Deprel with case:    27216
+==============================
+/net/data/universal-dependencies-2.5/UD_Dutch-LassySmall
+7338 graphs
+98163 nodes
+  98033 overt surface nodes
+  130 empty nodes
+94923 edges (not counting dependencies on 0)
+0 singletons
+3904 nodes with in-degree greater than 1
+7274 top nodes only depending on 0
+64 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+497 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             130
+* Coord shared parent: 2456
+* Coord shared depend: 696
+* Controlled subject:  237
+* Relative clause:     624
+* Deprel with case:    13547
+==============================
+/net/data/universal-dependencies-2.5/UD_English-ESL
+5124 graphs
+97681 nodes
+  97681 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+97681 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_English-EWT
+16622 graphs
+254856 nodes
+  254829 overt surface nodes
+  27 empty nodes
+250672 edges (not counting dependencies on 0)
+0 singletons
+11223 nodes with in-degree greater than 1
+16526 top nodes only depending on 0
+96 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+1243 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             27
+* Coord shared parent: 5372
+* Coord shared depend: 1988
+* Controlled subject:  3283
+* Relative clause:     1342
+* Deprel with case:    32680
+==============================
+/net/data/universal-dependencies-2.5/UD_English-GUM
+5427 graphs
+101277 nodes
+  101277 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+101277 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_English-LinES
+5243 graphs
+94217 nodes
+  94217 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+94217 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_English-ParTUT
+2090 graphs
+49634 nodes
+  49634 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+49634 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_English-Pronouns
+285 graphs
+1695 nodes
+  1695 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1695 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_English-PUD
+1000 graphs
+21183 nodes
+  21176 overt surface nodes
+  7 empty nodes
+21182 edges (not counting dependencies on 0)
+0 singletons
+913 nodes with in-degree greater than 1
+982 top nodes only depending on 0
+18 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+154 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             7
+* Coord shared parent: 439
+* Coord shared depend: 128
+* Controlled subject:  228
+* Relative clause:     165
+* Deprel with case:    3173
+==============================
+/net/data/universal-dependencies-2.5/UD_Erzya-JR
+1550 graphs
+15790 nodes
+  15790 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+15790 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Estonian-EDT
+30972 graphs
+437769 nodes
+  437769 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+437769 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Estonian-EWT
+1662 graphs
+27286 nodes
+  27246 overt surface nodes
+  40 empty nodes
+25624 edges (not counting dependencies on 0)
+0 singletons
+0 nodes with in-degree greater than 1
+1662 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             40
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Faroese-OFT
+1208 graphs
+10002 nodes
+  10002 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+10002 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Finnish-FTB
+18723 graphs
+159612 nodes
+  159612 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+159612 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Finnish-PUD
+1000 graphs
+15817 nodes
+  15813 overt surface nodes
+  4 empty nodes
+14826 edges (not counting dependencies on 0)
+0 singletons
+9 nodes with in-degree greater than 1
+1000 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             4
+* Coord shared parent: 4
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Finnish-TDT
+15136 graphs
+202453 nodes
+  202194 overt surface nodes
+  259 empty nodes
+202862 edges (not counting dependencies on 0)
+0 singletons
+13742 nodes with in-degree greater than 1
+15093 top nodes only depending on 0
+106 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+728 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             259
+* Coord shared parent: 6701
+* Coord shared depend: 5127
+* Controlled subject:  985
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-FQB
+2289 graphs
+24135 nodes
+  24135 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+24135 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-FTB
+18535 graphs
+573370 nodes
+  573370 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+573370 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-GSD
+16342 graphs
+400396 nodes
+  400396 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+400396 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-ParTUT
+1020 graphs
+28595 nodes
+  28595 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+28595 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-PUD
+1000 graphs
+24735 nodes
+  24735 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+24735 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-Sequoia
+3099 graphs
+70567 nodes
+  70567 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+70567 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_French-Spoken
+2789 graphs
+35373 nodes
+  35373 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+35373 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Galician-CTG
+3993 graphs
+138837 nodes
+  138837 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+138837 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Galician-TreeGal
+1000 graphs
+25548 nodes
+  25548 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+25548 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_German-GSD
+15590 graphs
+292788 nodes
+  292788 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+292788 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_German-HDT
+189928 graphs
+3399390 nodes
+  3399390 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+3399390 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_German-LIT
+1922 graphs
+40440 nodes
+  40440 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+40440 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_German-PUD
+1000 graphs
+21329 nodes
+  21329 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+21329 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Gothic-PROIEL
+5401 graphs
+55336 nodes
+  55336 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+55336 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Greek-GDT
+2521 graphs
+63441 nodes
+  63441 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+63441 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Hebrew-HTB
+6216 graphs
+161417 nodes
+  161417 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+161417 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Hindi_English-HIENCS
+1898 graphs
+26909 nodes
+  26909 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+26909 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Hindi-HDTB
+16647 graphs
+351704 nodes
+  351704 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+351704 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Hindi-PUD
+1000 graphs
+23829 nodes
+  23829 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+23829 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Hungarian-Szeged
+1800 graphs
+42032 nodes
+  42032 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+42032 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Chinese-CFL
+451 graphs
+7256 nodes
+  7256 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+7256 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Chinese-GSD
+4997 graphs
+123291 nodes
+  123291 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+123291 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Chinese-GSDSimp
+4997 graphs
+123291 nodes
+  123291 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+123291 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Chinese-HK
+1004 graphs
+9874 nodes
+  9874 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+9874 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Chinese-PUD
+1000 graphs
+21415 nodes
+  21415 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+21415 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Indonesian-GSD
+5593 graphs
+121923 nodes
+  121923 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+121923 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Indonesian-PUD
+1000 graphs
+19900 nodes
+  19900 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+19900 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Irish-IDT
+1763 graphs
+40572 nodes
+  40572 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+40572 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Italian-ISDT
+14167 graphs
+298343 nodes
+  298343 overt surface nodes
+  0 empty nodes
+297187 edges (not counting dependencies on 0)
+0 singletons
+12034 nodes with in-degree greater than 1
+13887 top nodes only depending on 0
+280 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+2437 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 7273
+* Coord shared depend: 1279
+* Controlled subject:  1410
+* Relative clause:     2919
+* Deprel with case:    50579
+==============================
+/net/data/universal-dependencies-2.5/UD_Italian-ParTUT
+2090 graphs
+55558 nodes
+  55558 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+55558 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Italian-PoSTWITA
+6713 graphs
+124445 nodes
+  124445 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+124445 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Italian-PUD
+1000 graphs
+23731 nodes
+  23731 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+23731 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Italian-TWITTIRO
+1424 graphs
+29605 nodes
+  29605 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+29605 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Italian-VIT
+10087 graphs
+279840 nodes
+  279840 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+279840 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Japanese-BCCWJ
+57109 graphs
+1273287 nodes
+  1273287 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1273287 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Japanese-GSD
+8186 graphs
+184072 nodes
+  184072 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+184072 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Japanese-Modern
+822 graphs
+14494 nodes
+  14494 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+14494 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Japanese-PUD
+1000 graphs
+26707 nodes
+  26707 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+26707 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Karelian-KKPP
+228 graphs
+3094 nodes
+  3094 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+3094 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Kazakh-KTB
+1078 graphs
+10536 nodes
+  10536 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+10536 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Komi_Permyak-UH
+49 graphs
+399 nodes
+  399 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+399 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Komi_Zyrian-IKDP
+117 graphs
+1287 nodes
+  1287 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1287 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Komi_Zyrian-Lattice
+210 graphs
+2176 nodes
+  2176 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+2176 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Korean-GSD
+6339 graphs
+80322 nodes
+  80322 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+80322 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Korean-Kaist
+27363 graphs
+350090 nodes
+  350090 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+350090 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Korean-PUD
+1000 graphs
+16584 nodes
+  16584 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+16584 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Kurmanji-MG
+754 graphs
+10260 nodes
+  10260 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+10260 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Latin-ITTB
+21011 graphs
+353035 nodes
+  353035 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+353035 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Latin-Perseus
+2273 graphs
+29138 nodes
+  29138 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+29138 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Latin-PROIEL
+18411 graphs
+200163 nodes
+  200163 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+200163 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Latvian-LVTB
+13643 graphs
+220536 nodes
+  219955 overt surface nodes
+  581 empty nodes
+223257 edges (not counting dependencies on 0)
+0 singletons
+14301 nodes with in-degree greater than 1
+13643 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             581
+* Coord shared parent: 7474
+* Coord shared depend: 5763
+* Controlled subject:  1445
+* Relative clause:     0
+* Deprel with case:    34790
+==============================
+/net/data/universal-dependencies-2.5/UD_Lithuanian-ALKSNIS
+3642 graphs
+70047 nodes
+  70047 overt surface nodes
+  0 empty nodes
+72010 edges (not counting dependencies on 0)
+0 singletons
+6305 nodes with in-degree greater than 1
+3642 top nodes only depending on 0
+1287 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 5069
+* Coord shared depend: 1384
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Lithuanian-HSE
+263 graphs
+5356 nodes
+  5356 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+5356 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Livvi-KKPP
+125 graphs
+1632 nodes
+  1632 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1632 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Maltese-MUDT
+2074 graphs
+44162 nodes
+  44162 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+44162 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Marathi-UFAL
+466 graphs
+3849 nodes
+  3849 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+3849 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Mbya_Guarani-Dooley
+1046 graphs
+11771 nodes
+  11771 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+11771 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Mbya_Guarani-Thomas
+98 graphs
+1318 nodes
+  1318 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1318 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Moksha-JR
+65 graphs
+561 nodes
+  561 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+561 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Naija-NSC
+948 graphs
+12863 nodes
+  12863 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+12863 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_North_Sami-Giella
+3122 graphs
+26845 nodes
+  26845 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+26845 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Norwegian-Bokmaal
+20044 graphs
+310221 nodes
+  310221 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+310221 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Norwegian-Nynorsk
+17575 graphs
+301353 nodes
+  301353 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+301353 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Norwegian-NynorskLIA
+5250 graphs
+55410 nodes
+  55410 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+55410 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Old_French-SRCMF
+17678 graphs
+170741 nodes
+  170741 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+170741 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Old_Church_Slavonic-PROIEL
+6338 graphs
+57563 nodes
+  57563 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+57563 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Old_Russian-RNC
+604 graphs
+18742 nodes
+  18742 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+18742 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Old_Russian-TOROT
+16944 graphs
+149780 nodes
+  149780 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+149780 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Persian-Seraji
+5997 graphs
+152920 nodes
+  152920 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+152920 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Polish-LFG
+17246 graphs
+130967 nodes
+  130967 overt surface nodes
+  0 empty nodes
+117336 edges (not counting dependencies on 0)
+0 singletons
+3441 nodes with in-degree greater than 1
+17246 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+8 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 1502
+* Coord shared depend: 977
+* Controlled subject:  896
+* Relative clause:     0
+* Deprel with case:    11209
+==============================
+/net/data/universal-dependencies-2.5/UD_Polish-PDB
+22152 graphs
+350036 nodes
+  350036 overt surface nodes
+  0 empty nodes
+345461 edges (not counting dependencies on 0)
+0 singletons
+20780 nodes with in-degree greater than 1
+22152 top nodes only depending on 0
+4439 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 14218
+* Coord shared depend: 5844
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Polish-PUD
+1000 graphs
+18389 nodes
+  18389 overt surface nodes
+  0 empty nodes
+18269 edges (not counting dependencies on 0)
+0 singletons
+1015 nodes with in-degree greater than 1
+1000 top nodes only depending on 0
+184 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 670
+* Coord shared depend: 329
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Portuguese-Bosque
+9365 graphs
+227798 nodes
+  227798 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+227798 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Portuguese-GSD
+12078 graphs
+319380 nodes
+  319380 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+319380 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Portuguese-PUD
+1000 graphs
+23365 nodes
+  23365 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+23365 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Romanian-Nonstandard
+15843 graphs
+318869 nodes
+  318869 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+318869 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Romanian-RRT
+9524 graphs
+218511 nodes
+  218511 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+218511 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Romanian-SiMoNERo
+491 graphs
+14552 nodes
+  14552 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+14552 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Russian-GSD
+5030 graphs
+98000 nodes
+  98000 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+98000 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Russian-PUD
+1000 graphs
+19355 nodes
+  19355 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+19355 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Russian-SynTagRus
+61889 graphs
+1107741 nodes
+  1106296 overt surface nodes
+  1445 empty nodes
+1045664 edges (not counting dependencies on 0)
+0 singletons
+0 nodes with in-degree greater than 1
+62077 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+188 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             1445
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Russian-Taiga
+3264 graphs
+38555 nodes
+  38555 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+38555 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Sanskrit-UFAL
+230 graphs
+1843 nodes
+  1843 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1843 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Scottish_Gaelic-ARCOSG
+2193 graphs
+42848 nodes
+  42848 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+42848 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Serbian-SET
+4384 graphs
+97673 nodes
+  97673 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+97673 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Skolt_Sami-Giellagas
+36 graphs
+321 nodes
+  321 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+321 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Slovak-SNK
+10604 graphs
+106043 nodes
+  106043 overt surface nodes
+  0 empty nodes
+98074 edges (not counting dependencies on 0)
+0 singletons
+4598 nodes with in-degree greater than 1
+10604 top nodes only depending on 0
+2085 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 4053
+* Coord shared depend: 561
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Slovenian-SSJ
+8000 graphs
+140670 nodes
+  140670 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+140670 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Slovenian-SST
+3188 graphs
+29488 nodes
+  29488 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+29488 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Spanish-AnCora
+17680 graphs
+549569 nodes
+  549569 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+549569 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Spanish-GSD
+16013 graphs
+431587 nodes
+  431587 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+431587 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Spanish-PUD
+1000 graphs
+23287 nodes
+  23287 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+23287 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Swedish-LinES
+5243 graphs
+90960 nodes
+  90960 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+90960 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Swedish-PUD
+1000 graphs
+19085 nodes
+  19076 overt surface nodes
+  9 empty nodes
+19128 edges (not counting dependencies on 0)
+0 singletons
+950 nodes with in-degree greater than 1
+973 top nodes only depending on 0
+27 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+229 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             9
+* Coord shared parent: 411
+* Coord shared depend: 139
+* Controlled subject:  199
+* Relative clause:     256
+* Deprel with case:    3022
+==============================
+/net/data/universal-dependencies-2.5/UD_Swedish_Sign_Language-SSLC
+203 graphs
+1610 nodes
+  1610 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1610 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Swedish-Talbanken
+6026 graphs
+96858 nodes
+  96819 overt surface nodes
+  39 empty nodes
+96918 edges (not counting dependencies on 0)
+0 singletons
+5562 nodes with in-degree greater than 1
+5941 top nodes only depending on 0
+85 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+913 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             39
+* Coord shared parent: 3243
+* Coord shared depend: 781
+* Controlled subject:  907
+* Relative clause:     1006
+* Deprel with case:    14517
+==============================
+/net/data/universal-dependencies-2.5/UD_Swiss_German-UZH
+100 graphs
+1444 nodes
+  1444 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+1444 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Tagalog-TRG
+55 graphs
+292 nodes
+  292 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+292 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Tamil-TTB
+600 graphs
+9581 nodes
+  9581 overt surface nodes
+  0 empty nodes
+9249 edges (not counting dependencies on 0)
+0 singletons
+259 nodes with in-degree greater than 1
+600 top nodes only depending on 0
+3 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 236
+* Coord shared depend: 23
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Telugu-MTG
+1328 graphs
+6465 nodes
+  6465 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+6465 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Thai-PUD
+1000 graphs
+22322 nodes
+  22322 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+22322 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Turkish-GB
+2802 graphs
+16881 nodes
+  16881 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+16881 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Turkish-IMST
+5635 graphs
+57859 nodes
+  57859 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+57859 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Turkish-PUD
+1000 graphs
+16886 nodes
+  16886 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+16886 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Ukrainian-IU
+7060 graphs
+122324 nodes
+  122091 overt surface nodes
+  233 empty nodes
+123781 edges (not counting dependencies on 0)
+0 singletons
+9613 nodes with in-degree greater than 1
+6993 top nodes only depending on 0
+1841 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+1010 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             233
+* Coord shared parent: 6070
+* Coord shared depend: 803
+* Controlled subject:  1075
+* Relative clause:     794
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Upper_Sorbian-UFAL
+646 graphs
+11196 nodes
+  11196 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+11196 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Urdu-UDTB
+5130 graphs
+138077 nodes
+  138077 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+138077 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Uyghur-UDT
+3456 graphs
+40236 nodes
+  40236 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+40236 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Vietnamese-VTB
+3000 graphs
+43754 nodes
+  43754 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+43754 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Warlpiri-UFAL
+55 graphs
+314 nodes
+  314 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+314 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Welsh-CCG
+956 graphs
+16989 nodes
+  16989 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+16989 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Wolof-WTB
+2107 graphs
+44258 nodes
+  44258 overt surface nodes
+  0 empty nodes
+42030 edges (not counting dependencies on 0)
+126 singletons
+0 nodes with in-degree greater than 1
+2102 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
+==============================
+/net/data/universal-dependencies-2.5/UD_Yoruba-YTB
+100 graphs
+2664 nodes
+  2664 overt surface nodes
+  0 empty nodes
+0 edges (not counting dependencies on 0)
+2664 singletons
+0 nodes with in-degree greater than 1
+0 top nodes only depending on 0
+0 top nodes with in-degree greater than 1
+0 independent non-top nodes (zero in, nonzero out)
+0 graphs that contain at least one cycle
+0 graphs with multiple non-singleton components
+Enhancements defined in Enhanced Universal Dependencies v2 (number of observed signals that the enhancement is applied):
+* Gapping:             0
+* Coord shared parent: 0
+* Coord shared depend: 0
+* Controlled subject:  0
+* Relative clause:     0
+* Deprel with case:    0
