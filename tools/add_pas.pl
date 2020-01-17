@@ -10,13 +10,17 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use List::MoreUtils qw(any);
 use Getopt::Long;
-###!!! We need to tell Perl where to find my graph modules. But we should
-###!!! modify it so that it works on any computer!
+# We need to tell Perl where to find my graph modules.
+# If this does not work, you can put the script together with Graph.pm and
+# Node.pm in a folder of you choice, say, /home/joe/scripts, and then
+# invoke Perl explicitly telling it where the modules are:
+# perl -I/home/joe/scripts /home/joe/scripts/add_pas.pl inputfile.conllu
 BEGIN
 {
     use Cwd;
     my $path = $0;
     my $currentpath = getcwd();
+    $currentpath =~ s/\r?\n$//;
     $libpath = $currentpath;
     if($path =~ m:/:)
     {
@@ -180,29 +184,7 @@ foreach my $diatype (@diatypes)
 sub process_sentence
 {
     my @sentence = @_;
-    my $graph = new Graph;
-    foreach my $line (@sentence)
-    {
-        if($line =~ m/^\#/)
-        {
-            push(@{$graph->comments()}, $line);
-        }
-        elsif($line =~ m/^\d/)
-        {
-            my @fields = split(/\t/, $line);
-            my $node = new Node('id' => $fields[0], 'form' => $fields[1], 'lemma' => $fields[2], 'upos' => $fields[3], 'xpos' => $fields[4],
-                                '_head' => $fields[6], '_deprel' => $fields[7], '_deps' => $fields[8]);
-            $node->set_feats_from_conllu($fields[5]);
-            $node->set_misc_from_conllu($fields[9]);
-            $graph->add_node($node);
-        }
-    }
-    # Once all nodes have been added to the graph, we can draw edges between them.
-    foreach my $node ($graph->get_nodes())
-    {
-        $node->set_basic_dep_from_conllu();
-        $node->set_deps_from_conllu();
-    }
+    my $graph = Graph::from_conllu_lines(@sentence);
     # We now have a complete representation of the graph and can do the actual work.
     # First, look for additional enhanced dependencies we may need.
     enhance_plus($graph);
