@@ -460,14 +460,15 @@ The ID of the node. Column 0 of the line.
 
 =over
 
-=item $phrase->set_parent ($nonterminal_phrase);
+=item $node->set_feats_from_conllu ($feats);
 
-Sets a new parent for this phrase. The parent phrase must be a L<nonterminal|Treex::Core::Phrase::NTerm>.
-This phrase will become its new I<non-head> child.
-The new parent may also be undefined, which means that the current phrase will
-be disconnected from the phrase structure (but it will keeep its own children,
-if any).
-The method returns the old parent.
+Parses the string from the FEATS column of a CoNLL-U file and sets the feats
+hash accordingly. If the feats hash has been set previously, it will be
+discarded and replaced by the new one.
+
+=item $feats = $node->get_feats_string ();
+
+Returns features as a string that can be used in a CoNLL-U file.
 
 =back
 
@@ -477,5 +478,5 @@ Daniel Zeman <zeman@ufal.mff.cuni.cz>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2019 by Institute of Formal and Applied Linguistics, Charles University in Prague
+Copyright © 2019, 2020 by Institute of Formal and Applied Linguistics, Charles University in Prague
 This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.

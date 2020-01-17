@@ -10,7 +10,12 @@ binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 use List::MoreUtils qw(any);
 ###!!! We need to tell Perl where to find my graph modules. But we should
-###!!! modify it so that it works on any computer!
+###!!! modify it so that it works on any computer! Right now it depends on
+###!!! the 'pwd' command, which is not available on Windows.
+###!!! If this does not work, you can put the script together with Graph.pm and
+###!!! Node.pm in a folder of you choice, say, /home/joe/scripts, and then
+###!!! invoke Perl explicitly telling it where the modules are:
+###!!! perl -I/home/joe/scripts /home/joe/scripts/enhanced_graph_properties.pl inputfile.conllu
 BEGIN
 {
     my $path = $0;

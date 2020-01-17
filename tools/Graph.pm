@@ -156,9 +156,15 @@ Edges are stored in nodes.
 
 =over
 
-=item parent
+=item comments
 
-Refers to the parent C<Phrase>, if any.
+A read-only attribute (filled during construction) that holds the sentence-level
+comments from the CoNLL-U file.
+
+=item nodes
+
+A hash (reference) that holds the individual L<Node> objects, indexed by their
+ids from the first column of the CoNLL-U file.
 
 =back
 
@@ -166,14 +172,23 @@ Refers to the parent C<Phrase>, if any.
 
 =over
 
-=item $phrase->set_parent ($nonterminal_phrase);
+=item $graph->has_node ($id);
 
-Sets a new parent for this phrase. The parent phrase must be a L<nonterminal|Treex::Core::Phrase::NTerm>.
-This phrase will become its new I<non-head> child.
-The new parent may also be undefined, which means that the current phrase will
-be disconnected from the phrase structure (but it will keeep its own children,
-if any).
-The method returns the old parent.
+Returns a nonzero value if there is a node with the given id in the graph.
+
+=item @nodes = $graph->get_nodes ();
+
+Returns the list of all nodes except the artificial root node with id 0. The
+list is ordered by node ids.
+
+=item $graph->add_node ($node);
+
+Adds a node (a L<Node> object) to the graph. The node must have a non-empty id
+that has not been used by any other node previously added to the graph.
+
+=item $graph->add_edge ($source_id, $target_id, $relation_label);
+
+Adds an edge between two nodes that are already in the graph.
 
 =back
 
@@ -183,5 +198,5 @@ Daniel Zeman <zeman@ufal.mff.cuni.cz>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2019 by Institute of Formal and Applied Linguistics, Charles University in Prague
+Copyright © 2019, 2020 by Institute of Formal and Applied Linguistics, Charles University in Prague
 This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
